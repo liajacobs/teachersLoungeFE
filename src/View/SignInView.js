@@ -1,5 +1,5 @@
 import { React, useEffect, useRef, useState } from "react";
-import { Text, View, TouchableOpacity, Animated, Image, KeyboardAvoidingView } from "react-native";
+import { Text, View, TouchableOpacity, Animated, Image, KeyboardAvoidingView, Platform } from "react-native";
 import { TextInput } from "react-native-paper";
 //import LogInCommand from "../Controller/LogInCommand";
 import { login } from "../Controller/LogInCommand";

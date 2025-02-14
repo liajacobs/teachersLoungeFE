@@ -23,6 +23,7 @@ function JoinCommunityView({ navigation }) {
   const [communities, setCommunities] = useState([{ key: "0", value: "" }]);
   const loadCommunities = async () => {
     const data = await getAllCommunities();
+
     setCommunities(
       data.map((c) => {
         return { ["key"]: c.id, ["value"]: c.name };

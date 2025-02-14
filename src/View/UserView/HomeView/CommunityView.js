@@ -34,12 +34,10 @@ function CommunityView({ navigation }) {
   const loadPosts = async () => {
     const data = await getCommunityPosts(route.params.Community.id, selected);
     setPosts(data);
-    console.log(posts);
   };
   const loadCategories = async () => {
     const data = await getCategories();
     setCategories(data);
-    console.log(categories);
   };
 
   return (

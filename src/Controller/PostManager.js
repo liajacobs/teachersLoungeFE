@@ -109,8 +109,9 @@ async function approvePost(postID) {
 //Delete a post from DB, called when a user deletes their own post or when a mod doesn't approve a post
 async function deletePost(postID, fileID) {
   let urlDelete = apiUrl + deletePostRoute;
+  console.log(urlDelete)
   const reqOptions = {
-    method: "POST",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),

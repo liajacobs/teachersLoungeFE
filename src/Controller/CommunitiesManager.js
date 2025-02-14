@@ -34,7 +34,7 @@ async function getAllCommunities() {
   if (data) {
     while (data[count] != undefined) {
       communities.unshift(
-        new Community(data[count].CommunityID, data[count].CommunityName)
+        new Community(data[count].communityid, data[count].communityname)
       );
       count = count + 1;
     }
@@ -85,7 +85,6 @@ async function joinCommunity({ navigation }, communityId, email) {
     console.log(reqOptions);
     const response = await fetch(communityUrl, reqOptions);
     const data = await response.json();
-    console.log(data);
     if (response.status != 201) {
       Alert.alert("Error", "Unable to join community");
     } else {
@@ -109,7 +108,6 @@ async function leaveCommunity({ navigation }, communityId, email) {
     };
     const response = await fetch(communityUrl, reqOptions);
     const data = await response.json();
-    console.log(data);
     if (response.status != 200) {
       Alert.alert("Error", "Unable to leave community");
     } else {
@@ -138,7 +136,7 @@ async function getUserCommunities(email) {
     if (data) {
       while (data[count] != undefined) {
         communities.unshift(
-          new Community(data[count].CommunityID, data[count].CommunityName)
+          new Community(data[count].communityid, data[count].communityname)
         );
         count = count + 1;
       }
@@ -169,10 +167,10 @@ async function getCommunityPosts(communityID, categoryID) {
     while (data[count] != undefined) {
       posts.unshift(
         new Post(
-          data[count].PostID,
-          data[count].Email,
-          data[count].Content,
-          data[count].likesCount,
+          data[count].postid,
+          data[count].email,
+          data[count].content,
+          data[count].likes,
           "",
           "",
           [],
@@ -209,12 +207,11 @@ async function createCommunityPost(
         fileType: file.type,
         fileDisplayName: file.name,
         category: category,
-        communityId: communityID,
+        communityId: communityid,
       }),
     };
     const response = await fetch(postUrl, reqOptions);
     const data = await response.json();
-    console.log(data);
     if (response.status != 200) {
       Alert.alert("Error", "Unable to create post");
     } else {

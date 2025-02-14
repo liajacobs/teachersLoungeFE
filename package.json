@@ -39,7 +39,7 @@
     "crypto-es": "^1.2.7",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
-    "expo": "^52.0.0",
+    "expo": "~52.0.33",
     "expo-document-picker": "~13.0.3",
     "expo-image-picker": "~16.0.6",
     "expo-secure-store": "~14.0.1",
@@ -87,9 +87,9 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@react-native-community/cli": "latest",
     "jest": "~29.7.0",
-    "rn-nodeify": "github:tradle/rn-nodeify",
-    "@react-native-community/cli": "latest"
+    "rn-nodeify": "github:tradle/rn-nodeify"
   },
   "private": true,
   "react-native": {

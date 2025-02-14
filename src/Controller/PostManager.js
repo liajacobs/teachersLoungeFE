@@ -35,14 +35,14 @@ async function getApprovedPosts(category) {
     while (data[count] != undefined) {
       posts.unshift(
         new Post(
-          data[count].PostID,
-          data[count].Email,
-          data[count].Content,
-          data[count].likesCount,
+          data[count].postid,
+          data[count].email,
+          data[count].content,
+          data[count].likes,
           "",
           "",
           [],
-          data[count].FileUrl
+          data[count].fileurl
         )
       );
       count = count + 1;
@@ -145,7 +145,7 @@ async function addComment(content, email, time, postId) {
     let commentId = await getComment(content, email);
     // Alert.alert("Success", commentId);
     await addCommentToPost(commentId, email, postId);
-    } else {
+  } else {
     Alert.alert("Error", results.message);
   }
 }
@@ -207,7 +207,7 @@ async function getCommentByCommentID(commentId) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
-    body: JSON.stringify({ commentId: commentId}),
+    body: JSON.stringify({ commentId: commentId }),
   };
   // Alert.alert("Error", "getComment: " + reqOptions.body);
   const response = await fetch(urlGetCommentByCommentID, reqOptions);
@@ -223,6 +223,7 @@ async function getCommentByCommentID(commentId) {
 
 async function getCommentsByPostId(postId) {
   let comments = [];
+  console.log("post id: " + postID)
   let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute + `?postId=${postId}`;
   // let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute;
   // Alert.alert("Error", "getCommentsByPostId: " + urlGetCommentsByPostId);
@@ -240,7 +241,7 @@ async function getCommentsByPostId(postId) {
   var count = 0;
 
   if (response.status == 200) {
-    // Alert.alert("Success",  "getCommentsByPostId Success " + results.data[0]);
+    Alert.alert("Success", "getCommentsByPostId Success " + results.data[0]);
   } else {
     Alert.alert("Error", "getCommentsByPostId Error: " + results.message);
   }

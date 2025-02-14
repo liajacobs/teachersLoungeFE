@@ -29,6 +29,9 @@ const getUserConversations = async (userEmail) => {
     const response = await fetch(getUserConversationsUrl, reqOptions);
     const results = await response.json();
     let data = results.data;
+    if (!data) {
+      return []
+    }
     conversations = await Promise.all(
       data.map(async (conversation) => {
         const lastMessage = await getLastMessage(conversation.conversationId);
@@ -43,7 +46,6 @@ const getUserConversations = async (userEmail) => {
   } catch (error) {
     console.log(error);
   }
-
   return conversations;
 };
 
@@ -91,14 +93,14 @@ const getMessages = async (conversationId) => {
     const response = await fetch(getMessagesUrl, reqOptions);
     const results = await response.json();
     let data = results.data;
-
+    console.log(data)
     messages = data.map((message) => {
       return new Message(
-        message.MessageID,
-        message.ConversationID,
-        message.Content,
-        message.Sender,
-        message.Time
+        message.message_id,
+        message.conversation_id,
+        message.content,
+        message.sender,
+        message.time
       );
     });
   } catch (error) {

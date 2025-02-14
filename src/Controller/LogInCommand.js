@@ -32,17 +32,17 @@ async function login({ navigation }, email, password) {
         try {
           // Store token in secure store
           await SecureStore.setItemAsync("token", data.token);
-          if (user.userRole == "Approved" || user.userRole == "Admin"){
+          if (user.userRole == "Approved" || user.userRole == "Admin") {
             navigation.navigate("User", { User: user });
-          }else {
+          } else {
             //Only approved users can login
             Alert.alert("Still awaiting approval to join the app");
           }
         } catch (error) {
           Alert.alert("Couldn't login, please try again");
         }
-          
-       
+
+
       } else {
         Alert.alert("Login Error: ", data.message);
       }

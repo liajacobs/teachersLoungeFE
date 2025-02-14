@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { Entypo } from "react-native-vector-icons";
+import Entypo from "react-native-vector-icons/Entypo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeNavigator from "./HomeView/HomeNavigator.js";
 import ProfileView from "./ProfileView/ProfileView.js";
@@ -85,7 +85,7 @@ function TabNavigator() {
         }}
       />
     </Tab.Navigator>
-  
+
   );
 }
 

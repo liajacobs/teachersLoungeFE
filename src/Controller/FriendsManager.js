@@ -27,15 +27,14 @@ async function getUserInfo(userEmail) {
       const response = await fetch(userInfoUrl, reqOptions);
       const results = await response.json();
       var data = results.data;
-      console.log(data);
       var friend;
       if (data[0]) {
         friend = new Friend(
-          data[0].Email,
-          data[0].FirstName,
-          data[0].LastName,
-          data[0].SchoolID,
-          data[0].Role
+          data[0].email,
+          data[0].firstname,
+          data[0].lastname,
+          data[0].schoolid,
+          data[0].role
         );
       }
       return friend;
@@ -140,11 +139,11 @@ async function getFriendsList(userEmail) {
       while (data[count] != undefined) {
         friends.unshift(
           new Friend(
-            data[count].Email,
-            data[count].FirstName,
-            data[count].LastName,
-            data[count].SchoolID,
-            data[count].Role
+            data[count].email,
+            data[count].firstname,
+            data[count].lastname,
+            data[count].schoolid,
+            data[count].role
           )
         );
         count = count + 1;

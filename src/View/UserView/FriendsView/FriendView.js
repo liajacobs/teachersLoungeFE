@@ -90,15 +90,15 @@ function FriendView({ navigation }) {
             onPress={() => {
               friended
                 ? unfriendUser(
-                    { navigation },
-                    route.params.User.userUserName,
-                    friend.email
-                  )
+                  { navigation },
+                  route.params.User.userUserName,
+                  friend.email
+                )
                 : friendUser(
-                    { navigation },
-                    route.params.User.userUserName,
-                    friend.email
-                  );
+                  { navigation },
+                  route.params.User.userUserName,
+                  friend.email
+                );
             }}
           >
             <Text style={App_StyleSheet.text}>

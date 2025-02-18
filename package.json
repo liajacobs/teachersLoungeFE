@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@expo/prebuild-config": "~8.0.0",
+    "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/material-bottom-tabs": "^6.2.4",

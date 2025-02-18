@@ -76,20 +76,20 @@ function CreatePostView({ navigation }) {
           onPress={() =>
             route.params?.Community === undefined
               ? CreatePost(
-                  { navigation },
-                  postContent,
-                  file,
-                  route.params.User,
-                  selected
-                )
+                { navigation },
+                postContent,
+                file,
+                route.params.User,
+                selected
+              )
               : createCommunityPost(
-                  { navigation },
-                  postContent,
-                  file,
-                  route.params.User,
-                  selected,
-                  route.params?.Community?.id
-                )
+                { navigation },
+                postContent,
+                file,
+                route.params.User,
+                selected,
+                route.params?.Community?.id
+              )
           }
         >
           <Text style={App_StyleSheet.text}>{"Submit"}</Text>

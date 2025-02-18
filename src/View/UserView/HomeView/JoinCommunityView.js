@@ -20,7 +20,7 @@ function JoinCommunityView({ navigation }) {
       loadCommunities();
     }
   }, [isFocused]);
-  const [communities, setCommunities] = useState([{ key: "0", value: "" }]);
+  const [communities, setCommunities] = useState([]);
   const loadCommunities = async () => {
     const data = await getAllCommunities();
 
@@ -39,7 +39,7 @@ function JoinCommunityView({ navigation }) {
         placeholder="View communities"
         boxStyles={App_StyleSheet.category_list}
         dropdownStyles={App_StyleSheet.category_list}
-        defaultOption={{ key: "0", value: "" }}
+        defaultOption={[]}
       />
       <View style={App_StyleSheet.listings}>
         <TouchableOpacity

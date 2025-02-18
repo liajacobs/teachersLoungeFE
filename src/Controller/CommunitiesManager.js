@@ -192,7 +192,7 @@ async function createCommunityPost(
   file,
   user,
   category,
-  communityID
+  communityId
 ) {
   if (content != "") {
     let postUrl = apiUrl + createCommunityPostRoute;
@@ -210,9 +210,9 @@ async function createCommunityPost(
         fileType: file.type,
         fileDisplayName: file.name,
         category: category,
-        communityId: communityid,
+        communityId: communityId,
       }),
-    };
+    }
     const response = await fetch(postUrl, reqOptions);
     const data = await response.json();
     if (response.status != 200) {

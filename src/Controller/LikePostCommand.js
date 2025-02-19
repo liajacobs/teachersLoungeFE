@@ -7,6 +7,7 @@ import * as SecureStore from "expo-secure-store";
 const likePost = async (post, user) => {
   // Build like post url
   const likePostUrl = apiUrl + likePostRoute;
+  console.log(likePostUrl)
 
   // Set request options
   const reqOptions = {

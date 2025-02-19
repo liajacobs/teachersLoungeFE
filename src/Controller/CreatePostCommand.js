@@ -6,6 +6,7 @@ import { Alert } from "react-native";
 async function CreatePost({ navigation }, content, file, user) {
   if (content != "") {
     let postUrl = apiUrl + createPostRoute;
+    console.log(postUrl)
     const reqOptions = {
       method: "POST",
       headers: {

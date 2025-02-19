@@ -16,7 +16,7 @@ const getUserConversations = async (userEmail) => {
   let conversations = [];
   let getUserConversationsUrl =
     apiUrl + getConversationsRoute + `?userEmail=${userEmail}`;
-
+  console.log(getUserConversationsUrl)
   const reqOptions = {
     method: "GET",
     headers: {
@@ -54,7 +54,7 @@ const getLastMessage = async (conversationId) => {
   let lastMessage = "";
   let getLastMessageUrl =
     apiUrl + getLastMessageRoute + `?conversationId=${conversationId}`;
-
+  console.log(getLastMessageUrl)
   const reqOptions = {
     method: "GET",
     headers: {
@@ -80,7 +80,7 @@ const getMessages = async (conversationId) => {
   let messages = [];
   let getMessagesUrl =
     apiUrl + getMessagesRoute + `?conversationId=${conversationId}`;
-
+  console.log(getMessagesUrl)
   const reqOptions = {
     method: "GET",
     headers: {
@@ -93,7 +93,6 @@ const getMessages = async (conversationId) => {
     const response = await fetch(getMessagesUrl, reqOptions);
     const results = await response.json();
     let data = results.data;
-    console.log(data)
     messages = data.map((message) => {
       return new Message(
         message.message_id,
@@ -113,7 +112,7 @@ const getMessages = async (conversationId) => {
 // Sends a message to a conversation
 const sendMessage = async (conversationId, message, senderEmail) => {
   let sendMessageUrl = apiUrl + sendMessageRoute;
-
+  console.log(sendMessageUrl)
   const reqOptions = {
     method: "POST",
     headers: {
@@ -143,7 +142,7 @@ const sendMessage = async (conversationId, message, senderEmail) => {
 // Creates a new conversation
 const createConversation = async (senderEmail, receiverEmail) => {
   let createConversationUrl = apiUrl + createConversationRoute;
-
+  console.log(createConversationUrl)
   const reqOptions = {
     method: "POST",
     headers: {
@@ -164,7 +163,6 @@ const createConversation = async (senderEmail, receiverEmail) => {
     Alert.alert("Error", "Unable to create conversation");
     console.log(error);
   }
-
   return false;
 };
 

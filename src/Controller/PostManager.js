@@ -55,6 +55,7 @@ async function getApprovedPosts() {
 async function getPendingPosts() {
   posts = [];
   let urlPosts = apiUrl + pendingPostsRoute;
+  console.log(urlPosts)
   const reqOptions = {
     method: "GET",
     headers: {
@@ -89,6 +90,7 @@ async function getPendingPosts() {
 //Switches a post from pending to approved, called from PostModeratorView
 async function approvePost(postID) {
   let urlApprove = apiUrl + approvePostRoute;
+  console.log(urlApprove)
   const reqOptions = {
     method: "POST",
     headers: {
@@ -129,6 +131,7 @@ async function deletePost(postID, fileID) {
 
 async function addComment(content, email, time, postId) {
   let urlAddComment = apiUrl + addCommentRoute;
+  console.log(urlAddComment)
   // Alert.alert("Error", "addComment: " + urlAddComment);
   const reqOptions = {
     method: "POST",
@@ -153,6 +156,7 @@ async function addComment(content, email, time, postId) {
 
 async function addCommentToPost(commentId, email, postId) {
   let urlAddCommentToPost = apiUrl + addCommentToPostRoute;
+  console.log(urlAddCommentToPost)
   // Alert.alert("Error", "addCommentToPost: " + urlAddCommentToPost);
   const reqOptions = {
     method: "POST",
@@ -178,6 +182,7 @@ async function addCommentToPost(commentId, email, postId) {
 
 async function getComment(content, email) {
   let urlGetComment = apiUrl + getCommentRoute;
+  console.log(urlGetComment)
   // Alert.alert("Error", "getComment: " + urlGetComment);
   const reqOptions = {
     method: "POST",
@@ -201,6 +206,7 @@ async function getComment(content, email) {
 
 async function getCommentByCommentID(commentId) {
   let urlGetCommentByCommentID = apiUrl + getCommentByCommentIDRoute;
+  console.log(urlGetCommentByCommentID)
   // Alert.alert("Error", "getComment: " + urlGetCommentByCommentID + " " + commentId);
   const reqOptions = {
     method: "POST",

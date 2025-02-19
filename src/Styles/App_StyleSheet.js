@@ -69,8 +69,8 @@ const App_StyleSheet = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  // Used for category selection
-  category_list: {
+  // Used for community selection
+  community_list: {
     marginRight: "1%",
     marginLeft: "1%",
     marginBottom: "1%",

@@ -16,9 +16,9 @@ import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 //Fetches all posts that have been approved, used for PostListingsView
-async function getApprovedPosts(category) {
+async function getApprovedPosts() {
   let posts = [];
-  let urlPosts = apiUrl + approvedPostsRoute + `?category=${category}`;
+  let urlPosts = apiUrl + approvedPostsRoute;
   console.log(urlPosts);
   const reqOptions = {
     method: "GET",

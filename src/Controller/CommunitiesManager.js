@@ -82,10 +82,8 @@ async function joinCommunity({ navigation }, communityId, email) {
         userEmail: email,
       }),
     };
-    console.log(reqOptions);
     const response = await fetch(communityUrl, reqOptions);
     const data = await response.json();
-    console.log(response.status)
     if (response.status == 400) {
       Alert.alert("Error", "You are already in this community");
     } else if (response.status != 201) {
@@ -148,12 +146,12 @@ async function getUserCommunities(email) {
   }
 }
 
-async function getCommunityPosts(communityID, categoryID) {
+async function getCommunityPosts(communityID) {
   let posts = [];
   let urlPosts =
     apiUrl +
     communityPostsRoute +
-    `?communityID=${communityID}&category=${categoryID}`;
+    `?communityID=${communityID}`;
   console.log(urlPosts);
   const reqOptions = {
     method: "GET",
@@ -191,7 +189,6 @@ async function createCommunityPost(
   content,
   file,
   user,
-  category,
   communityId
 ) {
   if (content != "") {
@@ -209,7 +206,6 @@ async function createCommunityPost(
         email: user.userUserName,
         fileType: file.type,
         fileDisplayName: file.name,
-        category: category,
         communityId: communityId,
       }),
     }

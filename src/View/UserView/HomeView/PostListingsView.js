@@ -14,7 +14,6 @@ import {
   getApprovedPosts,
   deletePost,
 } from "../../../Controller/PostManager.js";
-import { getCategories } from "../../../Controller/CategoriesManager";
 import Post from "../../../Model/Posts/Post.js";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
@@ -25,20 +24,13 @@ function PostListingsView({ navigation }) {
   React.useEffect(() => {
     if (isFocused) {
       loadPosts();
-      loadCategories();
     }
   }, [isFocused]);
   const [posts, setPosts] = useState([]);
-  const [categories, setCategories] = useState([{ key: "0", value: "" }]);
   const [selected, setSelected] = useState("0");
   const loadPosts = async () => {
     const data = await getApprovedPosts(selected);
     setPosts(data);
-  };
-  const loadCategories = async () => {
-    const data = await getCategories();
-    setCategories(data);
-    console.log(categories);
   };
 
   return (
@@ -64,15 +56,6 @@ function PostListingsView({ navigation }) {
         >
           <Text style={App_StyleSheet.text}>{"+  Create Post"}</Text>
         </TouchableOpacity>
-        <SelectList
-          data={categories}
-          setSelected={setSelected}
-          onSelect={() => loadPosts(selected)}
-          placeholder="Filter category"
-          boxStyles={App_StyleSheet.category_list}
-          dropdownStyles={App_StyleSheet.category_list}
-          defaultOption={{ key: "0", value: "" }}
-        />
         <View style={App_StyleSheet.post_listing_view}>
           {posts && (
             <FlatList

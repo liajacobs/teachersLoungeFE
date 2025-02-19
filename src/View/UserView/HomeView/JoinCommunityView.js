@@ -37,8 +37,8 @@ function JoinCommunityView({ navigation }) {
         data={communities}
         setSelected={setCommunityId}
         placeholder="View communities"
-        boxStyles={App_StyleSheet.category_list}
-        dropdownStyles={App_StyleSheet.category_list}
+        boxStyles={App_StyleSheet.community_list}
+        dropdownStyles={App_StyleSheet.community_list}
         defaultOption={[]}
       />
       <View style={App_StyleSheet.listings}>

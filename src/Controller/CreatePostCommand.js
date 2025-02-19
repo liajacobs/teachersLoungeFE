@@ -3,9 +3,10 @@ import * as SecureStore from "expo-secure-store";
 import { Alert } from "react-native";
 
 //Creates a new post and adds to the database
-async function CreatePost({ navigation }, content, file, user, category) {
+async function CreatePost({ navigation }, content, file, user) {
   if (content != "") {
     let postUrl = apiUrl + createPostRoute;
+    console.log(postUrl)
     const reqOptions = {
       method: "POST",
       headers: {
@@ -18,7 +19,6 @@ async function CreatePost({ navigation }, content, file, user, category) {
         email: user.userUserName,
         fileType: file.type,
         fileDisplayName: file.name,
-        category: category,
       }),
     };
     const response = await fetch(postUrl, reqOptions);

@@ -13,7 +13,6 @@ import { TextInput } from "react-native-paper";
 import SafeArea from "../../SafeArea";
 import CreatePost from "../../../Controller/CreatePostCommand";
 import { createCommunityPost } from "../../../Controller/CommunitiesManager";
-import { getCategories } from "../../../Controller/CategoriesManager";
 import UploadFileCommand from "../../../Controller/UploadFileCommand";
 import { selectDoc } from "../../../Controller/DocumentPicker";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
@@ -21,20 +20,8 @@ import App_StyleSheet from "../../../Styles/App_StyleSheet";
 function CreatePostView({ navigation }) {
   const route = useRoute();
   const isFocused = useIsFocused();
-  React.useEffect(() => {
-    if (isFocused) {
-      loadCategories();
-    }
-  }, [isFocused]);
   let [file, setFile] = useState("");
   const [postContent, setPostContent] = useState("");
-  const [selected, setSelected] = useState("");
-  const [categories, setCategories] = useState([{ key: "0", value: "" }]);
-  const loadCategories = async () => {
-    const data = await getCategories();
-    setCategories(data);
-    console.log(categories);
-  };
 
   return (
     <SafeArea>
@@ -52,14 +39,6 @@ function CreatePostView({ navigation }) {
         multiline
       />
       {file.url != "" && <Text>{file.url}</Text>}
-      <SelectList
-        data={categories}
-        setSelected={setSelected}
-        placeholder="Set category"
-        boxStyles={App_StyleSheet.category_list}
-        dropdownStyles={App_StyleSheet.category_list}
-        defaultOption={{ key: "9", value: "Other" }}
-      />
       <View style={App_StyleSheet.listings}>
         <TouchableOpacity
           style={App_StyleSheet.medium_button}
@@ -80,14 +59,12 @@ function CreatePostView({ navigation }) {
                 postContent,
                 file,
                 route.params.User,
-                selected
               )
               : createCommunityPost(
                 { navigation },
                 postContent,
                 file,
                 route.params.User,
-                selected,
                 route.params?.Community?.id
               )
           }

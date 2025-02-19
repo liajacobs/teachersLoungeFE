@@ -12,7 +12,6 @@ import { Alert } from "react-native";
 
 // Use userEmail to get user info
 async function getUserInfo(userEmail) {
-  console.log(userEmail);
   if (userEmail != "") {
     try {
       let userInfoUrl = `${apiUrl}${getUserInfoRoute}?userEmail=${userEmail}`;

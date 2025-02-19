@@ -8,6 +8,7 @@ import { apiUrl, registerRoute, PASSWORD_ENCRYPTER } from "@env";
 async function register({ navigation }, fName, lName, email, password) {
   if ((fName != "") && (lName != "") && (email != "") && (password != "")) {
     let urlRegister = apiUrl + registerRoute;
+    console.log(urlRegister)
     const reqOptions = {
       method: 'POST',
       headers: {

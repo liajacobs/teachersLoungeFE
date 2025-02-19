@@ -13,7 +13,6 @@ import {
   getCommunityPosts,
   leaveCommunity,
 } from "../../../Controller/CommunitiesManager";
-import { getCategories } from "../../../Controller/CategoriesManager";
 import { deletePost } from "../../../Controller/PostManager.js";
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import SafeArea from "../../SafeArea.js";
@@ -25,19 +24,12 @@ function CommunityView({ navigation }) {
   React.useEffect(() => {
     if (isFocused) {
       loadPosts();
-      loadCategories();
     }
   }, [isFocused]);
   const [posts, setPosts] = useState([]);
-  const [categories, setCategories] = useState([{ key: "0", value: "" }]);
-  const [selected, setSelected] = useState("0");
   const loadPosts = async () => {
-    const data = await getCommunityPosts(route.params.Community.id, selected);
+    const data = await getCommunityPosts(route.params.Community.id);
     setPosts(data);
-  };
-  const loadCategories = async () => {
-    const data = await getCategories();
-    setCategories(data);
   };
 
   return (
@@ -77,15 +69,6 @@ function CommunityView({ navigation }) {
             <Text style={App_StyleSheet.text}>{"Leave Community"}</Text>
           </TouchableOpacity>
         </View>
-        <SelectList
-          data={categories}
-          setSelected={setSelected}
-          onSelect={() => loadPosts(selected)}
-          placeholder="Filter category"
-          boxStyles={App_StyleSheet.category_list}
-          dropdownStyles={App_StyleSheet.category_list}
-          defaultOption={{ key: "0", value: "" }}
-        />
         <View style={App_StyleSheet.post_listing_view}>
           {posts && (
             <FlatList

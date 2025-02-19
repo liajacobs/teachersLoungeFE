@@ -13,6 +13,7 @@ import * as SecureStore from "expo-secure-store";
 async function getPendingUsers() {
   users = [];
   let urlUsers = apiUrl + pendingUsersRoute;
+  console.log(urlUsers)
   const reqOptions = {
     method: "GET",
     headers: {
@@ -24,7 +25,6 @@ async function getPendingUsers() {
   const results = await response.json();
   var data = results.data;
   var count = 0;
-  //console.log(data);
   if (data) {
     while (data[count] != undefined) {
       users.unshift(
@@ -46,6 +46,7 @@ async function getPendingUsers() {
 async function getApprovedUsers() {
   users = [];
   let urlUsers = apiUrl + approvedUsersRoute;
+  console.log(urlUsers)
   const reqOptions = {
     method: "GET",
     headers: {
@@ -77,6 +78,7 @@ async function getApprovedUsers() {
 //Sets a user to Approved
 async function approveUser(email) {
   let urlApprove = apiUrl + approveUserRoute;
+  console.log(urlApprove)
   const reqOptions = {
     method: "POST",
     headers: {
@@ -97,6 +99,7 @@ async function approveUser(email) {
 //Deletes a user from the system
 async function deleteUser(email) {
   let urlDelete = apiUrl + deleteUserRoute;
+  console.log(urlDelete)
   const reqOptions = {
     method: "POST",
     headers: {

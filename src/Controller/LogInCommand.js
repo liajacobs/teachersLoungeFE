@@ -8,6 +8,7 @@ async function login({ navigation }, email, password) {
   if (email != "" && password != "") {
     //URL for server
     let urlLogin = apiUrl + loginRoute;
+    console.log(urlLogin)
     const reqOptions = {
       method: "POST",
       headers: {

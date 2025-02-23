@@ -85,7 +85,7 @@ function PostView({
                 post,
                 route.params.User.userUserName
               );
-
+              console.log("Like post response: ", isLiked);
               // Increment likes if post is liked
               if (isLiked) {
                 post.likes++;

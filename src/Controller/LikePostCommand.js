@@ -2,9 +2,16 @@ import { apiUrl, likePostRoute } from "@env";
 import { Alert } from "react-native";
 
 import * as SecureStore from "expo-secure-store";
+import { checkLikePost } from "./CheckLikedPostCommand";
 
 // Likes a post by given post id and user who liked it
 const likePost = async (post, user) => {
+  const alreadyLiked = await checkLikePost(post, user);
+  if (alreadyLiked) {
+    Alert.alert("Error", "You have already liked this post!");
+    return false; 
+  }
+  
   // Build like post url
   const likePostUrl = apiUrl + likePostRoute;
   console.log(likePostUrl)
@@ -19,15 +26,22 @@ const likePost = async (post, user) => {
     body: JSON.stringify({ userEmail: user, postId: post.id }),
   };
 
-  // Make request
-  const response = await fetch(likePostUrl, reqOptions);
-  if (response.status != 200) {
-    Alert.alert("Error", "You have already liked this post!");
-  } else {
-    Alert.alert("Success", "Successfully liked the post!");
-  }
+  try {
+    const response = await fetch(likePostUrl, reqOptions);
+    console.log("RESPONSE STATUS ", response.status);
 
-  return response.status == 200;
+    if (response.status !== 200) {
+      Alert.alert("Error", "Something went wrong while liking the post.");
+      return false;
+    }
+
+    Alert.alert("Success", "Successfully liked the post!");
+    return true;
+  } catch (error) {
+    console.error("Error liking post: ", error);
+    Alert.alert("Error", "Failed to like post.");
+    return false;
+  }
 };
 
 export { likePost };

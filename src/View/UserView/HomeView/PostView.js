@@ -20,6 +20,8 @@ import {
   getCommentsByPostId,
 } from "../../../Controller/PostManager";
 import { likePost } from "../../../Controller/LikePostCommand";
+import { unlikePost } from "../../../Controller/UnlikePostCommand";
+import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
 import { Alert } from "react-native";
 
 PostView.buttonPressed = false;
@@ -80,15 +82,35 @@ function PostView({
           <TouchableOpacity
             style={styles.likeContainer}
             onPress={async () => {
-              // Like post
-              const isLiked = await likePost(
-                post,
-                route.params.User.userUserName
-              );
-              console.log("Like post response: ", isLiked);
-              // Increment likes if post is liked
-              if (isLiked) {
-                post.likes++;
+              try {
+                // Check if the post is already liked
+                const isLiked = await checkLikePost(post, route.params.User.userUserName);
+            
+                if (isLiked) {
+                  // Unlike the post if already liked
+                  const unlikeSuccess = await unlikePost(post, route.params.User.userUserName);
+                  console.log("Unlike post response: ", unlikeSuccess);
+            
+                  if (unlikeSuccess) {
+                    post.likes--; 
+                    //Alert.alert("Success", "You have unliked this post.");
+                  } else {
+                   // Alert.alert("Error", "Failed to unlike the post.");
+                  }
+                } else {
+                  // Like the post if not already liked
+                  const likeSuccess = await likePost(post, route.params.User.userUserName);
+                  console.log("Like post response: ", likeSuccess);
+            
+                  if (likeSuccess) {
+                    post.likes++; // Increment like count
+                    //Alert.alert("Success", "You have liked this post.");
+                  } else {
+                    //Alert.alert("Error", "Failed to like the post.");
+                  }
+                }
+            
+                // Refresh UI by navigating
                 if (choice === "Community") {
                   navigation.navigate("Community", {
                     Community: route.params.Community,
@@ -96,8 +118,12 @@ function PostView({
                 } else {
                   navigation.navigate("Home");
                 }
+              } catch (error) {
+                console.error("Error handling like/unlike: ", error);
+                Alert.alert("Error", "Something went wrong. Please try again.");
               }
             }}
+            
           >
             <Image style={styles.like} source={likeImg} />
             <Text>{post.likes}</Text>

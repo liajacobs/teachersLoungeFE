@@ -8,7 +8,7 @@ import { checkLikePost } from "./CheckLikedPostCommand";
 const likePost = async (post, user) => {
   const alreadyLiked = await checkLikePost(post, user);
   if (alreadyLiked) {
-    Alert.alert("Error", "You have already liked this post!");
+    //Alert.alert("Error", "You have already liked this post!");
     return false; 
   }
   
@@ -31,15 +31,15 @@ const likePost = async (post, user) => {
     console.log("RESPONSE STATUS ", response.status);
 
     if (response.status !== 200) {
-      Alert.alert("Error", "Something went wrong while liking the post.");
+      //Alert.alert("Error", "Something went wrong while liking the post.");
       return false;
     }
 
-    Alert.alert("Success", "Successfully liked the post!");
+   // Alert.alert("Success", "Successfully liked the post!");
     return true;
   } catch (error) {
     console.error("Error liking post: ", error);
-    Alert.alert("Error", "Failed to like post.");
+    //Alert.alert("Error", "Failed to like post.");
     return false;
   }
 };

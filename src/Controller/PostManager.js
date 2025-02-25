@@ -14,6 +14,7 @@ import Post from "../Model/Posts/Post.js";
 import Comment from "../Model/Posts/Comment.js";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import { constrainedMemory } from "process";
 
 //Fetches all posts that have been approved, used for PostListingsView
 async function getApprovedPosts() {
@@ -139,7 +140,7 @@ async function addComment(content, email, time, postId) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
-    body: JSON.stringify({ content: content, email: email, time: time }),
+    body: JSON.stringify({ content: content, email: email, time: time, postid:postId }),
   };
   // Alert.alert("Error", "addComment: " + reqOptions.body);
   const response = await fetch(urlAddComment, reqOptions);
@@ -174,23 +175,21 @@ async function addCommentToPost(commentId, email, postId) {
   const response = await fetch(urlAddCommentToPost, reqOptions);
   const results = await response.json();
   if (response.status == 200) {
-    Alert.alert("Success", "addCommentToPost Success ");
+    //Alert.alert("Success", "addCommentToPost Success ");
   } else {
     Alert.alert("Error", results.message);
   }
 }
 
 async function getComment(content, email) {
-  let urlGetComment = apiUrl + getCommentRoute;
-  console.log(urlGetComment)
+  let urlGetComment = apiUrl + getCommentRoute + `?email=${email}&content=${content}`;
+  console.log(urlGetComment);
   // Alert.alert("Error", "getComment: " + urlGetComment);
   const reqOptions = {
-    method: "POST",
+    method: "GET",
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
-    },
-    body: JSON.stringify({ content: content, email: email }),
+      "Content-Type": "application/json"
+    }
   };
   // Alert.alert("Error", "getComment: " + reqOptions.body);
   const response = await fetch(urlGetComment, reqOptions);
@@ -201,7 +200,7 @@ async function getComment(content, email) {
   } else {
     Alert.alert("Error", results.message);
   }
-  return results.data[0].CommentID;
+  return results.data[0].id;
 }
 
 async function getCommentByCommentID(commentId) {
@@ -230,7 +229,6 @@ async function getCommentByCommentID(commentId) {
 
 async function getCommentsByPostId(postId) {
   let comments = [];
-  console.log("post id: " + postID)
   let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute + `?postId=${postId}`;
   // let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute;
   // Alert.alert("Error", "getCommentsByPostId: " + urlGetCommentsByPostId);
@@ -248,7 +246,7 @@ async function getCommentsByPostId(postId) {
   var count = 0;
 
   if (response.status == 200) {
-    Alert.alert("Success", "getCommentsByPostId Success " + results.data[0]);
+    //Alert.alert("Success", "getCommentsByPostId Success " + results.data[0]);
   } else {
     Alert.alert("Error", "getCommentsByPostId Error: " + results.message);
   }
@@ -257,14 +255,15 @@ async function getCommentsByPostId(postId) {
     // Alert.alert("Error", "getCommentsByPostId data: " + data);
     while (data[count] != undefined) {
       // Alert.alert("Error", "data[0]: " + data[count]);
-      let temComment = await getCommentByCommentID(data[count].CommentID);
+      //let temComment = await getCommentByCommentID(data[count].id);
+      let temComment = data[count];
       // Alert.alert("Error", "getCommentsByPostId data: " + temComment.Email);
       comments.push(
         new Comment(
-          temComment.Email,
+          temComment.email,
           null,
-          temComment.Content,
-          0,
+          temComment.content,
+          '',
           "",
           "",
           [],

@@ -94,7 +94,7 @@ async function approvePost(postID) {
   const reqOptions = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": " application/json",
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
     body: JSON.stringify({ id: postID }),

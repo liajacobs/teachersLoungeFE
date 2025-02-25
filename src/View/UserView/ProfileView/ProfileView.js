@@ -23,6 +23,15 @@ function ProfileView({ navigation }) {
   var route = useRoute();
   var a = new OpenEditProfileCommand(route.params.User);
   var b = new OpenModeratorCommand(route.params.User);
+
+  // Set params image to the default profile pic if it is null
+  if (route.params.User.image == null) {
+    route.params.User.image = require('../../../../assets/default-profile.png');
+  }
+
+  // Log path to profile picture
+  console.log("ProfileView picture path: ", route.params.User.image);
+
   return (
     <View style={App_StyleSheet.listings}>
       <SafeArea>

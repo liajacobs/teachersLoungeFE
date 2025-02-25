@@ -13,7 +13,7 @@ function CommentView(comment) {
         <Image style={styles.profilePic} source={comment.comment.image} />
         <View style={styles.info}>
           <Text style={styles.user}>{comment.comment.userName + ":"}</Text>
-          <Text style={styles.sub}>{'('+comment.comment.nickName+')'}</Text>
+          {/* <Text style={styles.sub}>{'('+comment.comment.nickName+')'}</Text>  Eliminated nicknames for now*/} 
         </View>
       </View>
       

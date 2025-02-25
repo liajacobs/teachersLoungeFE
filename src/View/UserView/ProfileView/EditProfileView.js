@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,10 +12,54 @@ import SafeArea from "../../SafeArea";
 import ProfileNavigator from "./ProfileNavigator";
 import OpenEditableInfoCommand from "../../../Controller/OpenEditableInfoCommand";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from 'expo-file-system';
 
 function EditProfileView({ navigation }) {
   var route = useRoute();
-  var openEdit = new OpenEditableInfoCommand(route.params.User);
+  const [image, setImage] = useState(route.params.User.image || require('../../../../assets/default-profile.png'));
+
+  const openEdit = new OpenEditableInfoCommand(route.params.User);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library, might be different for Android
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log("Result cancelled: ", result.canceled);
+
+    if (!result.canceled) {
+      const imageUri = result.assets[0].uri;
+      console.log('Image URI:', imageUri);
+      const fileName = imageUri.split('/').pop();
+      console.log('File Name:', fileName);
+      const newPath = `${FileSystem.documentDirectory}${fileName}`;
+      console.log('New Path:', newPath);
+  
+      try {
+        await FileSystem.moveAsync({
+          from: imageUri,
+          to: newPath,
+        });
+        setImage({ uri: newPath });
+
+        // Log current route params user image
+        console.log('Current route params user image:', route.params.User.image);
+
+        // Profile pic can appear elsewhere
+        route.params.User.image = { uri: newPath };
+        console.log('New route params user image:', route.params.User.image);
+
+      } catch (error) {
+        console.error('Error saving image:', error);
+      }
+    }
+  };
+  
   return (
     <View style={App_StyleSheet.listings}>
       <SafeArea>
@@ -23,15 +67,22 @@ function EditProfileView({ navigation }) {
           <Avatar.Image
             source={route.params.User.image}
             size={90}
-            style={styles.avatarImage}
+            style={[
+              App_StyleSheet.profile_avatarImage,
+              { overflow: "hidden" } // Ensures the image is clipped properly
+            ]}
           />
           <TouchableOpacity
             style={{
               bottom: 20,
               position: "absolute",
             }}
-            onPress={() => {
-              null;
+            onPress={() => { // Why the edit button does nothing
+              // Output message to console that the edit profile pic button was clicked
+              console.log("Edit Profile Picture button clicked");
+
+              // Open the photos app picker
+              pickImage();
             }}
           >
             <Text>Edit</Text>
@@ -132,9 +183,9 @@ const styles = StyleSheet.create({
   avatarImage: {
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 47,
-    borderRadius: 50,
-    borderColor: "white",
+    borderWidth: 5,
+    borderColor: "black",
+    backgroundColor: "transparent",
   },
 });
 

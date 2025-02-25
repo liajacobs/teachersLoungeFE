@@ -1,11 +1,5 @@
 {
   "name": "socialmediaapp",
-  "jest": {
-    "verbose": true,
-    "transformIgnorePatterns": [
-      "node_modules/(?!react-native|native-base|react-clone-referenced-element)"
-    ]
-  },
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "type": "module",

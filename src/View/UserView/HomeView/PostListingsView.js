@@ -35,56 +35,40 @@ function PostListingsView({ navigation }) {
 
   return (
     <SafeArea>
-      <View style={{ marginBottom: 400 }}>
-        <View
-          style={{
-            paddingTop: 5,
-            paddingBottom: 5,
-            alignItems: "left",
-          }}
-        >
-          <TouchableOpacity
-            style={App_StyleSheet.medium_button}
-            onPress={() => navigation.navigate("Communities")}
-          >
-            <Text style={App_StyleSheet.text}>{"Communities"}</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={App_StyleSheet.post_listing_view}>
-          {posts && (
-            <FlatList
-              style={App_StyleSheet.listings}
-              ListEmptyComponent={
+      <View style={App_StyleSheet.post_listing_view}>
+        {posts && (
+          <FlatList
+            style={App_StyleSheet.listings}
+            ListEmptyComponent={
+              <Text style={App_StyleSheet.postlist_msg_state}>
+                {"No posts yet!"}
+              </Text>
+            }
+            ListFooterComponent={
+              posts[0] && (
                 <Text style={App_StyleSheet.postlist_msg_state}>
-                  {"No posts yet!"}
+                  {"You've viewed all posts!"}
                 </Text>
-              }
-              ListFooterComponent={
-                posts[0] && (
-                  <Text style={App_StyleSheet.postlist_msg_state}>
-                    {"You've viewed all posts!"}
-                  </Text>
-                )
-              }
-              data={posts}
-              extraData={posts}
-              renderItem={({ item }) => (
-                <View style={App_StyleSheet.post_listing_view}>
-                  <PostView
-                    navigation={navigation}
-                    post={item}
-                    userName={item.user}
-                    postContent={item.postContent}
-                    image={item.image}
-                    nickName={item.nickName}
-                    commentName={route.params.User.userUserName}
-                    fileUrl={item.fileUrl}
-                  />
-                </View>
-              )}
-            />
-          )}
-        </View>
+              )
+            }
+            data={posts}
+            extraData={posts}
+            renderItem={({ item }) => (
+              <View style={App_StyleSheet.post_listing_view}>
+                <PostView
+                  navigation={navigation}
+                  post={item}
+                  userName={item.user}
+                  postContent={item.postContent}
+                  image={item.image}
+                  nickName={item.nickName}
+                  commentName={route.params.User.userUserName}
+                  fileUrl={item.fileUrl}
+                />
+              </View>
+            )}
+          />
+        )}
       </View>
     </SafeArea>
   );

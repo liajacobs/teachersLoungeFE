@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import CreatePostView from "./CreatePostView";
@@ -11,6 +11,7 @@ import CreateCommunityView from "./CreateCommunityView";
 import JoinCommunityView from "./JoinCommunityView";
 
 const HomeStack = createStackNavigator();
+let communitiesIcon = require("../../../../assets/communities.png");
 
 function HomeNavigator({ navigation }) {
   const route = useRoute();
@@ -21,13 +22,14 @@ function HomeNavigator({ navigation }) {
         activeTintColor: "white",
         inactiveBackgroundColor: "gray",
         inactiveTintColor: "black",
+        headerTitleAlign: "left",
         headerStyle: {
           backgroundColor: "#6382E8",
           shadowOpacity: 0,
           borderBottomWidth: 0,
         },
         headerTitleStyle: {
-          fontSize: 24,
+          fontSize: 32,
           fontWeight: "bold",
         },
         headerTintColor: "#ffffff",
@@ -39,6 +41,14 @@ function HomeNavigator({ navigation }) {
         initialParams={route.params}
         options={{
           headerLeft: () => null,
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Communities')}
+              style={styles.iconContainer}
+            >
+              <Image source={communitiesIcon} style={styles.icon} />
+            </TouchableOpacity>
+          ),
         }}
       />
       <HomeStack.Screen
@@ -75,6 +85,16 @@ function HomeNavigator({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  iconContainer: {
+    marginRight: 15,
+    padding: 5,
+  },
+  icon: {
+    width: 36,
+    height: 36,
+    resizeMode: 'contain',
+  },
+});
 
 export default HomeNavigator;

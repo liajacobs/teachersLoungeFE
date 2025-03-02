@@ -65,7 +65,6 @@ const App_StyleSheet = StyleSheet.create({
   },
   post_listing_view: {
     marginTop: 10,
-    marginBottom: 10,
   },
   // Used for community selection
   community_list: {

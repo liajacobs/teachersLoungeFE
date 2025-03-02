@@ -33,6 +33,7 @@ function HomeNavigator({ navigation }) {
           fontWeight: "bold",
         },
         headerTintColor: "#ffffff",
+        headerLeftContainerStyle: { paddingLeft: 10 }
       }}
     >
       <HomeStack.Screen
@@ -55,31 +56,49 @@ function HomeNavigator({ navigation }) {
         name="Create Post"
         component={CreatePostView}
         initialParams={route.params}
+        options={{
+          headerBackTitleVisible: false,
+        }}
       />
       <HomeStack.Screen
         name="Profile"
         component={ProfileView}
         initialParams={route.params}
+        options={{
+          headerBackTitleVisible: false,
+        }}
       />
       <HomeStack.Screen
         name="Communities"
         component={CommunitiesView}
         initialParams={route.params}
+        options={{
+          headerBackTitleVisible: false,
+        }}
       />
       <HomeStack.Screen
         name="Community"
         component={CommunityView}
         initialParams={route.params}
+        options={{
+          headerBackTitleVisible: false,
+        }}
       />
       <HomeStack.Screen
         name="Create Community"
         component={CreateCommunityView}
         initialParams={route.params}
+        options={{
+          headerBackTitleVisible: false,
+        }}
       />
       <HomeStack.Screen
         name="Join Community"
         component={JoinCommunityView}
         initialParams={route.params}
+        options={{
+          headerBackTitleVisible: false,
+        }}
       />
     </HomeStack.Navigator>
   );

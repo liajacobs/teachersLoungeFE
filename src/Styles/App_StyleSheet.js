@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const UI_Colors = {
-  brown: "#411c00",
-  cream: "#fff3d7",
-  white: "#ffffff",
-  light_cream: "#fff7e6",
+  blue: "#6382E8",
+  white: "#FFFFFF",
+  light_blue: "#E7ECFE",
 };
 
 const App_StyleSheet = StyleSheet.create({
@@ -13,7 +12,7 @@ const App_StyleSheet = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     alignItems: "center",
-    backgroundColor: UI_Colors.cream,
+    backgroundColor: UI_Colors.white,
   },
   steam_container: {
     backgroundColor: "transparent",
@@ -26,7 +25,7 @@ const App_StyleSheet = StyleSheet.create({
     width: "100%",
   },
   text: {
-    color: UI_Colors.cream,
+    color: UI_Colors.white,
     fontSize: 20,
   },
   textBlock: {
@@ -37,11 +36,11 @@ const App_StyleSheet = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: UI_Colors.brown,
-    backgroundColor: UI_Colors.cream,
+    borderColor: UI_Colors.blue,
+    backgroundColor: UI_Colors.white,
   },
   postTextInput: {
-    backgroundColor: UI_Colors.cream,
+    backgroundColor: UI_Colors.white,
     fontSize: 16,
   },
   block: {
@@ -53,7 +52,6 @@ const App_StyleSheet = StyleSheet.create({
   },
   listings: {
     height: "100%",
-    backgroundColor: UI_Colors.cream,
     marginBottom: 1,
   },
   logout_section: {
@@ -90,7 +88,7 @@ const App_StyleSheet = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
     textAlign: "center",
-    color: UI_Colors.brown,
+    color: UI_Colors.blue,
   },
   //Currently used for register & signIn pages
   default_button: {
@@ -98,7 +96,7 @@ const App_StyleSheet = StyleSheet.create({
     height: "10%",
     borderRadius: 30,
     marginTop: 10,
-    backgroundColor: UI_Colors.brown,
+    backgroundColor: UI_Colors.blue,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 0,
@@ -109,7 +107,7 @@ const App_StyleSheet = StyleSheet.create({
     width: "40%",
     height: 40,
     borderRadius: 30,
-    backgroundColor: UI_Colors.brown,
+    backgroundColor: UI_Colors.blue,
     borderWidth: 0,
     alignItems: "center",
     justifyContent: "center",
@@ -121,7 +119,7 @@ const App_StyleSheet = StyleSheet.create({
     width: "80%",
     height: 40,
     borderRadius: 30,
-    backgroundColor: UI_Colors.brown,
+    backgroundColor: UI_Colors.blue,
     borderWidth: 0,
     alignItems: "center",
     justifyContent: "center",
@@ -133,7 +131,7 @@ const App_StyleSheet = StyleSheet.create({
     height: 80,
     marginTop: 10,
     borderRadius: 40,
-    backgroundColor: UI_Colors.brown,
+    backgroundColor: UI_Colors.blue,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 0,
@@ -154,7 +152,7 @@ const App_StyleSheet = StyleSheet.create({
     width: "97%",
     borderWidth: 2,
     borderRadius: 20,
-    borderColor: UI_Colors.brown,
+    borderColor: UI_Colors.blue,
     flexDirection: "row",
     marginTop: 2,
     marginHorizontal: 5,
@@ -192,7 +190,7 @@ const App_StyleSheet = StyleSheet.create({
     fontWeight: "bold",
     paddingTop: 30,
     paddingHorizontal: 30,
-    color: UI_Colors.brown,
+    color: UI_Colors.blue,
   },
   profile_button: {
     marginTop: 5,
@@ -200,7 +198,7 @@ const App_StyleSheet = StyleSheet.create({
     width: "50%",
     paddingHorizontal: 30,
     borderRadius: 20,
-    backgroundColor: UI_Colors.brown,
+    backgroundColor: UI_Colors.blue,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -260,7 +258,7 @@ const App_StyleSheet = StyleSheet.create({
   friend_userNameStyle: {
     fontSize: 36,
     fontWeight: "bold",
-    color: UI_Colors.brown,
+    color: UI_Colors.blue,
   },
   friend_info_padding: {
     paddingVertical: 20,
@@ -273,16 +271,16 @@ const App_StyleSheet = StyleSheet.create({
   friends_list_header: {
     fontSize: 24,
     marginVertical: 10,
-    color: UI_Colors.cream,
+    color: UI_Colors.white,
     paddingVertical: 5,
     paddingHorizontal: 20,
   },
   friends_list_block: {
     marginHorizontal: 10,
     marginVertical: 10,
-    backgroundColor: UI_Colors.brown,
+    backgroundColor: UI_Colors.blue,
     borderRadius: 5,
-    borderColor: UI_Colors.brown,
+    borderColor: UI_Colors.blue,
     borderWidth: 1,
   },
   // User listings
@@ -290,11 +288,11 @@ const App_StyleSheet = StyleSheet.create({
     width: "97%",
     justifyContent: "center",
     alignItems: "left",
-    backgroundColor: UI_Colors.light_cream,
+    backgroundColor: UI_Colors.light_blue,
     marginBottom: 1,
     borderRadius: 1,
     borderWidth: 1,
-    borderColor: UI_Colors.brown,
+    borderColor: UI_Colors.blue,
     paddingBottom: 20,
     marginVertical: 5,
     marginHorizontal: 5,

@@ -50,12 +50,6 @@ function PostListingsView({ navigation }) {
             <Text style={App_StyleSheet.text}>{"Communities"}</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={App_StyleSheet.large_button}
-          onPress={() => navigation.navigate("Create Post")}
-        >
-          <Text style={App_StyleSheet.text}>{"+  Create Post"}</Text>
-        </TouchableOpacity>
         <View style={App_StyleSheet.post_listing_view}>
           {posts && (
             <FlatList
@@ -85,19 +79,7 @@ function PostListingsView({ navigation }) {
                     nickName={item.nickName}
                     commentName={route.params.User.userUserName}
                     fileUrl={item.fileUrl}
-                    choice={"Home"}
                   />
-                  {item.user == route.params.User.userUserName && (
-                    <TouchableOpacity
-                      style={App_StyleSheet.small_button}
-                      onPress={async () => {
-                        await deletePost(item.id, item.fileUrl);
-                        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== item.id));
-                      }}
-                    >
-                      <Text style={App_StyleSheet.text}>{"Delete Post"}</Text>
-                    </TouchableOpacity>
-                  )}
                 </View>
               )}
             />

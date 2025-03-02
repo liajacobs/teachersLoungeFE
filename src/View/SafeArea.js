@@ -9,7 +9,7 @@ function SafeArea({ children }) {
 const styles = StyleSheet.create({
   screen: {
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#fff3d7",
+    backgroundColor: "#6382E8",
   },
 });
 

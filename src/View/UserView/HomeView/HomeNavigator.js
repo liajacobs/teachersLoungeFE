@@ -22,13 +22,19 @@ function HomeNavigator({ navigation }) {
         inactiveBackgroundColor: "gray",
         inactiveTintColor: "black",
         headerStyle: {
-          backgroundColor: "#411c00",
+          backgroundColor: "#6382E8",
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
         },
-        headerTintColor: "#fff3d7",
+        headerTitleStyle: {
+          fontSize: 24,
+          fontWeight: "bold",
+        },
+        headerTintColor: "#ffffff",
       }}
     >
       <HomeStack.Screen
-        name="Home"
+        name="Teacher's Lounge"
         component={PostListingsView}
         initialParams={route.params}
         options={{

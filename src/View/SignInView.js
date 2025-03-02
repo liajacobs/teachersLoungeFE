@@ -24,7 +24,7 @@ function SignInView({ navigation }) {
   }, []);
 
   return (
-    
+
     <View style={App_StyleSheet.register_signIn_background}>
       <View style={App_StyleSheet.block}>
         <View style={App_StyleSheet.steam_container}>
@@ -72,31 +72,31 @@ function SignInView({ navigation }) {
         </View>
         <Image style={App_StyleSheet.logoStyle} source={logo} />
         <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={60}
-      >
-        <TextInput
-          style={App_StyleSheet.textBlock}
-          placeholder="Email"
-          underlineColor={"transparent"}
-          selectionColor={"black"}
-          activeUnderlineColor={"transparent"}
-          multiline={false}
-          returnKeyType="done"
-          onChangeText={(value) => (email = value)}
-          autoCapitalize="none"
-        />
-        <TextInput
-          secureTextEntry={true}
-          style={App_StyleSheet.textBlock}
-          placeholder="Password"
-          underlineColor={"transparent"}
-          selectionColor={"black"}
-          activeUnderlineColor={"transparent"}
-          multiline={false}
-          returnKeyType="done"
-          onChangeText={(value) => (password = value)}
-        />
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={60}
+        >
+          <TextInput
+            style={App_StyleSheet.textBlock}
+            placeholder="Email"
+            underlineColor={"transparent"}
+            selectionColor={"black"}
+            activeUnderlineColor={"transparent"}
+            multiline={false}
+            returnKeyType="done"
+            onChangeText={(value) => (email = value)}
+            autoCapitalize="none"
+          />
+          <TextInput
+            secureTextEntry={true}
+            style={App_StyleSheet.textBlock}
+            placeholder="Password"
+            underlineColor={"transparent"}
+            selectionColor={"black"}
+            activeUnderlineColor={"transparent"}
+            multiline={false}
+            returnKeyType="done"
+            onChangeText={(value) => (password = value)}
+          />
         </KeyboardAvoidingView>
         <TouchableOpacity
           style={App_StyleSheet.default_button}
@@ -116,7 +116,7 @@ function SignInView({ navigation }) {
         >
           <Text style={App_StyleSheet.text}>{"Sign Up"}</Text>
         </TouchableOpacity>
-        
+
       </View>
     </View>
   );

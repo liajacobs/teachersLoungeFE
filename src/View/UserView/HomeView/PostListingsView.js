@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import { SelectList } from "react-native-dropdown-select-list";
-import PostView from "./PostView";
+import PostComponentView from "./PostComponentView";
 import SafeArea from "../../SafeArea";
 import {
   getApprovedPosts,
@@ -53,7 +53,7 @@ function PostListingsView({ navigation }) {
             data={posts}
             extraData={posts}
             renderItem={({ item }) => (
-              <PostView
+              <PostComponentView
                 navigation={navigation}
                 post={item}
                 userName={item.user}

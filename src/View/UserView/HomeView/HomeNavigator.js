@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, TouchableOpacity, Image, Text } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PostListingsView from "./PostListingsView";
@@ -70,7 +70,6 @@ function HomeNavigator({ navigation }) {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('Find Communities')}
-              style={styles.iconContainer}
             >
               <Image source={searchIcon} style={styles.icon} />
             </TouchableOpacity>

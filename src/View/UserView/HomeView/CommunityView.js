@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   FlatList,
@@ -8,18 +7,41 @@ import {
 } from "react-native";
 import Community from "../../../Model/Community.js";
 import { SelectList } from "react-native-dropdown-select-list";
-import PostView from "./PostView.js";
+import PostComponentView from "./PostComponentView.js";
 import {
   getCommunityPosts,
-  leaveCommunity,
+  joinCommunity,
 } from "../../../Controller/CommunitiesManager";
-import { deletePost } from "../../../Controller/PostManager.js";
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import SafeArea from "../../SafeArea.js";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
 function CommunityView({ navigation }) {
   const route = useRoute();
+  const { Community, User } = route.params;
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            if (Community && User) {
+              const communityId = Community.id;
+              const userEmail = User.userUserName;
+              console.log("Community ID:", communityId);
+              console.log("User Email:", userEmail);
+              joinCommunity({ navigation }, communityId, userEmail);
+            } else {
+              console.warn("Community or User is undefined");
+            }
+          }}
+        >
+          <Text>Join</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [Community, User, navigation]);
+
   const isFocused = useIsFocused();
   React.useEffect(() => {
     if (isFocused) {
@@ -57,7 +79,7 @@ function CommunityView({ navigation }) {
             data={posts}
             extraData={posts}
             renderItem={({ item }) => (
-              <PostView
+              <PostComponentView
                 navigation={navigation}
                 post={item}
                 userName={item.user}

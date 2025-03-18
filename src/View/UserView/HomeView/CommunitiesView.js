@@ -11,7 +11,7 @@ import { Avatar, Title } from "react-native-paper";
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import { SelectList } from "react-native-dropdown-select-list";
 import SafeArea from "../../SafeArea";
-import PostView from "./PostView";
+import PostComponentView from "./PostComponentView";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 import {
   getApprovedPosts,

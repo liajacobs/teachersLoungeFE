@@ -14,7 +14,7 @@ import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
 import { Alert } from "react-native";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
-function PostView({ navigation, post, postContent, fileUrl }) {
+function PostComponentView({ navigation, post, postContent, fileUrl }) {
   const route = useRoute();
   let likeImg = require("../../../../assets/like.png");
   let commentImg = require("../../../../assets/comment.png");
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostView;
+export default PostComponentView;

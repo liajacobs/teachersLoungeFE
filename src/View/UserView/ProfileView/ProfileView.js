@@ -10,7 +10,7 @@ import {
 import { Avatar, Title } from "react-native-paper";
 import { useRoute } from "@react-navigation/native";
 import SafeArea from "../../SafeArea";
-import PostView from "../HomeView/PostView";
+import PostComponentView from "../HomeView/PostComponentView";
 import OpenEditProfileCommand from "../../../Controller/OpenEditProfileCommand";
 import OpenModeratorCommand from "../../../Controller/OpenModeratorCommand";
 import LogOutCommand from "../../../Controller/LogOutCommand";
@@ -114,7 +114,7 @@ function ProfileView({ navigation }) {
             data={route.params.User.post}
             renderItem={({ item }) =>
               item.user == "Test User" ? (
-                <PostView
+                <PostComponentView
                   navigation={navigation}
                   post={item}
                   userName={route.params.User.userName}

@@ -17,7 +17,6 @@ import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
 function CommunityView({ navigation }) {
   const route = useRoute();
-  console.log(route)
   const { Community, User, isMember } = route.params;
 
   useEffect(() => {

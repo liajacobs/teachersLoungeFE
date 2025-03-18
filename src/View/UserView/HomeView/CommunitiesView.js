@@ -31,7 +31,6 @@ function CommunitiesView({ navigation }) {
   }, [isFocused]);
 
   const [communities, setCommunities] = useState([{ key: "0", value: "" }]);
-  const [communityId, setCommunityId] = useState("");
 
   const loadCommunities = async () => {
     const data = await getUserCommunities(route.params.User.userUserName);

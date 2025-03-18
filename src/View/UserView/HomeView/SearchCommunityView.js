@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import SafeArea from "../../SafeArea.js";
-import { getAllCommunities } from "../../../Controller/CommunitiesManager.js";
+import { getAllCommunities, getUserCommunities } from "../../../Controller/CommunitiesManager.js";
 import App_StyleSheet from "../../../Styles/App_StyleSheet.js";
 import Community from "../../../Model/Community.js";
 
@@ -71,11 +71,13 @@ function SearchCommunityView({ navigation }) {
             style={[
               App_StyleSheet.list_item,
             ]}
-            onPress={() =>
+            onPress={() => {
               navigation.navigate("Community", {
                 Community: new Community(item.key, item.value),
                 isMember: userCommunities.some((c) => c.key === item.key)
-              })}
+              })
+            }
+            }
           >
             <Text>{item.value}</Text>
           </TouchableOpacity>

@@ -35,18 +35,17 @@ function PostListingsView({ navigation }) {
 
   return (
     <SafeArea>
-      <View style={App_StyleSheet.post_listing_view}>
+      <View style={App_StyleSheet.list}>
         {posts && (
           <FlatList
-            style={App_StyleSheet.listings}
             ListEmptyComponent={
-              <Text style={App_StyleSheet.postlist_msg_state}>
+              <Text style={App_StyleSheet.list_message}>
                 {"No posts yet!"}
               </Text>
             }
             ListFooterComponent={
               posts[0] && (
-                <Text style={App_StyleSheet.postlist_msg_state}>
+                <Text style={App_StyleSheet.list_message}>
                   {"You've viewed all posts!"}
                 </Text>
               )
@@ -54,18 +53,16 @@ function PostListingsView({ navigation }) {
             data={posts}
             extraData={posts}
             renderItem={({ item }) => (
-              <View style={App_StyleSheet.post_listing_view}>
-                <PostView
-                  navigation={navigation}
-                  post={item}
-                  userName={item.user}
-                  postContent={item.postContent}
-                  image={item.image}
-                  nickName={item.nickName}
-                  commentName={route.params.User.userUserName}
-                  fileUrl={item.fileUrl}
-                />
-              </View>
+              <PostView
+                navigation={navigation}
+                post={item}
+                userName={item.user}
+                postContent={item.postContent}
+                image={item.image}
+                nickName={item.nickName}
+                commentName={route.params.User.userUserName}
+                fileUrl={item.fileUrl}
+              />
             )}
           />
         )}

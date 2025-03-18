@@ -5,8 +5,33 @@ const UI_Colors = {
   white: "#FFFFFF",
   light_blue: "#E7ECFE",
 };
-
 const App_StyleSheet = StyleSheet.create({
+  list: {
+    paddingTop: 15,
+  },
+  list_item: {
+    padding: 15,
+    width: "90%",
+    backgroundColor: UI_Colors.white,
+    borderRadius: 10,
+    alignSelf: "center",
+    marginBottom: 15,
+    color: "black,"
+  },
+  list_message: {
+    textAlign: "center",
+    paddingTop: 200,
+  },
+  search: {
+    backgroundColor: UI_Colors.white,
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 10,
+    borderBottomWidth: 0
+  },
+
+  // OLD STYLES
+
   register_signIn_background: {
     height: "100%",
     justifyContent: "center",
@@ -50,10 +75,6 @@ const App_StyleSheet = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
   },
-  listings: {
-    height: "100%",
-    marginBottom: 1,
-  },
   logout_section: {
     marginTop: "30%",
     fontSize: 24,
@@ -63,23 +84,11 @@ const App_StyleSheet = StyleSheet.create({
   moderation_view: {
     padding: 10,
   },
-  post_listing_view: {
-    marginTop: 10,
-  },
   // Used for community selection
   community_list: {
     marginRight: "1%",
     marginLeft: "1%",
     marginBottom: "1%",
-  },
-  // Used for communities page
-  community_listing_view: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  community_list_msg_state: {
-    textAlign: "center",
-    paddingTop: 200,
   },
   community_label: {
     marginTop: 10,
@@ -87,7 +96,7 @@ const App_StyleSheet = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
     textAlign: "center",
-    color: UI_Colors.blue,
+    color: UI_Colors.white,
   },
   //Currently used for register & signIn pages
   default_button: {
@@ -156,21 +165,17 @@ const App_StyleSheet = StyleSheet.create({
     marginTop: 2,
     marginHorizontal: 5,
   },
-  search: {
-    height: "100%",
-    width: "90%",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    fontSize: 20,
-    padding: 10,
-  },
+  // search: {
+  //   height: "100%",
+  //   width: "90%",
+  //   justifyContent: "center",
+  //   alignContent: "center",
+  //   alignItems: "center",
+  //   fontSize: 20,
+  //   padding: 10,
+  // },
   searchButton: {
     height: 40,
-  },
-  postlist_msg_state: {
-    textAlign: "center",
-    paddingTop: 200,
   },
   //Profile View page
   profile_padding: {

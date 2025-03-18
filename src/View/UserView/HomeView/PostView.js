@@ -12,6 +12,7 @@ import { likePost } from "../../../Controller/LikePostCommand";
 import { unlikePost } from "../../../Controller/UnlikePostCommand";
 import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
 import { Alert } from "react-native";
+import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
 function PostView({ navigation, post, postContent, fileUrl }) {
   const route = useRoute();
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 10,
     alignSelf: "center",
+    marginBottom: 15,
   },
   text: {
     padding: 20

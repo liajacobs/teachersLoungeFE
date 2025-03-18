@@ -18,10 +18,18 @@ function MessagesNavigator({ navigation }) {
         activeTintColor: "white",
         inactiveBackgroundColor: "gray",
         inactiveTintColor: "black",
+        headerTitleAlign: "left",
         headerStyle: {
-          backgroundColor: "#411c00",
+          backgroundColor: "#6382E8",
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
         },
-        headerTintColor: "#fff3d7",
+        headerTitleStyle: {
+          fontSize: 32,
+          fontWeight: "bold",
+        },
+        headerTintColor: "#ffffff",
+        headerLeftContainerStyle: { paddingLeft: 10 }
       }}
     >
       <HomeStack.Screen

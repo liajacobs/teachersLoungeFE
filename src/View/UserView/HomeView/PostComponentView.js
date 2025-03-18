@@ -20,7 +20,9 @@ function PostComponentView({ navigation, post, postContent, fileUrl }) {
   let commentImg = require("../../../../assets/comment.png");
 
   return (
-    <View style={styles.post}>
+    <TouchableOpacity style={styles.post} onPress={() => {
+      navigation.navigate("View Post", { post: post });
+    }}>
       <View style={styles.text}>
         <Text style={styles.title}>{"Post Title"}</Text>
         <Text style={styles.content}>{postContent}</Text>
@@ -61,7 +63,7 @@ function PostComponentView({ navigation, post, postContent, fileUrl }) {
 
         <Text style={styles.communityName}>{"Community"}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

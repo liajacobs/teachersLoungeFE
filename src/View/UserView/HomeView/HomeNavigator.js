@@ -9,6 +9,7 @@ import CommunityView from "./CommunityView";
 import CreateCommunityView from "./CreateCommunityView";
 import SearchCommunityView from "./SearchCommunityView";
 import CreatePostView from "./CreatePostView";
+import PostView from "./PostView";
 
 const HomeStack = createStackNavigator();
 let communitiesIcon = require("../../../../assets/communities.png");
@@ -103,6 +104,12 @@ function HomeNavigator({ navigation }) {
       <HomeStack.Screen
         name="Create Post"
         component={CreatePostView}
+        initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
+      />
+      <HomeStack.Screen
+        name="View Post"
+        component={PostView}
         initialParams={route.params}
         options={{ headerBackTitleVisible: false }}
       />

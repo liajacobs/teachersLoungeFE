@@ -22,6 +22,7 @@ function CommunityView({ navigation }) {
 
   useEffect(() => {
     navigation.setOptions({
+      title: Community?.name,
       headerRight: () => (
         <TouchableOpacity
           onPress={() => {
@@ -56,11 +57,6 @@ function CommunityView({ navigation }) {
 
   return (
     <SafeArea>
-      <View>
-        <Text style={App_StyleSheet.community_label}>
-          {route.params.Community.name}
-        </Text>
-      </View>
       <View style={App_StyleSheet.list}>
         {posts && (
           <FlatList

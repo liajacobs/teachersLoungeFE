@@ -56,12 +56,6 @@ function PostListingsView({ navigation }) {
               <PostComponentView
                 navigation={navigation}
                 post={item}
-                userName={item.user}
-                postContent={item.postContent}
-                image={item.image}
-                nickName={item.nickName}
-                commentName={route.params.User.userUserName}
-                fileUrl={item.fileUrl}
               />
             )}
           />

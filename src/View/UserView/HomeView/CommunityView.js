@@ -78,14 +78,6 @@ function CommunityView({ navigation }) {
               <PostComponentView
                 navigation={navigation}
                 post={item}
-                userName={item.user}
-                postContent={item.postContent}
-                image={item.image}
-                nickName={item.nickName}
-                comments={item.comments}
-                fileUrl={item.fileUrl}
-                reload={loadPosts}
-                choice={"Community"}
               />
             )}
           />

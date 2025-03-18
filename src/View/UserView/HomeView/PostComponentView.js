@@ -12,9 +12,8 @@ import { likePost } from "../../../Controller/LikePostCommand";
 import { unlikePost } from "../../../Controller/UnlikePostCommand";
 import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
 import { Alert } from "react-native";
-import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
-function PostComponentView({ navigation, post, postContent, fileUrl }) {
+function PostComponentView({ navigation, post }) {
   const route = useRoute();
   let likeImg = require("../../../../assets/like.png");
   let commentImg = require("../../../../assets/comment.png");
@@ -25,9 +24,9 @@ function PostComponentView({ navigation, post, postContent, fileUrl }) {
     }}>
       <View style={styles.text}>
         <Text style={styles.title}>{"Post Title"}</Text>
-        <Text style={styles.content}>{postContent}</Text>
-        {fileUrl && (
-          <Text style={styles.linkText} onPress={() => Linking.openURL(fileUrl)}>
+        <Text style={styles.content}>{post.postContent}</Text>
+        {post.fileUrl && (
+          <Text style={styles.linkText} onPress={() => Linking.openURL(post.fileUrl)}>
             {"Open Image File"}
           </Text>
         )}

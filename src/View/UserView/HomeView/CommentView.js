@@ -9,14 +9,13 @@ function CommentView({ comment }) {
     <View style={styles.comment}>
       {/* Comment Content */}
       <View style={styles.text}>
-        <Text style={styles.userName}>{comment.userName}</Text>
         <Text style={styles.content}>{comment.content}</Text>
       </View>
 
       {/* Comment Footer (Like and Username) */}
       <View style={styles.footer}>
         <View style={styles.footerSection}>
-          <Text>{comment.likes ? comment.likes : 0}</Text>
+          <Text>{comment.likes ? comment.likes : 0} {"likes"}</Text>
         </View>
 
         <Text style={styles.commentUserName}>{comment.userName}</Text>
@@ -36,12 +35,6 @@ const styles = StyleSheet.create({
   text: {
     padding: 20,
   },
-  userName: {
-    color: "#411c00", // Dark brown, similar to post component
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
   content: {
     color: "black",
     fontSize: 15,
@@ -51,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     borderRadius: 9,
-    backgroundColor: "#E7ECFE",  // Light background color for the footer
+    backgroundColor: "#E7ECFE",
     paddingVertical: 8,
     paddingHorizontal: 10,
   },

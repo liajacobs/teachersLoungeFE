@@ -29,8 +29,9 @@ function PostListingsView({ navigation }) {
   const [posts, setPosts] = useState([]);
   const [selected, setSelected] = useState("0");
   const loadPosts = async () => {
-    const data = await getApprovedPosts(selected);
-    setPosts(data);
+    const data = await getApprovedPosts();
+    const sortedPosts = data.sort((a, b) => b.id - a.id);
+    setPosts(sortedPosts);
   };
 
   return (
@@ -58,6 +59,8 @@ function PostListingsView({ navigation }) {
                 post={item}
               />
             )}
+            initialNumToRender={20}
+            maxToRenderPerBatch={30}
           />
         )}
       </View>

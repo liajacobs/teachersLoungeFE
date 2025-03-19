@@ -1,16 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Linking
+} from "react-native";
 import { getCommentsByPostId, addComment } from "../../../Controller/PostManager";
 import CommentView from "./CommentView";
 import SafeArea from "../../SafeArea";
 import { likePost } from "../../../Controller/LikePostCommand";
 import { unlikePost } from "../../../Controller/UnlikePostCommand";
 import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
+import { getPostLikes } from "../../../Controller/GetPostLikesCommand";
 
 function PostView({ route, navigation }) {
   const [post, setPost] = useState(route.params?.post);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   let likeImg = require("../../../../assets/like.png");
   let commentImg = require("../../../../assets/comment.png");
@@ -18,8 +32,44 @@ function PostView({ route, navigation }) {
   useEffect(() => {
     if (post?.id) {
       getCommentsByPostId(post.id).then((commentsData) => setComments(commentsData));
+
+      async function fetchLikeData() {
+        try {
+          const likeCount = await getPostLikes(post.id);
+          setLikes(likeCount);
+
+          const liked = await checkLikePost(post, route.params.User.userUserName);
+          setIsLiked(liked);
+        } catch (error) {
+          console.error("Error fetching like data:", error);
+        }
+      }
+
+      fetchLikeData();
     }
   }, [post]);
+
+  const handleLikeToggle = async () => {
+    try {
+      if (isLiked) {
+        const unlikeSuccess = await unlikePost(post, route.params.User.userUserName);
+        if (unlikeSuccess) {
+          setIsLiked(false);
+        }
+      } else {
+        const likeSuccess = await likePost(post, route.params.User.userUserName);
+        if (likeSuccess) {
+          setIsLiked(true);
+        }
+      }
+
+      const updatedLikes = await getPostLikes(post.id);
+      setLikes(updatedLikes);
+    } catch (error) {
+      console.error("Error handling like/unlike:", error);
+      Alert.alert("Error", "Something went wrong. Please try again.");
+    }
+  };
 
   const handleAddComment = async () => {
     if (newComment.trim()) {
@@ -44,31 +94,15 @@ function PostView({ route, navigation }) {
           </View>
           <View style={styles.footer}>
             <View style={styles.footerSection}>
-              <TouchableOpacity
-                onPress={async () => {
-                  try {
-                    const isLiked = await checkLikePost(post, route.params.User.userUserName);
-                    if (isLiked) {
-                      const unlikeSuccess = await unlikePost(post, route.params.User.userUserName);
-                      if (unlikeSuccess) post.likes--;
-                    } else {
-                      const likeSuccess = await likePost(post, route.params.User.userUserName);
-                      if (likeSuccess) post.likes++;
-                    }
-                  } catch (error) {
-                    console.error("Error handling like/unlike: ", error);
-                    Alert.alert("Error", "Something went wrong. Please try again.");
-                  }
-                }}
-              >
+              <TouchableOpacity onPress={handleLikeToggle}>
                 <Image style={styles.icon} source={likeImg} />
               </TouchableOpacity>
-              <Text>{post.likes ? post.likes : 0}</Text>
+              <Text>{likes}</Text>
             </View>
 
             <View style={styles.footerSection}>
               <Image style={styles.icon} source={commentImg} />
-              <Text>{"#"}</Text>
+              <Text>{comments.length}</Text>
             </View>
 
             <Text style={styles.communityName}>{"Community"}</Text>
@@ -92,7 +126,6 @@ function PostView({ route, navigation }) {
             <Text>No comments yet.</Text>
           )}
         </View>
-
       </ScrollView>
     </SafeArea>
   );
@@ -101,7 +134,7 @@ function PostView({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15
+    paddingTop: 15,
   },
   post: {
     width: "90%",
@@ -111,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   text: {
-    padding: 20
+    padding: 20,
   },
   title: {
     color: "black",
@@ -140,7 +173,7 @@ const styles = StyleSheet.create({
   footerSection: {
     flexDirection: "row",
     alignItems: "center",
-    paddingRight: 8
+    paddingRight: 8,
   },
   icon: {
     width: 30,
@@ -150,7 +183,7 @@ const styles = StyleSheet.create({
   communityName: {
     marginLeft: "auto",
     fontWeight: "bold",
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   newComment: {
     flexDirection: "row",

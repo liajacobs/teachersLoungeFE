@@ -53,7 +53,6 @@ function CreatePostView({ navigation }) {
     <SafeArea>
       <View style={styles.container}>
         <View style={styles.card}>
-          {/* Post Title */}
           <Text style={styles.label}>Post Title:</Text>
           <TextInput
             style={styles.textInput}

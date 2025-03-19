@@ -27,7 +27,6 @@ function PostListingsView({ navigation }) {
     }
   }, [isFocused]);
   const [posts, setPosts] = useState([]);
-  const [selected, setSelected] = useState("0");
   const loadPosts = async () => {
     const data = await getApprovedPosts();
     const sortedPosts = data.sort((a, b) => b.id - a.id);

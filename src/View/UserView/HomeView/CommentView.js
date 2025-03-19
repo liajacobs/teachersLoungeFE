@@ -3,16 +3,13 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { Alert } from "react-native";
 
 function CommentView({ comment }) {
-  const likeImg = require("../../../../assets/like.png");  // Add your like image
+  const likeImg = require("../../../../assets/like.png");
 
   return (
     <View style={styles.comment}>
-      {/* Comment Content */}
       <View style={styles.text}>
         <Text style={styles.content}>{comment.content}</Text>
       </View>
-
-      {/* Comment Footer (Like and Username) */}
       <View style={styles.footer}>
         <View style={styles.footerSection}>
           <Text>{comment.likes ? comment.likes : 0} {"likes"}</Text>

@@ -18,9 +18,12 @@ import { likePost } from "../../../Controller/LikePostCommand";
 import { unlikePost } from "../../../Controller/UnlikePostCommand";
 import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
 import { getPostLikes } from "../../../Controller/GetPostLikesCommand";
+import { deletePost } from "../../../Controller/PostManager";
 
 function PostView({ route, navigation }) {
   const [post, setPost] = useState(route.params?.post);
+  console.log(route.params.User)
+  console.log(post)
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [likes, setLikes] = useState(0);
@@ -79,9 +82,23 @@ function PostView({ route, navigation }) {
     }
   };
 
+  const handleDeletePost = async () => {
+    try {
+      await deletePost(post.id, post.fileUrl);
+      navigation.goBack();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
   return (
     <SafeArea>
       <ScrollView style={styles.container}>
+        {post.user == route.params.User.userUserName && (
+          <TouchableOpacity onPress={() => handleDeletePost()} style={styles.deletePostButton}>
+            <Text>{"Delete Post"}</Text>
+          </TouchableOpacity>
+        )}
         <View style={styles.post}>
           <View style={styles.text}>
             <Text style={styles.title}>{"Post Title"}</Text>
@@ -198,6 +215,15 @@ const styles = StyleSheet.create({
   newCommentText: {
     padding: 15,
   },
+  deletePostButton: {
+    backgroundColor: "#FFFFFF",
+    width: "90%",
+    alignSelf: "center",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 15,
+    alignItems: "center",
+  }
 });
 
 export default PostView;

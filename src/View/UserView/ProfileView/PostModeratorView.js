@@ -14,7 +14,7 @@ import {
   approvePost,
 } from "../../../Controller/PostManager.js";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
-import PostView from "../HomeView/PostView.js";
+import PostComponentView from "../HomeView/PostComponentView.js";
 
 function PostModeratorView({ navigation }) {
   const isFocused = useIsFocused();
@@ -42,7 +42,7 @@ function PostModeratorView({ navigation }) {
             ListEmptyComponent={<Text>{"No posts to approve!"}</Text>}
             renderItem={({ item }) => (
               <View>
-                <PostView
+                <PostComponentView
                   navigation={navigation}
                   post={item}
                   userName={item.user}

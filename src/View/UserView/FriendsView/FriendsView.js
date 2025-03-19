@@ -35,7 +35,7 @@ function FriendsView({ navigation }) {
       <View style={App_StyleSheet.friends_list_block}>
         <Text style={App_StyleSheet.friends_list_header}>Friends List</Text>
         <FlatList
-          style={App_StyleSheet.listings}
+          style={App_StyleSheet.list}
           data={listOfUsers}
           renderItem={({ item }) => (
             <UserListing

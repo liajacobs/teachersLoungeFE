@@ -20,7 +20,6 @@ import { constrainedMemory } from "process";
 async function getApprovedPosts() {
   let posts = [];
   let urlPosts = apiUrl + approvedPostsRoute;
-  console.log(urlPosts);
   const reqOptions = {
     method: "GET",
     headers: {
@@ -140,7 +139,7 @@ async function addComment(content, email, time, postId) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
-    body: JSON.stringify({ content: content, email: email, time: time, postid:postId }),
+    body: JSON.stringify({ content: content, email: email, time: time, postid: postId }),
   };
   // Alert.alert("Error", "addComment: " + reqOptions.body);
   const response = await fetch(urlAddComment, reqOptions);

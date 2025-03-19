@@ -1,267 +1,229 @@
-import React, { createRef, useEffect, useRef } from "react";
-import { useState, setState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
+  TextInput,
+  Button,
+  ScrollView,
   TouchableOpacity,
   Image,
-  FlatList,
-  Linking,
+  Alert,
+  Linking
 } from "react-native";
-import { TextInput, Avatar } from "react-native-paper";
-import { useRoute, useIsFocused, useFocusEffect } from "@react-navigation/native";
+import { getCommentsByPostId, addComment } from "../../../Controller/PostManager";
 import CommentView from "./CommentView";
-import CreateCommentCommand from "../../../Controller/CreateCommentCommand";
-import App_StyleSheet from "../../../Styles/App_StyleSheet";
-import {
-  deletePost,
-  addComment,
-  getCommentsByPostId,
-} from "../../../Controller/PostManager";
+import SafeArea from "../../SafeArea";
 import { likePost } from "../../../Controller/LikePostCommand";
 import { unlikePost } from "../../../Controller/UnlikePostCommand";
 import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
-import { Alert } from "react-native";
+import { getPostLikes } from "../../../Controller/GetPostLikesCommand";
+import { deletePost } from "../../../Controller/PostManager";
 
-PostView.buttonPressed = false;
-
-function PostView({
-  navigation,
-  post,
-  userName,
-  postContent,
-  image,
-  nickName,
-  commentName,
-  choice,
-  fileUrl,
-}) {
-  let commentContent = "";
-  // const createComment = new CreateCommentCommand(comments);
-  const route = useRoute();
-  const isFocused = useIsFocused();
+function PostView({ route, navigation }) {
+  const [post, setPost] = useState(route.params?.post);
+  console.log(route.params.User)
+  console.log(post)
   const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
-
-  useFocusEffect(() => {
-    loadComments();
-    
-  });
+  const [newComment, setNewComment] = useState("");
+  const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   let likeImg = require("../../../../assets/like.png");
-  const loadComments = async () => {
-    const data = await getCommentsByPostId(post.id);
-    setComments(data);
-  };
-  return (
-    <View style={styles.post}>
-      <View style={styles.header}>
-        <Avatar.Image
-          source={route.params.User.image}
-          size={50}
-          style={App_StyleSheet.profile_avatarImage}
-        />
-        <View style={styles.info}>
-          <Text style={styles.user}>{userName}</Text>
-          <Text style={styles.sub}>{nickName}</Text>
-        </View>
-      </View>
-      <Text style={styles.contentText}>{postContent}</Text>
-      {fileUrl != "" && fileUrl != null && (
-        <Text style={styles.linkText} onPress={() => Linking.openURL(fileUrl)}>
-          {"Open Image File"}
-        </Text>
-      )}
-      <View style={styles.comments}>
-        <FlatList
-          data={comments}
-          renderItem={({ item }) => <CommentView comment={item} />}
-        />
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={styles.likeContainer}
-            onPress={async () => {
-              try {
-                // Check if the post is already liked
-                const isLiked = await checkLikePost(post, route.params.User.userUserName);
-            
-                if (isLiked) {
-                  // Unlike the post if already liked
-                  const unlikeSuccess = await unlikePost(post, route.params.User.userUserName);
-                  console.log("Unlike post response: ", unlikeSuccess);
-            
-                  if (unlikeSuccess) {
-                    post.likes--; 
-                    //Alert.alert("Success", "You have unliked this post.");
-                  } else {
-                   // Alert.alert("Error", "Failed to unlike the post.");
-                  }
-                } else {
-                  // Like the post if not already liked
-                  const likeSuccess = await likePost(post, route.params.User.userUserName);
-                  console.log("Like post response: ", likeSuccess);
-            
-                  if (likeSuccess) {
-                    post.likes++; // Increment like count
-                    //Alert.alert("Success", "You have liked this post.");
-                  } else {
-                    //Alert.alert("Error", "Failed to like the post.");
-                  }
-                }
-            
-                // Refresh UI by navigating
-                if (choice === "Community") {
-                  navigation.navigate("Community", {
-                    Community: route.params.Community,
-                  });
-                } else {
-                  navigation.navigate("Home");
-                }
-              } catch (error) {
-                console.error("Error handling like/unlike: ", error);
-                Alert.alert("Error", "Something went wrong. Please try again.");
-              }
-            }}
-            
-          >
-            <Image style={styles.like} source={likeImg} />
-            <Text>{post.likes}</Text>
-          </TouchableOpacity>
-          <TextInput
-            style={styles.commentText}
-            placeholder="Comment on Post"
-            underlineColor="transparent"
-            activeUnderlineColor="#808080"
-            defaultValue=""
-            returnKeyType="done"
-            value={comment}
-            onChangeText={(value) => {
-              setComment(value)
-              navigation.navigate("Home");
-            }}
-          />
-          <TouchableOpacity
-            style={styles.createPostButton}
-            onPress={async () => {
-              
-              if (comment.trim() != "") {
-                console.log("pressed");
-                // PostView.buttonPressed = true;
-                await addComment(comment, commentName, null, post.id);
+  let commentImg = require("../../../../assets/comment.png");
 
-                navigation.navigate("Home");
-              }
-            }}
-          >
-            <Text style={styles.text}>{"+"}</Text>
+  useEffect(() => {
+    if (post?.id) {
+      getCommentsByPostId(post.id).then((commentsData) => setComments(commentsData));
+
+      async function fetchLikeData() {
+        try {
+          const likeCount = await getPostLikes(post.id);
+          setLikes(likeCount);
+
+          const liked = await checkLikePost(post, route.params.User.userUserName);
+          setIsLiked(liked);
+        } catch (error) {
+          console.error("Error fetching like data:", error);
+        }
+      }
+
+      fetchLikeData();
+    }
+  }, [post]);
+
+  const handleLikeToggle = async () => {
+    try {
+      if (isLiked) {
+        const unlikeSuccess = await unlikePost(post, route.params.User.userUserName);
+        if (unlikeSuccess) {
+          setIsLiked(false);
+        }
+      } else {
+        const likeSuccess = await likePost(post, route.params.User.userUserName);
+        if (likeSuccess) {
+          setIsLiked(true);
+        }
+      }
+
+      const updatedLikes = await getPostLikes(post.id);
+      setLikes(updatedLikes);
+    } catch (error) {
+      console.error("Error handling like/unlike:", error);
+      Alert.alert("Error", "Something went wrong. Please try again.");
+    }
+  };
+
+  const handleAddComment = async () => {
+    if (newComment.trim()) {
+      await addComment(newComment, route.params.User.userUserName, null, post.id);
+      setNewComment("");
+      getCommentsByPostId(post.id).then((commentsData) => setComments(commentsData));
+    }
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      await deletePost(post.id, post.fileUrl);
+      navigation.goBack();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
+  return (
+    <SafeArea>
+      <ScrollView style={styles.container}>
+        {post.user == route.params.User.userUserName && (
+          <TouchableOpacity onPress={() => handleDeletePost()} style={styles.deletePostButton}>
+            <Text>{"Delete Post"}</Text>
           </TouchableOpacity>
+        )}
+        <View style={styles.post}>
+          <View style={styles.text}>
+            <Text style={styles.title}>{"Post Title"}</Text>
+            <Text style={styles.content}>{post.postContent}</Text>
+            {post.fileUrl && (
+              <Text style={styles.linkText} onPress={() => Linking.openURL(post.fileUrl)}>
+                {"Open Image File"}
+              </Text>
+            )}
+          </View>
+          <View style={styles.footer}>
+            <View style={styles.footerSection}>
+              <TouchableOpacity onPress={handleLikeToggle}>
+                <Image style={styles.icon} source={likeImg} />
+              </TouchableOpacity>
+              <Text>{likes}</Text>
+            </View>
+
+            <View style={styles.footerSection}>
+              <Image style={styles.icon} source={commentImg} />
+              <Text>{comments.length}</Text>
+            </View>
+
+            <Text style={styles.communityName}>{"Community"}</Text>
+          </View>
         </View>
-      </View>
-    </View>
+        <View style={styles.newComment}>
+          <TextInput
+            style={styles.newCommentText}
+            placeholder="Add a new comment..."
+            value={newComment}
+            onChangeText={setNewComment}
+          />
+          <Button title="+" onPress={handleAddComment} />
+        </View>
+        <View>
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <CommentView key={comment.id} comment={comment} />
+            ))
+          ) : (
+            <Text>No comments yet.</Text>
+          )}
+        </View>
+      </ScrollView>
+    </SafeArea>
   );
 }
 
 const styles = StyleSheet.create({
-  likeContainer: {
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    left: 10,
-  },
-  like: {
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    width: 30,
-    height: 30,
+  container: {
+    flex: 1,
+    paddingTop: 15,
   },
   post: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "left",
-    backgroundColor: "#eddfbe",
-    marginBottom: 1,
-    borderRadius: 1,
-    borderWidth: 2,
-    borderColor: "#411c00",
-    paddingBottom: 10,
+    width: "90%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+    alignSelf: "center",
+    marginBottom: 15,
   },
-  user: {
+  text: {
+    padding: 20,
+  },
+  title: {
     color: "black",
-    fontSize: 20,
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
-  sub: {
+  content: {
     color: "black",
-    fontSize: 10,
-  },
-  info: {
-    left: 5,
-  },
-  header: {
-    left: 10,
-    top: 10,
-    flexDirection: "row",
-  },
-  profilePic: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-  },
-  contentText: {
-    color: "black",
-    fontSize: 15,
-    left: 55,
-    width: "85%",
-    top: 10,
-    marginBottom: 5,
+    fontSize: 18,
   },
   linkText: {
     color: "blue",
     fontSize: 15,
-    left: 55,
-    width: "85%",
-    top: 10,
-    marginTop: 1,
-    marginBottom: 1,
-  },
-  comments: {
-    left: 0,
-    top: 10,
-    flex: 1,
-    width: "100%",
-  },
-  commentText: {
-    left: 10,
-    flex: 8,
-    width: "50%",
-    backgroundColor: "#fff3d7",
-    marginLeft: 5,
-    marginRight: 15,
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  createPostButton: {
-    height: 50,
-    width: 20,
-    top: 10,
-    flex: 1,
-    borderRadius: 25,
-    backgroundColor: "#eddfbe",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "black",
-    marginRight: 5,
+    marginTop: 10,
   },
   footer: {
     flexDirection: "row",
-    flex: 1,
-    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 9,
+    backgroundColor: "#E7ECFE",
+    paddingVertical: 8,
+    paddingHorizontal: 10,
   },
-  text: {
-    fontSize: 10,
+  footerSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 8,
   },
+  icon: {
+    width: 30,
+    height: 30,
+    marginHorizontal: 5,
+  },
+  communityName: {
+    marginLeft: "auto",
+    fontWeight: "bold",
+    marginHorizontal: 5,
+  },
+  newComment: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 40,
+    width: "90%",
+    alignSelf: "center",
+    marginBottom: 15,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+  },
+  newCommentText: {
+    padding: 15,
+  },
+  deletePostButton: {
+    backgroundColor: "#FFFFFF",
+    width: "90%",
+    alignSelf: "center",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 15,
+    alignItems: "center",
+  }
 });
 
 export default PostView;

@@ -1,81 +1,74 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import { addComment } from "../../../Controller/PostManager";
+import { Alert } from "react-native";
 
+function CommentView({ comment }) {
+  const likeImg = require("../../../../assets/like.png");  // Add your like image
 
-function CommentView(comment) {
-  const route = useRoute();
   return (
-    <View style={styles.postContainer}>
-    <View style={styles.post}>
-      <View style={styles.header}>
-        <Image style={styles.profilePic} source={comment.comment.image} />
-        <View style={styles.info}>
-          <Text style={styles.user}>{comment.comment.userName + ":"}</Text>
-          {/* <Text style={styles.sub}>{'('+comment.comment.nickName+')'}</Text>  Eliminated nicknames for now*/} 
-        </View>
+    <View style={styles.comment}>
+      {/* Comment Content */}
+      <View style={styles.text}>
+        <Text style={styles.userName}>{comment.userName}</Text>
+        <Text style={styles.content}>{comment.content}</Text>
       </View>
-      
-      <Text style={styles.contentText}> {comment.comment.content}</Text>
-      
-    </View>
+
+      {/* Comment Footer (Like and Username) */}
+      <View style={styles.footer}>
+        <View style={styles.footerSection}>
+          <Text>{comment.likes ? comment.likes : 0}</Text>
+        </View>
+
+        <Text style={styles.commentUserName}>{comment.userName}</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  postContainer:
-  {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "left",
-    backgroundColor: "#eddfbe",
-    marginBottom: 1,
-    borderRadius: 1,
-    borderWidth: 1,
-    left: 0,
-    borderColor: "#411c00",
-    paddingBottom: 16,
+  comment: {
+    width: "90%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+    alignSelf: "center",
+    marginBottom: 15,
   },
-  post: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "left",
-    backgroundColor: "#fff3d7",
-    marginTop:20,
-    borderRadius: 20,
-    borderWidth: 2,
-    left: 0,
-    borderColor: "#411c00",
-    paddingBottom: 10,
+  text: {
+    padding: 20,
   },
-  user: {
-    color: "#411c00",
+  userName: {
+    color: "#411c00", // Dark brown, similar to post component
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  content: {
+    color: "black",
     fontSize: 15,
   },
-  sub: {
-    color: "black",
-    fontSize: 10,
-  },
-  info: {
-    left: 5,
-  },
-  header: {
-    left: 5,
-    top: 10,
+  footer: {
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 9,
+    backgroundColor: "#E7ECFE",  // Light background color for the footer
+    paddingVertical: 8,
+    paddingHorizontal: 10,
   },
-  profilePic: {
-    height: 30,
-    width: 30,
-    borderRadius: 15,
+  footerSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 8,
   },
-  contentText: {
-    color: "black",
-    fontSize: 15,
-    left: 85,
-    top: 10,
+  icon: {
+    width: 25,
+    height: 25,
+    marginHorizontal: 5,
+  },
+  commentUserName: {
+    marginLeft: "auto",
+    fontWeight: "bold",
+    marginHorizontal: 5,
   },
 });
 

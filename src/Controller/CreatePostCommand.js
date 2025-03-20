@@ -2,7 +2,7 @@ import { apiUrl, createPostRoute } from "@env";
 import * as SecureStore from "expo-secure-store";
 import { Alert } from "react-native";
 
-//Creates a new post and adds to the database
+// Creates a new post and adds to the database
 async function CreatePost({ navigation }, content, file, user) {
   if (content != "") {
     let postUrl = apiUrl + createPostRoute;
@@ -21,6 +21,7 @@ async function CreatePost({ navigation }, content, file, user) {
         fileDisplayName: file.name,
       }),
     };
+
     const response = await fetch(postUrl, reqOptions);
     const data = await response.json();
     if (response.status != 200) {

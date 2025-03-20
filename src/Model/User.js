@@ -28,6 +28,7 @@ class User {
       this.userRole = "Approved";
   }
 
+  /* Changing to match constructor for post
   createPost(content,fileUrl) {
     newPost = new Post(
       this.userName,
@@ -37,6 +38,25 @@ class User {
       this.nickName,
       [],fileUrl
     );
+    this.post.unshift(newPost);
+  }*/
+
+  createPost(content, fileUrl) {
+    newPost = new Post(
+      null,
+      this.userName,
+      content,
+      0,
+      this.image,
+      this.nickName,
+      [],
+      fileUrl
+    );
+
+    // Log content and fileUrl
+    console.log("User.createPost Content: " + content);
+    console.log("User.createPost fileUrl: " + fileUrl);
+
     this.post.unshift(newPost);
   }
 

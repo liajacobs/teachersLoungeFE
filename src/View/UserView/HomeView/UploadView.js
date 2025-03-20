@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, SafeAreaView, FlatList,TextInput,View, Text, TouchableOpacity} from "react-native";
-import { RNS3 } from 'react-native-aws3';
 
 let doc = 
 {
@@ -59,27 +58,7 @@ function UploadView({ navigation }, postContent) {
       </View>
     
     );
-
-    /*
-    function uploadFile()
-    {
-      
-      const s3_config = {
-        keyPrefix: "s3",
-        bucket: "teachers-app-s3",
-        region: "us-east-2",
-        accessKey: "AKIASJ37ZCJHEDONTD7A",
-        secretKey: "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",
-        successActionStatus: 201
-      }
-
-      
-      RNS3.put(doc, s3_config)
-      .then( (response)=>
-      {console.log(response)});
-      
-    }
-    */
+  
   }
   
   const styles = StyleSheet.create({

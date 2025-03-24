@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   FlatList,
   View,
+  StyleSheet
 } from "react-native";
 import PostComponentView from "./PostComponentView.js";
 import {
@@ -23,7 +24,7 @@ function CommunityView({ navigation }) {
     navigation.setOptions({
       title: Community?.name,
       headerRight: () => (
-        <TouchableOpacity
+        <TouchableOpacity style={App_StyleSheet.header_button}
           onPress={() => {
             if (Community && User) {
               const communityId = Community.id;
@@ -40,7 +41,7 @@ function CommunityView({ navigation }) {
             }
           }}
         >
-          <Text>{isMember ? "Leave" : "Join"}</Text>
+          <Text style={App_StyleSheet.header_button_text}>{isMember ? "Leave" : "Join"}</Text>
         </TouchableOpacity>
       ),
     });
@@ -60,7 +61,7 @@ function CommunityView({ navigation }) {
 
   return (
     <SafeArea>
-      <View style={App_StyleSheet.list}>
+      <View style={App_StyleSheet.content}>
         {posts && (
           <FlatList
             ListEmptyComponent={

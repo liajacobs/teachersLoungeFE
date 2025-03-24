@@ -102,7 +102,7 @@ function PostComponentView({ navigation, post }) {
           <Text>{post.commentsCount}</Text>
         </View>
 
-        <Text style={styles.communityName}>{post.communityName || post.user}</Text>
+        <Text style={styles.communityName}>{route.params?.Community ? post.user : (post.communityName || post.user)}</Text>
       </View>
     </TouchableOpacity>
   );

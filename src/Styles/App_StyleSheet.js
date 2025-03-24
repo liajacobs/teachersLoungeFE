@@ -6,7 +6,7 @@ const UI_Colors = {
   light_blue: "#E7ECFE",
 };
 const App_StyleSheet = StyleSheet.create({
-  list: {
+  content: {
     paddingTop: 15,
   },
   list_item: {
@@ -27,8 +27,23 @@ const App_StyleSheet = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     borderRadius: 10,
-    borderBottomWidth: 0
+    marginBottom: 15
   },
+  header_button: {
+    marginRight: 15,
+    padding: 5,
+  },
+  header_icon: {
+    width: 36,
+    height: 36,
+    resizeMode: 'contain',
+  },
+  header_button_text: {
+    backgroundColor: UI_Colors.white,
+    borderRadius: 10,
+    padding: 5
+  },
+
 
   // OLD STYLES
 

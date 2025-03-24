@@ -160,10 +160,12 @@ async function getCommunityPosts(communityID) {
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
   };
+
   const response = await fetch(urlPosts, reqOptions);
   const results = await response.json();
   var data = results.data;
   var count = 0;
+
   if (data) {
     while (data[count] != undefined) {
       posts.unshift(
@@ -171,11 +173,11 @@ async function getCommunityPosts(communityID) {
           data[count].postid,
           data[count].email,
           data[count].content,
-          data[count].likes,
-          "",
-          "",
+          data[count].likescount,
           [],
-          data[count].FileUrl
+          data[count].fileurl,
+          data[count].communityname,
+          data[count].commentscount
         )
       );
       count = count + 1;
@@ -183,6 +185,7 @@ async function getCommunityPosts(communityID) {
   }
   return posts;
 }
+
 
 async function createCommunityPost(
   { navigation },

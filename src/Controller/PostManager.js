@@ -6,7 +6,6 @@ import {
   approvePostRoute,
   addCommentRoute,
   getCommentRoute,
-  addCommentToPostRoute,
   getCommentsByPostIdRoute,
   getCommentByCommentIDRoute,
   getNumberOfCommentsRoute
@@ -184,36 +183,7 @@ async function addComment(content, email, time, postId) {
   const response = await fetch(urlAddComment, reqOptions);
   const results = await response.json();
   if (response.status == 200) {
-    // Alert.alert("Success", results.message);
-    let commentId = await getComment(content, email);
-    // Alert.alert("Success", commentId);
-    await addCommentToPost(commentId, email, postId);
-  } else {
-    Alert.alert("Error", results.message);
-  }
-}
 
-async function addCommentToPost(commentId, email, postId) {
-  let urlAddCommentToPost = apiUrl + addCommentToPostRoute;
-  console.log(urlAddCommentToPost)
-  // Alert.alert("Error", "addCommentToPost: " + urlAddCommentToPost);
-  const reqOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
-    },
-    body: JSON.stringify({
-      email: email,
-      commentId: commentId,
-      postId: postId,
-    }),
-  };
-  // Alert.alert("Error", "addCommentToPost: " + reqOptions.body);
-  const response = await fetch(urlAddCommentToPost, reqOptions);
-  const results = await response.json();
-  if (response.status == 200) {
-    //Alert.alert("Success", "addCommentToPost Success ");
   } else {
     Alert.alert("Error", results.message);
   }
@@ -268,7 +238,6 @@ async function getCommentByCommentID(commentId) {
 async function getCommentsByPostId(postId) {
   let comments = [];
   let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute + `?postId=${postId}`;
-  // let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute;
   // Alert.alert("Error", "getCommentsByPostId: " + urlGetCommentsByPostId);
   const reqOptions = {
     method: "GET",
@@ -342,7 +311,6 @@ export {
   approvePost,
   deletePost,
   addComment,
-  addCommentToPost,
   getComment,
   getCommentsByPostId,
   getCommentByCommentID,

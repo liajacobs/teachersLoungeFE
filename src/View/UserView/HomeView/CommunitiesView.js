@@ -43,7 +43,7 @@ function CommunitiesView({ navigation }) {
   return (
     <SafeArea>
       <FlatList
-        style={App_StyleSheet.list}
+        style={App_StyleSheet.content}
         ListEmptyComponent={
           <Text style={App_StyleSheet.list_message}>
             {"No communities joined"}

@@ -10,6 +10,7 @@ import CreateCommunityView from "./CreateCommunityView";
 import SearchCommunityView from "./SearchCommunityView";
 import CreatePostView from "./CreatePostView";
 import PostView from "./PostView";
+import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
 const HomeStack = createStackNavigator();
 let communitiesIcon = require("../../../../assets/communities.png");
@@ -47,9 +48,9 @@ function HomeNavigator({ navigation }) {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('Communities')}
-              style={styles.iconContainer}
+              style={App_StyleSheet.header_button}
             >
-              <Image source={communitiesIcon} style={styles.icon} />
+              <Image source={communitiesIcon} style={App_StyleSheet.header_icon} />
             </TouchableOpacity>
           ),
         }}
@@ -70,9 +71,10 @@ function HomeNavigator({ navigation }) {
           headerBackTitleVisible: false,
           headerRight: () => (
             <TouchableOpacity
+              style={App_StyleSheet.header_button}
               onPress={() => navigation.navigate('Find Communities')}
             >
-              <Image source={searchIcon} style={styles.icon} />
+              <Image source={searchIcon} style={App_StyleSheet.header_icon} />
             </TouchableOpacity>
           ),
         }}

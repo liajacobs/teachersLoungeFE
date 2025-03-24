@@ -12,15 +12,16 @@ class User {
   userUserName = "";
   nickName = "";
   school = "";    
-  userRole =""
-  image;
-  constructor(email,first,last,school,role) {
+  userRole ="";
+  image = "";
+  constructor(email,first,last,school,role,image) {
     this.userName = first + " " + last;
     this.userUserName = email;
     this.nickName = first;
     this.school = school;
     this.userRole = role;
     this.post = [];
+    this.image = image;
   }
 
   approveUser(){  

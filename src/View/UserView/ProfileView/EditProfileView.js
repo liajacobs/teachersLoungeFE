@@ -14,14 +14,16 @@ import OpenEditableInfoCommand from "../../../Controller/OpenEditableInfoCommand
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from 'expo-file-system';
+import { selectPic } from "../../../Controller/DocumentPicker";
 
 function EditProfileView({ navigation }) {
   var route = useRoute();
-  const [image, setImage] = useState(route.params.User.image || require('../../../../assets/default-profile.png'));
+
+  const [image, setImage] = useState({uri : route.params.User.image } || require('../../../../assets/default-profile.png'));
 
   const openEdit = new OpenEditableInfoCommand(route.params.User);
 
-  const pickImage = async () => {
+  /*const pickImage = async () => {
     // No permissions request is necessary for launching the image library, might be different for Android
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images', 'videos'],
@@ -58,14 +60,14 @@ function EditProfileView({ navigation }) {
         console.error('Error saving image:', error);
       }
     }
-  };
-  
+  };*/
+
   return (
     <View style={App_StyleSheet.listings}>
       <SafeArea>
         <View style={[styles.section, { height: 120 }]}>
           <Avatar.Image
-            source={route.params.User.image}
+            source={image}
             size={90}
             style={[
               App_StyleSheet.profile_avatarImage,
@@ -77,12 +79,23 @@ function EditProfileView({ navigation }) {
               bottom: 20,
               position: "absolute",
             }}
-            onPress={() => { // Why the edit button does nothing
+            onPress={ async () => { // Why the edit button does nothing
               // Output message to console that the edit profile pic button was clicked
               console.log("Edit Profile Picture button clicked");
 
               // Open the photos app picker
-              pickImage();
+              let file = await selectPic(true);
+              
+              // Update the image state and route params
+              if (file.url) {
+                setImage({ uri: file.url });
+                route.params.User.image = { uri: file.url };
+                console.log('New route params user image:', route.params.User.image);
+                navigation.navigate("Profile", { updatedImage: { uri: file.url } }); // Pass updated image URL back to ProfileView
+              }
+              
+              // Output the file
+              console.log("EditProfileView - file name is: " + file.name);
             }}
           >
             <Text>Edit</Text>

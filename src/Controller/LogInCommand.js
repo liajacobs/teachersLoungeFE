@@ -18,21 +18,27 @@ async function login({ navigation }, email, password) {
     };
     const response = await fetch(urlLogin, reqOptions);
     const data = await response.json();
+
     if (response.status != 200) {
       Alert.alert("Login Error: ", data.message);
-    } else {
+    } else { // Successful login
       if (data.user != null) {
         let user = new User(
           data.user.Email,
           data.user.FirstName,
           data.user.LastName,
           data.user.SchoolID,
-          data.user.Role
+          data.user.Role,
+          data.user.ProfilePicLink
         );
 
         try {
           // Store token in secure store
           await SecureStore.setItemAsync("token", data.token);
+
+          // Store username in secure store
+          await SecureStore.setItemAsync("username", email);
+
           if (user.userRole == "Approved" || user.userRole == "Admin") {
             navigation.navigate("User", { User: user });
           } else {

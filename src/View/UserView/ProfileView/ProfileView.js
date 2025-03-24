@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -24,13 +24,25 @@ function ProfileView({ navigation }) {
   var a = new OpenEditProfileCommand(route.params.User);
   var b = new OpenModeratorCommand(route.params.User);
 
-  // Set params image to the default profile pic if it is null
-  if (route.params.User.image == null) {
+  // The initial state is set as a uri, this must have something to do how images from links are displayed
+  const [image, setImage] = useState({ uri : route.params.User.image } || require('../../../../assets/default-profile.png'));
+
+  // Update the profile picture state when the route params change
+  useEffect(() => {
+    if (route.params.updatedImage) {
+      setImage(route.params.updatedImage);
+    }
+  }, [route.params.updatedImage]);
+
+  /* Set params image to link from user profile if not null, otherwise set to default image
+  if (route.params.User.image) {
+    route.params.User.image = { uri: route.params.User.image }
+  } else {
     route.params.User.image = require('../../../../assets/default-profile.png');
-  }
+  }*/
 
   // Log path to profile picture
-  console.log("ProfileView picture path: ", route.params.User.image);
+  //console.log("ProfileView picture path: ", route.params.User.image);
 
   return (
     <View style={App_StyleSheet.listings}>
@@ -39,7 +51,7 @@ function ProfileView({ navigation }) {
           <View style={App_StyleSheet.profile_padding}>
             <View style={{ flexDirection: "row" }}>
               <Avatar.Image
-                source={route.params.User.image}
+                source={image}
                 size={90}
                 style={App_StyleSheet.profile_avatarImage}
               />

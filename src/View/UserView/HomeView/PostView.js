@@ -128,7 +128,7 @@ function PostView({ route, navigation }) {
               <Text>{comments.length}</Text>
             </View>
 
-            <Text style={styles.communityName}>{"Community"}</Text>
+            <Text style={styles.communityName}>{post.user}</Text>
           </View>
         </View>
         <View style={styles.newComment}>

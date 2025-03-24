@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native";
+import { StyleSheet, Image, Text, TouchableOpacity, View, FlatList } from "react-native";
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import SafeArea from "../../SafeArea.js";
@@ -15,6 +15,8 @@ function SearchCommunityView({ navigation }) {
 
   const isFocused = useIsFocused();
   const route = useRoute();
+
+  let searchIcon = require("../../../../assets/search.png");
 
   useEffect(() => {
     if (isFocused) {
@@ -56,33 +58,36 @@ function SearchCommunityView({ navigation }) {
 
   return (
     <SafeArea>
-      <TextInput
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        style={App_StyleSheet.search}
-      />
-      <FlatList
-        data={filteredCommunities}
-        keyExtractor={(item) => item.key}
-        style={App_StyleSheet.list}
-        ListEmptyComponent={<Text style={App_StyleSheet.text}>No communities found</Text>}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              App_StyleSheet.list_item,
-            ]}
-            onPress={() => {
-              navigation.navigate("Community", {
-                Community: new Community(item.key, item.value),
-                isMember: userCommunities.some((c) => c.key === item.key)
-              })
-            }
-            }
-          >
-            <Text>{item.value}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <View style={App_StyleSheet.content}>
+        <TextInput
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Search for communities..."
+          style={App_StyleSheet.search}
+        />
+        <FlatList
+          data={filteredCommunities}
+          keyExtractor={(item) => item.key}
+          style={App_StyleSheet.list}
+          ListEmptyComponent={<Text style={App_StyleSheet.text}>No communities found</Text>}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={[
+                App_StyleSheet.list_item,
+              ]}
+              onPress={() => {
+                navigation.navigate("Community", {
+                  Community: new Community(item.key, item.value),
+                  isMember: userCommunities.some((c) => c.key === item.key)
+                })
+              }
+              }
+            >
+              <Text>{item.value}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </SafeArea>
   );
 }

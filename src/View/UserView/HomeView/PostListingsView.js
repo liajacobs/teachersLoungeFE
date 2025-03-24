@@ -34,7 +34,7 @@ function PostListingsView({ navigation }) {
 
   return (
     <SafeArea>
-      <View style={App_StyleSheet.list}>
+      <View style={App_StyleSheet.content}>
         {posts && (
           <FlatList
             ListEmptyComponent={

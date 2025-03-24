@@ -11,14 +11,12 @@ import { SelectList } from "react-native-dropdown-select-list";
 import PostComponentView from "./PostComponentView";
 import SafeArea from "../../SafeArea";
 import {
-  getApprovedPosts,
-  deletePost,
+  getApprovedPosts
 } from "../../../Controller/PostManager.js";
 import Post from "../../../Model/Posts/Post.js";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
 function PostListingsView({ navigation }) {
-  const route = useRoute();
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
@@ -26,10 +24,11 @@ function PostListingsView({ navigation }) {
       loadPosts();
     }
   }, [isFocused]);
+
   const [posts, setPosts] = useState([]);
   const loadPosts = async () => {
     const data = await getApprovedPosts();
-    const sortedPosts = data.sort((a, b) => b.id - a.id);
+    const sortedPosts = data.sort((a, b) => b.id - a.id); // change later to not sort by id
     setPosts(sortedPosts);
   };
 
@@ -59,7 +58,7 @@ function PostListingsView({ navigation }) {
               />
             )}
             initialNumToRender={20}
-            maxToRenderPerBatch={30}
+            maxToRenderPerBatch={20}
           />
         )}
       </View>

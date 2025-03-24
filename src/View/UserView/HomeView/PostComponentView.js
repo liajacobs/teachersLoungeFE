@@ -11,30 +11,30 @@ import {
 import { useRoute } from "@react-navigation/native";
 import { likePost } from "../../../Controller/LikePostCommand";
 import { unlikePost } from "../../../Controller/UnlikePostCommand";
-import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
 import { getPostLikes } from "../../../Controller/GetPostLikesCommand";
+import { checkLikePost } from "../../../Controller/CheckLikedPostCommand";
 
 function PostComponentView({ navigation, post }) {
   const route = useRoute();
-  const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(Number(post.likes));
 
   let likeImg = require("../../../../assets/like.png");
+  let likeFilledImg = require("../../../../assets/like_filled.png");
   let commentImg = require("../../../../assets/comment.png");
 
   useEffect(() => {
-    async function fetchPostData() {
-      try {
-        const liked = await checkLikePost(post, route.params.User.userUserName);
-        setIsLiked(liked);
-
-        const likeCount = await getPostLikes(post.id);
-        setLikes(likeCount);
-      } catch (error) {
-        console.error("Error fetching post data:", error);
+    if (post?.id) {
+      async function fetchLikeData() {
+        try {
+          const liked = await checkLikePost(post, route.params.User.userUserName);
+          setIsLiked(liked);
+        } catch (error) {
+          console.error("Error fetching like data:", error);
+        }
       }
+      fetchLikeData();
     }
-    fetchPostData();
   }, [post]);
 
   const handleLikeToggle = async () => {
@@ -43,31 +43,41 @@ function PostComponentView({ navigation, post }) {
         const unlikeSuccess = await unlikePost(post, route.params.User.userUserName);
         if (unlikeSuccess) {
           setIsLiked(false);
+          setLikes((prevLikes) => prevLikes - 1);
+          post.likes = Math.max(0, post.likes - 1);
         }
       } else {
         const likeSuccess = await likePost(post, route.params.User.userUserName);
         if (likeSuccess) {
           setIsLiked(true);
+          setLikes((prevLikes) => prevLikes + 1);
+          post.likes += 1;
         }
       }
-      const updatedLikes = await getPostLikes(post.id);
-      setLikes(updatedLikes);
     } catch (error) {
       console.error("Error handling like/unlike:", error);
       Alert.alert("Error", "Something went wrong. Please try again.");
     }
   };
 
+
   return (
     <TouchableOpacity
       style={styles.post}
       onPress={() => {
-        navigation.navigate("View Post", { post: post });
+        navigation.navigate("View Post", {
+          post,
+          onUpdatePost: (updatedPost) => {
+            setLikes(updatedPost.likes);
+            post.likes = updatedPost.likes;
+          }
+        });
       }}
     >
       <View style={styles.text}>
         <Text style={styles.title}>{"Post Title"}</Text>
         <Text style={styles.content}>{post.postContent}</Text>
+
         {post.fileUrl && (
           <Text
             style={styles.linkText}
@@ -77,20 +87,22 @@ function PostComponentView({ navigation, post }) {
           </Text>
         )}
       </View>
+
       <View style={styles.footer}>
         <View style={styles.footerSection}>
           <TouchableOpacity onPress={handleLikeToggle}>
-            <Image style={styles.icon} source={likeImg} />
+            { }
+            <Image style={styles.icon} source={isLiked ? likeFilledImg : likeImg} />
           </TouchableOpacity>
           <Text>{likes}</Text>
         </View>
 
         <View style={styles.footerSection}>
           <Image style={styles.icon} source={commentImg} />
-          <Text>{"#"}</Text>
+          <Text>{post.commentsCount}</Text>
         </View>
 
-        <Text style={styles.communityName}>{"Community"}</Text>
+        <Text style={styles.communityName}>{post.communityName || post.user}</Text>
       </View>
     </TouchableOpacity>
   );

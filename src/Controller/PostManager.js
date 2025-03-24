@@ -9,6 +9,7 @@ import {
   addCommentToPostRoute,
   getCommentsByPostIdRoute,
   getCommentByCommentIDRoute,
+  getNumberOfCommentsRoute
 } from "@env";
 import Post from "../Model/Posts/Post.js";
 import Comment from "../Model/Posts/Comment.js";
@@ -17,6 +18,41 @@ import * as SecureStore from "expo-secure-store";
 import { constrainedMemory } from "process";
 
 //Fetches all posts that have been approved, used for PostListingsView
+// async function getApprovedPosts() {
+//   let posts = [];
+//   let urlPosts = apiUrl + approvedPostsRoute;
+//   const reqOptions = {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+//     },
+//   };
+//   const response = await fetch(urlPosts, reqOptions);
+//   const results = await response.json();
+//   var data = results.data;
+//   var count = 0;
+//   if (data) {
+//     while (data[count] != undefined) {
+//       posts.unshift(
+//         new Post(
+//           data[count].postid,
+//           data[count].email,
+//           data[count].content,
+//           data[count].likes,
+//           "",
+//           "",
+//           [],
+//           data[count].fileurl
+//         )
+//       );
+//       count = count + 1;
+//     }
+//   }
+//   return posts;
+// }
+
+// Fetches all posts that have been approved, used for PostListingsView
 async function getApprovedPosts() {
   let posts = [];
   let urlPosts = apiUrl + approvedPostsRoute;
@@ -27,10 +63,12 @@ async function getApprovedPosts() {
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
   };
+
   const response = await fetch(urlPosts, reqOptions);
   const results = await response.json();
   var data = results.data;
   var count = 0;
+
   if (data) {
     while (data[count] != undefined) {
       posts.unshift(
@@ -38,11 +76,11 @@ async function getApprovedPosts() {
           data[count].postid,
           data[count].email,
           data[count].content,
-          data[count].likes,
-          "",
-          "",
+          data[count].likescount,
           [],
-          data[count].fileurl
+          data[count].fileurl,
+          data[count].communityname,
+          data[count].commentscount
         )
       );
       count = count + 1;
@@ -51,41 +89,42 @@ async function getApprovedPosts() {
   return posts;
 }
 
+
 //Gets posts that are pending approval, used for PostModeratorView
-async function getPendingPosts() {
-  posts = [];
-  let urlPosts = apiUrl + pendingPostsRoute;
-  console.log(urlPosts)
-  const reqOptions = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
-    },
-  };
-  const response = await fetch(urlPosts, reqOptions);
-  const results = await response.json();
-  var data = results.data;
-  var count = 0;
-  if (data) {
-    while (data[count] != undefined) {
-      posts.unshift(
-        new Post(
-          data[count].PostID,
-          data[count].Email,
-          data[count].Content,
-          0,
-          "",
-          "",
-          [],
-          data[count].FileUrl
-        )
-      );
-      count = count + 1;
-    }
-  }
-  return posts;
-}
+// async function getPendingPosts() {
+//   posts = [];
+//   let urlPosts = apiUrl + pendingPostsRoute;
+//   console.log(urlPosts)
+//   const reqOptions = {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+//     },
+//   };
+//   const response = await fetch(urlPosts, reqOptions);
+//   const results = await response.json();
+//   var data = results.data;
+//   var count = 0;
+//   if (data) {
+//     while (data[count] != undefined) {
+//       posts.unshift(
+//         new Post(
+//           data[count].PostID,
+//           data[count].Email,
+//           data[count].Content,
+//           0,
+//           "",
+//           "",
+//           [],
+//           data[count].FileUrl
+//         )
+//       );
+//       count = count + 1;
+//     }
+//   }
+//   return posts;
+// }
 
 //Switches a post from pending to approved, called from PostModeratorView
 async function approvePost(postID) {
@@ -275,14 +314,37 @@ async function getCommentsByPostId(postId) {
   return comments;
 }
 
+async function getNumberOfComments(postId) {
+  let urlGetNumberOfComments = apiUrl + getNumberOfCommentsRoute + `?id=${postId}`;
+  console.log(urlGetNumberOfComments);
+
+  const reqOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const response = await fetch(urlGetNumberOfComments, reqOptions);
+  const results = await response.json();
+
+  if (response.status === 200) {
+    return results.count;
+  } else {
+    Alert.alert("Error", results.message);
+    return null;
+  }
+}
+
 export {
   getApprovedPosts,
-  getPendingPosts,
+  //getPendingPosts,
   approvePost,
   deletePost,
   addComment,
   addCommentToPost,
   getComment,
   getCommentsByPostId,
-  getCommentByCommentID
+  getCommentByCommentID,
+  getNumberOfComments
 };

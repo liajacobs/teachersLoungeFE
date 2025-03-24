@@ -22,14 +22,13 @@ import { deletePost } from "../../../Controller/PostManager";
 
 function PostView({ route, navigation }) {
   const [post, setPost] = useState(route.params?.post);
-  console.log(route.params.User)
-  console.log(post)
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [likes, setLikes] = useState(0);
+  const [likes, setLikes] = useState(Number(post.likes));
   const [isLiked, setIsLiked] = useState(false);
 
   let likeImg = require("../../../../assets/like.png");
+  let likeFilledImg = require("../../../../assets/like_filled.png");
   let commentImg = require("../../../../assets/comment.png");
 
   useEffect(() => {
@@ -38,9 +37,6 @@ function PostView({ route, navigation }) {
 
       async function fetchLikeData() {
         try {
-          const likeCount = await getPostLikes(post.id);
-          setLikes(likeCount);
-
           const liked = await checkLikePost(post, route.params.User.userUserName);
           setIsLiked(liked);
         } catch (error) {
@@ -50,29 +46,39 @@ function PostView({ route, navigation }) {
 
       fetchLikeData();
     }
-  }, [post]);
+  }, []);
 
   const handleLikeToggle = async () => {
     try {
+      let updatedLikes = Number(likes);
+
       if (isLiked) {
         const unlikeSuccess = await unlikePost(post, route.params.User.userUserName);
         if (unlikeSuccess) {
           setIsLiked(false);
+          updatedLikes -= 1;
         }
       } else {
         const likeSuccess = await likePost(post, route.params.User.userUserName);
         if (likeSuccess) {
           setIsLiked(true);
+          updatedLikes += 1;
         }
       }
 
-      const updatedLikes = await getPostLikes(post.id);
       setLikes(updatedLikes);
+      setPost((prevPost) => ({ ...prevPost, likes: updatedLikes }));
+
+      if (route.params?.onUpdatePost) {
+        route.params.onUpdatePost({ ...post, likes: updatedLikes });
+      }
+
     } catch (error) {
       console.error("Error handling like/unlike:", error);
       Alert.alert("Error", "Something went wrong. Please try again.");
     }
   };
+
 
   const handleAddComment = async () => {
     if (newComment.trim()) {
@@ -94,8 +100,8 @@ function PostView({ route, navigation }) {
   return (
     <SafeArea>
       <ScrollView style={styles.container}>
-        {post.user == route.params.User.userUserName && (
-          <TouchableOpacity onPress={() => handleDeletePost()} style={styles.deletePostButton}>
+        {post.user === route.params.User.userUserName && (
+          <TouchableOpacity onPress={handleDeletePost} style={styles.deletePostButton}>
             <Text>{"Delete Post"}</Text>
           </TouchableOpacity>
         )}
@@ -112,7 +118,7 @@ function PostView({ route, navigation }) {
           <View style={styles.footer}>
             <View style={styles.footerSection}>
               <TouchableOpacity onPress={handleLikeToggle}>
-                <Image style={styles.icon} source={likeImg} />
+                <Image style={styles.icon} source={isLiked ? likeFilledImg : likeImg} />
               </TouchableOpacity>
               <Text>{likes}</Text>
             </View>
@@ -147,6 +153,7 @@ function PostView({ route, navigation }) {
     </SafeArea>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

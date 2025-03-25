@@ -1,6 +1,7 @@
 import {
   apiUrl,
   approvedPostsRoute,
+  approvedPostsByUserRoute,
   pendingPostsRoute,
   deletePostRoute,
   approvePostRoute,
@@ -15,41 +16,6 @@ import Comment from "../Model/Posts/Comment.js";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { constrainedMemory } from "process";
-
-//Fetches all posts that have been approved, used for PostListingsView
-// async function getApprovedPosts() {
-//   let posts = [];
-//   let urlPosts = apiUrl + approvedPostsRoute;
-//   const reqOptions = {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
-//     },
-//   };
-//   const response = await fetch(urlPosts, reqOptions);
-//   const results = await response.json();
-//   var data = results.data;
-//   var count = 0;
-//   if (data) {
-//     while (data[count] != undefined) {
-//       posts.unshift(
-//         new Post(
-//           data[count].postid,
-//           data[count].email,
-//           data[count].content,
-//           data[count].likes,
-//           "",
-//           "",
-//           [],
-//           data[count].fileurl
-//         )
-//       );
-//       count = count + 1;
-//     }
-//   }
-//   return posts;
-// }
 
 // Fetches all posts that have been approved, used for PostListingsView
 async function getApprovedPosts() {
@@ -88,42 +54,41 @@ async function getApprovedPosts() {
   return posts;
 }
 
+async function getApprovedPostsByUser(username) {
+  let posts = [];
+  let urlPosts = apiUrl + approvedPostsByUserRoute + `/${username}`;
+  const reqOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+    },
+  };
 
-//Gets posts that are pending approval, used for PostModeratorView
-// async function getPendingPosts() {
-//   posts = [];
-//   let urlPosts = apiUrl + pendingPostsRoute;
-//   console.log(urlPosts)
-//   const reqOptions = {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
-//     },
-//   };
-//   const response = await fetch(urlPosts, reqOptions);
-//   const results = await response.json();
-//   var data = results.data;
-//   var count = 0;
-//   if (data) {
-//     while (data[count] != undefined) {
-//       posts.unshift(
-//         new Post(
-//           data[count].PostID,
-//           data[count].Email,
-//           data[count].Content,
-//           0,
-//           "",
-//           "",
-//           [],
-//           data[count].FileUrl
-//         )
-//       );
-//       count = count + 1;
-//     }
-//   }
-//   return posts;
-// }
+  const response = await fetch(urlPosts, reqOptions);
+  const results = await response.json();
+  var data = results.data;
+  var count = 0;
+
+  if (data) {
+    while (data[count] != undefined) {
+      posts.unshift(
+        new Post(
+          data[count].postid,
+          data[count].email,
+          data[count].content,
+          data[count].likescount,
+          [],
+          data[count].fileurl,
+          data[count].communityname,
+          data[count].commentscount
+        )
+      );
+      count = count + 1;
+    }
+  }
+  return posts;
+}
 
 //Switches a post from pending to approved, called from PostModeratorView
 async function approvePost(postID) {
@@ -307,6 +272,7 @@ async function getNumberOfComments(postId) {
 
 export {
   getApprovedPosts,
+  getApprovedPostsByUser,
   //getPendingPosts,
   approvePost,
   deletePost,

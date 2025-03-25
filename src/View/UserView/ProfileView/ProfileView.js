@@ -1,135 +1,115 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
+  Image,
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { Avatar, Title } from "react-native-paper";
-import { useRoute } from "@react-navigation/native";
+import { Avatar } from "react-native-paper";
+import { useRoute, useIsFocused } from "@react-navigation/native";
 import SafeArea from "../../SafeArea";
 import PostComponentView from "../HomeView/PostComponentView";
-import OpenEditProfileCommand from "../../../Controller/OpenEditProfileCommand";
-import OpenModeratorCommand from "../../../Controller/OpenModeratorCommand";
-import LogOutCommand from "../../../Controller/LogOutCommand";
+import { getApprovedPostsByUser } from "../../../Controller/PostManager";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
-//This is declared in order to interact with the LogOutCommand in the Controller
-const LogCommand = new LogOutCommand();
-
+// This is the ProfileView component
 function ProfileView({ navigation }) {
-  var route = useRoute();
-  var a = new OpenEditProfileCommand(route.params.User);
-  var b = new OpenModeratorCommand(route.params.User);
+  const isFocused = useIsFocused();
+  const route = useRoute();
+  const [image, setImage] = useState({ uri: route.params.User.image } || require('../../../../assets/default-profile.png'));
+  const [posts, setPosts] = useState([]);
 
-  // Set params image to the default profile pic if it is null
-  if (route.params.User.image == null) {
-    route.params.User.image = require('../../../../assets/default-profile.png');
-  }
+  let kebabIcon = require("../../../../assets/settings.png");
 
-  // Log path to profile picture
-  console.log("ProfileView picture path: ", route.params.User.image);
+  // Fetch posts when the screen is focused
+  useEffect(() => {
+    if (isFocused) {
+      loadPosts();
+    }
+  }, [isFocused]);
+
+  const loadPosts = async () => {
+    const data = await getApprovedPostsByUser(route.params.User.userUserName);
+    const sortedPosts = data.sort((a, b) => b.id - a.id);
+    setPosts(sortedPosts);
+  };
+
+  // Update profile picture if the route params change
+  useEffect(() => {
+    if (route.params.updatedImage) {
+      setImage(route.params.updatedImage);
+    }
+  }, [route.params.updatedImage]);
+
+  // Set kebab icon to navigate to settings screen
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={App_StyleSheet.header_button}
+          onPress={() => navigation.navigate("Settings")}
+        >
+          <Image source={kebabIcon} style={App_StyleSheet.header_icon} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
-    <View style={App_StyleSheet.listings}>
-      <SafeArea>
-        <View>
-          <View style={App_StyleSheet.profile_padding}>
-            <View style={{ flexDirection: "row" }}>
-              <Avatar.Image
-                source={route.params.User.image}
-                size={90}
-                style={App_StyleSheet.profile_avatarImage}
-              />
-              <Text style={App_StyleSheet.profile_userNameStyle}>
-                {route.params.User.userName}
-              </Text>
-            </View>
-            <Text style={{ paddingTop: 15, fontSize: 25, fontWeight: "bold" }}>
-              {route.params.User.userUserName}
-            </Text>
-            <Text style={{ paddingTop: 5, fontSize: 25, fontWeight: "bold" }}>
-              {route.params.User.school}
-            </Text>
-          </View>
+    <SafeArea>
+      <View style={App_StyleSheet.content}>
+        <View style={styles.profileSection}>
+          <Avatar.Image source={image} size={90} />
+          <Text style={styles.username}>{route.params.User.userUserName}</Text>
         </View>
-        <View
-          style={{
-            paddingTop: 10,
-            paddingBottom: 10,
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity
-            style={
-              (route.params.User.userRole == "Admin" &&
-                App_StyleSheet.profile_button) ||
-              App_StyleSheet.small_button
-            }
-            onPress={() => {
-              a.OpenEditProfile({ navigation });
-            }}
-          >
-            <Text style={App_StyleSheet.text}>{"Edit Profile"}</Text>
-          </TouchableOpacity>
 
-          {route.params.User.userRole == "Admin" && (
-            <TouchableOpacity
-              style={App_StyleSheet.profile_button}
-              onPress={() => {
-                navigation.navigate("Post Moderation");
-              }}
-            >
-              <Text style={App_StyleSheet.text}>{"Post Moderation"}</Text>
-            </TouchableOpacity>
-          )}
-          {route.params.User.userRole == "Admin" && (
-            <TouchableOpacity
-              style={App_StyleSheet.profile_button}
-              onPress={() => {
-                navigation.navigate("User Moderation");
-              }}
-            >
-              <Text style={App_StyleSheet.text}>{"User Moderation"}</Text>
-            </TouchableOpacity>
-          )}
-          {/*Button for navigation to Log Out Screen.*/}
-          <TouchableOpacity
-            style={
-              (route.params.User.userRole == "Admin" &&
-                App_StyleSheet.profile_button) ||
-              App_StyleSheet.small_button
-            }
-            onPress={() => {
-              LogCommand.LogOut({ navigation });
-            }}
-          >
-            <Text style={App_StyleSheet.text}>{"Log Out"}</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
+        {posts && (
           <FlatList
-            data={route.params.User.post}
-            renderItem={({ item }) =>
-              item.user == "Test User" ? (
-                <PostComponentView
-                  navigation={navigation}
-                  post={item}
-                  userName={route.params.User.userName}
-                  postContent={item.postContent}
-                  image={item.image}
-                  nickName={item.nickName}
-                  comments={item.comments}
-                  choice={"Profile"}
-                />
-              ) : null
+            ListEmptyComponent={
+              <Text style={App_StyleSheet.list_message}>
+                {"No posts yet!"}
+              </Text>
             }
+            ListFooterComponent={
+              posts[0] && (
+                <Text style={App_StyleSheet.list_message}>
+                  {"You've viewed all posts!"}
+                </Text>
+              )
+            }
+            data={posts}
+            extraData={posts}
+            renderItem={({ item }) => (
+              <PostComponentView navigation={navigation} post={item} />
+            )}
+            initialNumToRender={20}
+            maxToRenderPerBatch={20}
           />
-        </View>
-      </SafeArea>
-    </View>
+        )}
+      </View>
+    </SafeArea>
   );
 }
+
+const styles = StyleSheet.create({
+  profileSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    width: "90%",
+    alignSelf: "center",
+    marginLeft: 10
+  },
+  username: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 15,
+    color: "white",
+    flex: 1,
+  },
+});
+
 export default ProfileView;

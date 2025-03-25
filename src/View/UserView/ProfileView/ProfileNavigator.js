@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProfileView from "./ProfileView";
 import EditProfileView from "./EditProfileView";
 import EditView from "./EditView";
+import SettingsView from "./SettingsView"
 import PostListingsView from "../HomeView/PostListingsView";
 import PostModeratorView from "../ProfileView/PostModeratorView";
 import UserModeratorView from "../ProfileView/UserModeratorView";
@@ -45,6 +46,11 @@ function ProfileNavigator({ navigation }) {
       <HomeStack.Screen
         name="Edit Profile"
         component={EditProfileView}
+        initialParams={route.params}
+      />
+      <HomeStack.Screen
+        name="Settings"
+        component={SettingsView}
         initialParams={route.params}
       />
       <HomeStack.Screen

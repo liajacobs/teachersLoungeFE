@@ -217,7 +217,7 @@ async function getCommentsByPostId(postId, userEmail) {
   var data = results.data;
   var count = 0;
 
-  if (response.status == 200) {
+  if (response.status == 201) {
     //Alert.alert("Success", "getCommentsByPostId Success " + results.data[0]);
   } else {
     Alert.alert("Error", "getCommentsByPostId Error: " + results.message);

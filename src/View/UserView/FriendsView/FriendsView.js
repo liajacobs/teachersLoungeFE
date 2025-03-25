@@ -24,33 +24,30 @@ function FriendsView({ navigation }) {
     };
     fetchUsers();
   }, [isFocused]);
+
   return (
     <SafeArea>
-      <TouchableOpacity
-        style={App_StyleSheet.large_button}
-        onPress={() => navigation.navigate("Search")}
-      >
-        <Text style={App_StyleSheet.text}>{"Search User"}</Text>
-      </TouchableOpacity>
-      <View style={App_StyleSheet.friends_list_block}>
-        <Text style={App_StyleSheet.friends_list_header}>Friends List</Text>
-        <FlatList
-          style={App_StyleSheet.list}
-          data={listOfUsers}
-          renderItem={({ item }) => (
-            <UserListing
-              user={item}
-              onClick={() => {
-                if (navigation) {
-                  navigation.navigate("Friend", {
-                    FriendEmail: item.email,
-                  });
-                }
-              }}
-            />
-          )}
-        />
-      </View>
+      <FlatList
+        style={App_StyleSheet.content}
+        ListEmptyComponent={
+          <Text style={App_StyleSheet.list_message}>
+            {"No communities joined"}
+          </Text>
+        }
+        data={listOfUsers}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={App_StyleSheet.list_item}
+            onPress={() =>
+              navigation.navigate("Friend", {
+                FriendEmail: item.email,
+              })
+            }
+          >
+            <Text>{item.email}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </SafeArea>
   );
 }

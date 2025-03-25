@@ -33,6 +33,7 @@ function ProfileView({ navigation }) {
   const loadPosts = async () => {
     const data = await getApprovedPostsByUser(route.params.User.userUserName);
     const sortedPosts = data.sort((a, b) => b.id - a.id);
+    console.log(sortedPosts)
     setPosts(sortedPosts);
   };
 

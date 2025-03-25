@@ -44,11 +44,13 @@ function MessagesNavigator({ navigation }) {
         name="Conversation"
         component={ConversationView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
       <HomeStack.Screen
         name="New Chat"
         component={CreateNewChatView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
     </HomeStack.Navigator>
   );

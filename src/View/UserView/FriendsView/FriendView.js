@@ -22,6 +22,7 @@ function FriendView({ navigation }) {
   const [friendee, setFriendee] = useState(false);
   const loadFriend = async () => {
     const data = await getUserInfo(route.params.FriendEmail);
+    console.log(data)
     setFriend(data);
   };
   // Check if user friended
@@ -56,58 +57,56 @@ function FriendView({ navigation }) {
     friendStatus = "not friend"
   }
   return (
-    <View style={App_StyleSheet.listings}>
-      <SafeArea>
-        <View>
-          <View style={App_StyleSheet.profile_padding}>
-            <Text style={App_StyleSheet.friend_userNameStyle}>
-              {friend.firstName} {friend.lastName}
+    <SafeArea>
+      <View>
+        <View >
+          <Text style={App_StyleSheet.friend_userNameStyle}>
+            {friend.firstName} {friend.lastName}
+          </Text>
+          <View >
+            <Text style={App_StyleSheet.friend_info_text}>
+              Email: {friend.email}
             </Text>
-            <View style={App_StyleSheet.friend_info_padding}>
-              <Text style={App_StyleSheet.friend_info_text}>
-                Email: {friend.email}
-              </Text>
-              <Text style={App_StyleSheet.friend_info_text}>
-                Role: {friend.role}
-              </Text>
-              <Text style={App_StyleSheet.friend_info_text}>
-                School: {friend.schoolId}
-              </Text>
-              <Text style={App_StyleSheet.friend_info_text}>
-                Status:{" "}
-                {friendStatus}
-              </Text>
-            </View>
+            <Text >
+              Role: {friend.role}
+            </Text>
+            <Text style={App_StyleSheet.friend_info_text}>
+              School: {friend.schoolId}
+            </Text>
+            <Text style={App_StyleSheet.friend_info_text}>
+              Status:{" "}
+              {friendStatus}
+            </Text>
           </View>
         </View>
-        <View
-          style={{
-            alignItems: "center",
+      </View>
+      <View
+        style={{
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity
+          style={App_StyleSheet.small_button}
+          onPress={() => {
+            friended
+              ? unfriendUser(
+                { navigation },
+                route.params.User.userUserName,
+                friend.email
+              )
+              : friendUser(
+                { navigation },
+                route.params.User.userUserName,
+                friend.email
+              );
           }}
         >
-          <TouchableOpacity
-            style={App_StyleSheet.small_button}
-            onPress={() => {
-              friended
-                ? unfriendUser(
-                  { navigation },
-                  route.params.User.userUserName,
-                  friend.email
-                )
-                : friendUser(
-                  { navigation },
-                  route.params.User.userUserName,
-                  friend.email
-                );
-            }}
-          >
-            <Text style={App_StyleSheet.text}>
-              {friended ? "Unfriend User" : "Friend User"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </SafeArea>
-    </View>
+          <Text style={App_StyleSheet.text}>
+            {friended ? "Unfriend User" : "Friend User"}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeArea>
   );
 }
 

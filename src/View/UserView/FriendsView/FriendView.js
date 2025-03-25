@@ -7,7 +7,7 @@ import PostComponentView from "../HomeView/PostComponentView";
 import { getApprovedPostsByUser } from "../../../Controller/PostManager";
 import { getUserInfo } from "../../../Controller/FriendsManager";
 import App_StyleSheet from "../../../Styles/App_StyleSheet.js";
-import { checkIfFriended, friendUser, unfriendUser } from "../../../Controller/FriendsManager";
+import { checkIfFriended, friendUser, unfriendUser, checkIfMuted, muteUser, unmuteUser, checkIfBlocked, blockUser, unblockUser } from "../../../Controller/FriendsManager";
 
 function FriendView({ navigation }) {
   const route = useRoute();
@@ -17,6 +17,8 @@ function FriendView({ navigation }) {
   const [friended, setFriended] = useState(false);
   const [friendee, setFriendee] = useState(false);
   const [image, setImage] = useState(require('../../../../assets/default-profile.png'));
+  const [muted, setMuted] = useState(false);
+  const [blocked, setBlocked] = useState(false);
 
   const loadFriend = async () => {
     const data = await getUserInfo(route.params.FriendEmail);
@@ -40,12 +42,24 @@ function FriendView({ navigation }) {
     setFriendee(data);
   };
 
+  const checkMuted = async () => {
+    const data = await checkIfMuted(route.params.User.userUserName, route.params.FriendEmail);
+    setMuted(data);
+  };
+
+  const checkBlocked = async () => {
+    const data = await checkIfBlocked(route.params.User.userUserName, route.params.FriendEmail);
+    setBlocked(data);
+  }
+
   useEffect(() => {
     if (isFocused) {
       loadFriend();
       loadPosts();
       checkFriended();
       checkFriendee();
+      checkMuted();
+      checkBlocked();
     }
   }, [isFocused]);
 
@@ -76,6 +90,40 @@ function FriendView({ navigation }) {
           >
             <Text style={App_StyleSheet.text}>
               {friended ? "Unfriend User" : "Friend User"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={App_StyleSheet.small_button}
+            onPress={() => {
+              muted
+                ? unmuteUser(route.params.User.userUserName, friend?.email)
+                : muteUser(route.params.User.userUserName, friend?.email);
+            }}
+          >
+            <Text style={App_StyleSheet.text}>
+              {muted ? "Unmute User" : "Mute User"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={App_StyleSheet.small_button}
+            onPress={() => {
+              if (blocked) {
+                unblockUser(route.params.User.userUserName, friend?.email);
+              } else {
+                blockUser(route.params.User.userUserName, friend?.email);
+                if (friended) {
+                  unfriendUser({ navigation }, route.params.User.userUserName, friend?.email);
+                }
+              }
+
+            }}
+          >
+            <Text style={App_StyleSheet.text}>
+              {blocked ? "Unblock User" : "Block User"}
             </Text>
           </TouchableOpacity>
         </View>

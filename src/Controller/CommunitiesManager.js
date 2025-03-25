@@ -146,12 +146,13 @@ async function getUserCommunities(email) {
   }
 }
 
-async function getCommunityPosts(communityID) {
+async function getCommunityPosts(communityID, userEmail) {
   let posts = [];
   let urlPosts =
     apiUrl +
     communityPostsRoute +
-    `?communityID=${communityID}`;
+    `?communityID=${communityID}` +
+    `&userEmail=${userEmail}`;
   console.log(urlPosts);
   const reqOptions = {
     method: "GET",

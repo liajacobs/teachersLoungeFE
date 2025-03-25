@@ -55,7 +55,7 @@ function CommunityView({ navigation }) {
   }, [isFocused]);
   const [posts, setPosts] = useState([]);
   const loadPosts = async () => {
-    const data = await getCommunityPosts(route.params.Community.id);
+    const data = await getCommunityPosts(route.params.Community.id, route.params.User.userUserName);
     setPosts(data);
   };
 

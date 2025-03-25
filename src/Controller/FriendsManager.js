@@ -5,6 +5,12 @@ import {
   friendUserRoute,
   unfriendUserRoute,
   getFriendsListRoute,
+  muteUserRoute,
+  unmuteUserRoute,
+  checkIfMutedRoute,
+  blockUserRoute,
+  unblockUserRoute,
+  checkIfBlockedRoute
 } from "@env";
 import Friend from "../Model/Friend.js";
 import * as SecureStore from "expo-secure-store";
@@ -152,10 +158,191 @@ async function getFriendsList(userEmail) {
   }
 }
 
+async function checkIfMuted(muterEmail, muteeEmail) {
+  try {
+    let checkIfMutedUrl = `${apiUrl}${checkIfMutedRoute}?muteeEmail=${muteeEmail}&muterEmail=${muterEmail}`;
+    console.log(checkIfMutedUrl);
+    const reqOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+      },
+    };
+    const response = await fetch(checkIfMutedUrl, reqOptions);
+    const results = await response.json();
+    var data = results.data;
+    return !!data.length;
+  } catch (error) {
+    console.error("ERROR in checkIfMuted", error.message);
+    throw error;
+  }
+}
+
+async function muteUser(muterEmail, muteeEmail) {
+  if (muteeEmail && muterEmail) {
+    let muteUserUrl = apiUrl + muteUserRoute;
+    console.log(muteUserUrl);
+    const reqOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+      },
+      body: JSON.stringify({
+        muterEmail: muterEmail,
+        muteeEmail: muteeEmail,
+      }),
+    };
+    try {
+      const response = await fetch(muteUserUrl, reqOptions);
+      const data = await response.json();
+      if (response.status === 201) {
+        Alert.alert("Success", "User muted");
+        return true;
+      } else {
+        Alert.alert("Error", "Unable to mute user");
+        return false;
+      }
+    } catch (error) {
+      console.error("ERROR in muteUser", error.message);
+      Alert.alert("Error", "Network error occurred");
+      return false;
+    }
+  }
+  return false;
+}
+
+async function unmuteUser(muterEmail, muteeEmail) {
+  if (muteeEmail && muterEmail) {
+    let unmuteUserUrl = `${apiUrl}${unmuteUserRoute}?muteeEmail=${muteeEmail}&muterEmail=${muterEmail}`;
+    console.log(unmuteUserUrl);
+    const reqOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+      },
+    };
+
+    try {
+      const response = await fetch(unmuteUserUrl, reqOptions);
+      const data = await response.json();
+      
+      if (response.status === 201) {
+        Alert.alert("Success", "User unmuted");
+        return true;
+      } else {
+        Alert.alert("Error", "Unable to unmute user");
+        return false;
+      }
+    } catch (error) {
+      console.error("ERROR in unmuteUser", error.message);
+      Alert.alert("Error", "Network error occurred");
+      return false;
+    }
+  }
+  return false;
+}
+
+async function checkIfBlocked(blockerEmail, blockeeEmail) {
+  try {
+    let checkIfBlockedUrl = `${apiUrl}${checkIfBlockedRoute}?blockeeEmail=${blockeeEmail}&blockerEmail=${blockerEmail}`;
+    console.log(checkIfBlockedUrl);
+    const reqOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+      },
+    };
+    const response = await fetch(checkIfBlockedUrl, reqOptions);
+    const results = await response.json();
+    var data = results.data;
+    return !!data.length;
+  } catch (error) {
+    console.error("ERROR in checkIfBlocked", error.message);
+    throw error;
+  }
+}
+
+async function blockUser(blockerEmail, blockeeEmail) {
+  if (blockeeEmail && blockerEmail) {
+    muteUser(blockerEmail, blockeeEmail);
+    let blockUserUrl = apiUrl + blockUserRoute;
+    console.log(blockUserUrl);
+    const reqOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+      },
+      body: JSON.stringify({
+        blockerEmail: blockerEmail,
+        blockeeEmail: blockeeEmail,
+      }),
+    };
+    try {
+      const response = await fetch(blockUserUrl, reqOptions);
+      const data = await response.json();
+      if (response.status === 201) {
+        Alert.alert("Success", "User blocked");
+        return true;
+      } else {
+        Alert.alert("Error", "Unable to block user");
+        return false;
+      }
+    } catch (error) {
+      console.error("ERROR in blockUser", error.message);
+      Alert.alert("Error", "Network error occurred");
+      return false;
+    }
+  }
+  return false;
+}
+
+async function unblockUser(blockerEmail, blockeeEmail) {
+  if (blockeeEmail && blockerEmail) {
+    let unblockUserUrl = `${apiUrl}${unblockUserRoute}?blockeeEmail=${blockeeEmail}&blockerEmail=${blockerEmail}`;
+    console.log(unblockUserUrl);
+    const reqOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+      },
+    };
+
+    try {
+      const response = await fetch(unblockUserUrl, reqOptions);
+      const data = await response.json();
+      
+      if (response.status === 201) {
+        Alert.alert("Success", "User unblocked");
+        return true;
+      } else {
+        Alert.alert("Error", "Unable to unblock user");
+        return false;
+      }
+    } catch (error) {
+      console.error("ERROR in unblockUser", error.message);
+      Alert.alert("Error", "Network error occurred");
+      return false;
+    }
+  }
+  return false;
+}
+
 export {
   getUserInfo,
   checkIfFriended,
   friendUser,
   unfriendUser,
   getFriendsList,
+  muteUser,
+  unmuteUser,
+  checkIfMuted,
+  checkIfBlocked,
+  blockUser,
+  unblockUser
 };

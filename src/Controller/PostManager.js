@@ -18,9 +18,9 @@ import * as SecureStore from "expo-secure-store";
 import { constrainedMemory } from "process";
 
 // Fetches all posts that have been approved, used for PostListingsView
-async function getApprovedPosts() {
+async function getApprovedPosts(userEmail) {
   let posts = [];
-  let urlPosts = apiUrl + approvedPostsRoute;
+  let urlPosts = `${apiUrl}${approvedPostsRoute}?userEmail=${userEmail}`;
   const reqOptions = {
     method: "GET",
     headers: {
@@ -200,9 +200,9 @@ async function getCommentByCommentID(commentId) {
   return results.data[0];
 }
 
-async function getCommentsByPostId(postId) {
+async function getCommentsByPostId(postId, userEmail) {
   let comments = [];
-  let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute + `?postId=${postId}`;
+  let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute + `?postId=${postId}` + `&userEmail=${userEmail}`;
   // Alert.alert("Error", "getCommentsByPostId: " + urlGetCommentsByPostId);
   const reqOptions = {
     method: "GET",
@@ -217,7 +217,7 @@ async function getCommentsByPostId(postId) {
   var data = results.data;
   var count = 0;
 
-  if (response.status == 200) {
+  if (response.status == 201) {
     //Alert.alert("Success", "getCommentsByPostId Success " + results.data[0]);
   } else {
     Alert.alert("Error", "getCommentsByPostId Error: " + results.message);

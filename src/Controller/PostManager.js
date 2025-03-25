@@ -202,7 +202,7 @@ async function getCommentByCommentID(commentId) {
 
 async function getCommentsByPostId(postId, userEmail) {
   let comments = [];
-  let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute + `?postId=${postId}` + `?userEmail=${userEmail}`;
+  let urlGetCommentsByPostId = apiUrl + getCommentsByPostIdRoute + `?postId=${postId}` + `&?userEmail=${userEmail}`;
   // Alert.alert("Error", "getCommentsByPostId: " + urlGetCommentsByPostId);
   const reqOptions = {
     method: "GET",

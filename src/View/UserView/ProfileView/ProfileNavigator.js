@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProfileView from "./ProfileView";
 import EditProfileView from "./EditProfileView";
 import EditView from "./EditView";
+import SettingsView from "./SettingsView"
 import PostListingsView from "../HomeView/PostListingsView";
 import PostModeratorView from "../ProfileView/PostModeratorView";
 import UserModeratorView from "../ProfileView/UserModeratorView";
@@ -46,41 +47,52 @@ function ProfileNavigator({ navigation }) {
         name="Edit Profile"
         component={EditProfileView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
+      />
+      <HomeStack.Screen
+        name="Settings"
+        component={SettingsView}
+        initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
       <HomeStack.Screen
         name="Edit Name"
         component={EditView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
       <HomeStack.Screen
         name="Edit Username"
         component={EditView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
       <HomeStack.Screen
         name="Edit School"
         component={EditView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
       <HomeStack.Screen
         name="Home"
         component={PostListingsView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
       <HomeStack.Screen
         name="User Moderation"
         component={UserModeratorView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
       <HomeStack.Screen
         name="Post Moderation"
         component={PostModeratorView}
         initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
       />
     </HomeStack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default ProfileNavigator;

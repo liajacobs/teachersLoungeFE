@@ -18,7 +18,7 @@ import * as SecureStore from "expo-secure-store";
 import { constrainedMemory } from "process";
 
 // Fetches all posts that have been approved, used for PostListingsView
-async function getApprovedPosts() {
+async function getApprovedPosts(userEmail) {
   let posts = [];
   let urlPosts = `${apiUrl}${approvedPostsRoute}?userEmail=${userEmail}`;
   const reqOptions = {

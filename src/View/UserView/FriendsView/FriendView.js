@@ -7,7 +7,7 @@ import PostComponentView from "../HomeView/PostComponentView";
 import { getApprovedPostsByUser } from "../../../Controller/PostManager";
 import { getUserInfo } from "../../../Controller/FriendsManager";
 import App_StyleSheet from "../../../Styles/App_StyleSheet.js";
-import { checkIfFriended, friendUser, unfriendUser, checkIfMuted, muteUser, unmuteUser } from "../../../Controller/FriendsManager";
+import { checkIfFriended, friendUser, unfriendUser, checkIfMuted, muteUser, unmuteUser, checkIfBlocked, blockUser, unblockUser } from "../../../Controller/FriendsManager";
 
 function FriendView({ navigation }) {
   const route = useRoute();
@@ -48,7 +48,8 @@ function FriendView({ navigation }) {
   };
 
   const checkBlocked = async () => {
-    const data = await checkBlocked
+    const data = await checkIfBlocked(route.params.User.userUserName, route.params.FriendEmail);
+    setBlocked(data);
   }
 
   useEffect(() => {
@@ -58,6 +59,7 @@ function FriendView({ navigation }) {
       checkFriended();
       checkFriendee();
       checkMuted();
+      checkBlocked();
     }
   }, [isFocused]);
 

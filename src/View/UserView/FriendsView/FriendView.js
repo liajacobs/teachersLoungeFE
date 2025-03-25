@@ -18,6 +18,7 @@ function FriendView({ navigation }) {
   const [friendee, setFriendee] = useState(false);
   const [image, setImage] = useState(require('../../../../assets/default-profile.png'));
   const [muted, setMuted] = useState(false);
+  const [blocked, setBlocked] = useState(false);
 
   const loadFriend = async () => {
     const data = await getUserInfo(route.params.FriendEmail);
@@ -45,6 +46,10 @@ function FriendView({ navigation }) {
     const data = await checkIfMuted(route.params.User.userUserName, route.params.FriendEmail);
     setMuted(data);
   };
+
+  const checkBlocked = async () => {
+    const data = await checkBlocked
+  }
 
   useEffect(() => {
     if (isFocused) {
@@ -97,6 +102,26 @@ function FriendView({ navigation }) {
           >
             <Text style={App_StyleSheet.text}>
               {muted ? "Unmute User" : "Mute User"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={App_StyleSheet.small_button}
+            onPress={() => {
+              if (blocked) {
+                unblockUser(route.params.User.userUserName, friend?.email);
+              } else {
+                blockUser(route.params.User.userUserName, friend?.email);
+                if (friended) {
+                  unfriendUser({ navigation }, route.params.User.userUserName, friend?.email);
+                }
+              }
+
+            }}
+          >
+            <Text style={App_StyleSheet.text}>
+              {blocked ? "Unblock User" : "Block User"}
             </Text>
           </TouchableOpacity>
         </View>

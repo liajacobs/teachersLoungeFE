@@ -42,7 +42,7 @@ function FriendView({ navigation }) {
   };
 
   const checkMuted = async () => {
-    const data = await checkIfMuted(route.params.FriendEmail, route.params.User.userUserName);
+    const data = await checkIfMuted(route.params.User.userUserName, route.params.FriendEmail);
     setMuted(data);
   };
 

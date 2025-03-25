@@ -17,6 +17,7 @@ import Post from "../../../Model/Posts/Post.js";
 import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
 function PostListingsView({ navigation }) {
+  const route = useRoute();
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
@@ -27,7 +28,7 @@ function PostListingsView({ navigation }) {
 
   const [posts, setPosts] = useState([]);
   const loadPosts = async () => {
-    const data = await getApprovedPosts();
+    const data = await getApprovedPosts(route.params.User.userUserName);
     const sortedPosts = data.sort((a, b) => b.id - a.id); // change later to not sort by id
     setPosts(sortedPosts);
   };

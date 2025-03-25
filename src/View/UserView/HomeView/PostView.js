@@ -33,7 +33,7 @@ function PostView({ route, navigation }) {
 
   useEffect(() => {
     if (post?.id) {
-      getCommentsByPostId(post.id).then((commentsData) => setComments(commentsData));
+      getCommentsByPostId(post.id, route.params.User.userUserName).then((commentsData) => setComments(commentsData));
 
       async function fetchLikeData() {
         try {

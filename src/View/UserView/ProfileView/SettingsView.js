@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import OpenEditProfileCommand from "../../../Controller/OpenEditProfileCommand";
 import LogOutCommand from "../../../Controller/LogOutCommand";
+import SafeArea from "../../SafeArea";
 
 function SettingsView({ route }) {
   const navigation = useNavigation();
@@ -12,20 +13,22 @@ function SettingsView({ route }) {
   const LogCommand = new LogOutCommand();
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => a.OpenEditProfile({ navigation })}
-      >
-        <Text style={styles.buttonText}>Edit Profile</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => LogCommand.LogOut({ navigation })}
-      >
-        <Text style={styles.buttonText}>Log Out</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeArea>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => a.OpenEditProfile({ navigation })}
+        >
+          <Text style={styles.buttonText}>Edit Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => LogCommand.LogOut({ navigation })}
+        >
+          <Text style={styles.buttonText}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeArea>
   );
 }
 

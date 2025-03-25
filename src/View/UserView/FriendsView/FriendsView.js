@@ -31,7 +31,7 @@ function FriendsView({ navigation }) {
         style={App_StyleSheet.content}
         ListEmptyComponent={
           <Text style={App_StyleSheet.list_message}>
-            {"No communities joined"}
+            {"No friends added yet"}
           </Text>
         }
         data={listOfUsers}

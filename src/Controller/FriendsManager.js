@@ -303,7 +303,6 @@ async function blockUser(blockerEmail, blockeeEmail) {
 
 async function unblockUser(blockerEmail, blockeeEmail) {
   if (blockeeEmail && blockerEmail) {
-    unmuteUser(blockerEmail, blockeeEmail);
     let unblockUserUrl = `${apiUrl}${unblockUserRoute}?blockeeEmail=${blockeeEmail}&blockerEmail=${blockerEmail}`;
     console.log(unblockUserUrl);
     const reqOptions = {

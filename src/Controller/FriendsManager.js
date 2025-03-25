@@ -267,7 +267,7 @@ async function checkIfBlocked(blockerEmail, blockeeEmail) {
 }
 
 async function blockUser(blockerEmail, blockeeEmail) {
-  if (muteeEmail && muterEmail) {
+  if (blockeeEmail && blockerEmail) {
     muteUser(blockerEmail, blockeeEmail);
     let blockUserUrl = apiUrl + blockUserRoute;
     console.log(blockUserUrl);
@@ -303,6 +303,7 @@ async function blockUser(blockerEmail, blockeeEmail) {
 
 async function unblockUser(blockerEmail, blockeeEmail) {
   if (blockeeEmail && blockerEmail) {
+    unmuteUser(blockerEmail, blockeeEmail);
     let unblockUserUrl = `${apiUrl}${unblockUserRoute}?blockeeEmail=${blockeeEmail}&blockerEmail=${blockerEmail}`;
     console.log(unblockUserUrl);
     const reqOptions = {

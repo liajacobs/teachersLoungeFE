@@ -12,7 +12,7 @@ import SafeArea from "../../SafeArea.js";
 import CreatePost from "../../../Controller/CreatePostCommand.js";
 import { createCommunityPost } from "../../../Controller/CommunitiesManager.js";
 import UploadFileCommand from "../../../Controller/UploadFileCommand.js";
-import { selectDoc } from "../../../Controller/DocumentPicker.js";
+import { selectDoc, selectPic } from "../../../Controller/DocumentPicker.js";
 import App_StyleSheet from "../../../Styles/App_StyleSheet.js";
 import { getUserCommunities } from "../../../Controller/CommunitiesManager.js";
 

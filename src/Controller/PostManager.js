@@ -20,7 +20,7 @@ import { constrainedMemory } from "process";
 // Fetches all posts that have been approved, used for PostListingsView
 async function getApprovedPosts() {
   let posts = [];
-  let urlPosts = apiUrl + approvedPostsRoute;
+  let urlPosts = `${apiUrl}${approvedPostsRoute}?userEmail=${userEmail}`;
   const reqOptions = {
     method: "GET",
     headers: {

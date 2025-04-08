@@ -1,11 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-function MessageBox({ navigation, message, incoming }) {
+function MessageBox({ navigation, message, sender, incoming }) {
+  const displayName = incoming ? sender : "You";
   return (
     <View style={{ paddingRight: 10, marginTop: 10 }}>
-      <View style={incoming ? styles.incomingMessages : styles.outgoingMessages}>
-        <Text style={{ fontSize: 15 }}>{message}</Text>
+      <View style={incoming ? styles.incomingContainer : styles.outgoingContainer}>
+        <Text style={styles.senderText}>{displayName}</Text>
+        <View style={styles.divider} />
+        <View style={incoming ? styles.incomingMessages : styles.outgoingMessages}>
+          <Text style={{ fontSize: 15 }}>{message}</Text>
+        </View>
       </View>
     </View>
   );
@@ -48,52 +53,40 @@ const styles = StyleSheet.create({
   //   backgroundColor: "gold",
   //   overflow: "hidden",
   // },
-  incomingMessages: {
+  incomingContainer: {
+    alignSelf: 'flex-start',
+    marginLeft: 10,
     width: '60%',
+  },
+  outgoingContainer: {
+    alignSelf: 'flex-end',
+    marginRight: 10,
+    width: '60%',
+  },
+  incomingMessages: {
     backgroundColor: "gold",
     padding: 10,
     borderRadius: 10,
-    alignSelf: 'flex-start',
-    marginBottom: 5,
     borderColor: "black",
     borderWidth: 3,
-    marginLeft: 10
   },
   outgoingMessages: {
-    width: '60%',
     backgroundColor: "deepskyblue",
     padding: 10,
     borderRadius: 10,
-    alignSelf: 'flex-end',
-    marginBottom: 5,
     borderColor: "black",
     borderWidth: 3,
   },
-  bottom: {
-    flex: 3,
+  senderText: {
+    fontWeight: "bold",
+    fontSize: 12,
+    marginBottom: 2,
+    color: "white",
   },
-  friendNameHeader: {
-    justifyContent: "center",
-    alignItems: "center",
-    textAlignVertical: "center",
-    backgroundColor: "aquamarine",
-  },
-  user: {
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlignVertical: "center",
-
-    color: "black",
-    fontSize: 30,
-  },
-  profilePic: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-  },
-  text: {
-    textAlign: "center",
-  },
+  divider: {
+    borderBottomColor: "white",
+    borderBottomWidth: 1,
+    marginBottom: 5,
+  }
 });
 export default MessageBox;

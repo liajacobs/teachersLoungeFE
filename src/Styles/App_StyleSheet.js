@@ -3,9 +3,14 @@ import { StyleSheet } from "react-native";
 const UI_Colors = {
   blue: "#6382E8",
   white: "#FFFFFF",
-  light_blue: "#E7ECFE",
+  light_blue: "#e7ecfe",
+  light_blue_selected: "#b7bccb"
 };
 const App_StyleSheet = StyleSheet.create({
+  invert: {
+    backgroundColor: UI_Colors.light_blue,
+    color: UI_Colors.blue
+  },
   content: {
     paddingTop: 15,
   },
@@ -163,6 +168,7 @@ const App_StyleSheet = StyleSheet.create({
     marginRight: "3%",
   },
 
+
   //Search Bar for Friends Search
   searchContainer: {
     flex: 1,
@@ -317,6 +323,9 @@ const App_StyleSheet = StyleSheet.create({
     marginHorizontal: 5,
     borderRadius: 3,
   },
+  user_listings_post_selected: {
+    backgroundColor: UI_Colors.light_blue_selected,
+  },
   user_listings_user: {
     color: "black",
     fontSize: 20,
@@ -338,6 +347,25 @@ const App_StyleSheet = StyleSheet.create({
     width: 30,
     borderRadius: 15,
   },
+
+  //ConversationView
+  createConvo_button: {
+    marginTop: 30,
+    marginLeft: "20%",
+    marginRight: "20%",
+    marginBottom: 30,
+    width: "60%",
+    height: 50,
+    borderRadius: 30,
+    backgroundColor: UI_Colors.blue,
+    borderWidth: 0,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  createConvo_button_text: {
+    color: "black",
+    fontSize: 20
+  }
 });
 
 export default App_StyleSheet;

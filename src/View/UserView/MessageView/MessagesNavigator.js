@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ConversationView from "./ConversationView";
 import CreateNewChatView from "./CreateNewChatView";
 import MessagesView from "./MessagesView";
+import ConversationInfoView from "./ConversationInfoView";
 
 const HomeStack = createStackNavigator();
 MessagesNavigator.lastClick = null;
@@ -49,6 +50,12 @@ function MessagesNavigator({ navigation }) {
       <HomeStack.Screen
         name="New Chat"
         component={CreateNewChatView}
+        initialParams={route.params}
+        options={{ headerBackTitleVisible: false }}
+      />
+      <HomeStack.Screen
+        name="Conversation Info"
+        component={ConversationInfoView}
         initialParams={route.params}
         options={{ headerBackTitleVisible: false }}
       />

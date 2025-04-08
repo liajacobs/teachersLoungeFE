@@ -5,6 +5,8 @@ import {
   sendMessageRoute,
   getMessagesRoute,
   getLastMessageRoute,
+  getConversationDetailsRoute,
+  updateConversationTitleRoute
 } from "@env";
 import Conversation from "../Model/Conversation";
 import Message from "../Model/Message";
@@ -140,7 +142,7 @@ const sendMessage = async (conversationId, message, senderEmail) => {
 };
 
 // Creates a new conversation
-const createConversation = async (senderEmail, receiverEmail) => {
+const createConversation = async (members, title = null) => {
   let createConversationUrl = apiUrl + createConversationRoute;
   console.log(createConversationUrl)
   const reqOptions = {
@@ -150,8 +152,8 @@ const createConversation = async (senderEmail, receiverEmail) => {
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
     body: JSON.stringify({
-      senderEmail: senderEmail,
-      receiverEmail: receiverEmail,
+      members: members,
+      title: title,
     }),
   };
   let response = null;
@@ -166,4 +168,52 @@ const createConversation = async (senderEmail, receiverEmail) => {
   return false;
 };
 
-export { getUserConversations, getMessages, sendMessage, createConversation };
+const getConversationDetails = async (conversationId) => {
+  let getConversationDetailsURL = apiUrl + getConversationDetailsRoute + `?conversationId=${conversationId}`;
+  console.log(getConversationDetailsURL);
+  const reqOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+    }
+  };
+  let response = null;
+  try {
+    response = await fetch(getConversationDetailsURL, reqOptions);
+    const results = await response.json();
+    return results.data;
+  } catch (error) {
+    Alert.alert("Error", "Unable to create conversation");
+    console.log(error);
+  }
+  return false;
+};
+
+const updateConversationTitle = async (conversationId, title = null) => {
+  let updateConversationTitleURL = apiUrl + updateConversationTitleRoute;
+  console.log(updateConversationTitleURL)
+  const reqOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
+    },
+    body: JSON.stringify({
+      conversationId: conversationId,
+      newTitle: title,
+    }),
+  };
+  let response = null;
+  try {
+    response = await fetch(updateConversationTitleURL, reqOptions);
+    const results = await response.json();
+    return response.status == 200;
+  } catch (error) {
+    Alert.alert("Error", "Unable to create conversation");
+    console.log(error);
+  }
+  return false;
+};
+
+export { getUserConversations, getMessages, sendMessage, createConversation, getConversationDetails, updateConversationTitle };

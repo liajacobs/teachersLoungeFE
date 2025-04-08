@@ -16,24 +16,27 @@ import SafeArea from "../../SafeArea";
 import MessagesNavigator from "./MessagesNavigator";
 import TextBox from "./TextBox";
 import MessageBox from "./MessageBox";
-import { getMessages } from "../../../Controller/DirectMessagesManager";
+import { getConversationDetails, getMessages } from "../../../Controller/DirectMessagesManager";
 import { useHeaderHeight } from "@react-navigation/elements";
 
 function ConversationView({ navigation }) {
   const route = useRoute();
   const [messages, setMessages] = useState([]);
+  const [convoTitle, setConvoTitle] = useState(route.params.username);
   const image = require("../../../../assets/Account.png");
 
   useFocusEffect(() => {
-    loadMessages(route.params.conversationId);
+    loadData(route.params.conversationId);
   });
 
   // Populates messages array
-  const loadMessages = async (conversationId) => {
+  const loadData = async (conversationId) => {
     try {
       const data = await getMessages(conversationId);
+      const convoData = await getConversationDetails(conversationId);
       data.reverse();
       setMessages(data);
+      setConvoTitle(convoData.title)
     } catch (error) {
       console.log(error);
     }
@@ -45,10 +48,21 @@ function ConversationView({ navigation }) {
         backgroundColor: "#fff",
       }}
     >
-      <View style={styles.friendNameHeader}>
-        <Image style={styles.profilePic} source={image} />
-        <Text style={styles.user}>{route.params.username}</Text>
-      </View>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("Conversation Info", {
+            conversationId: route.params.conversationId,
+            currentUser: route.params.User.userUserName,
+            username: route.params.username,
+            title: route.params.title,
+          })
+        }
+      >
+        <View style={styles.friendNameHeader}>
+          <Image style={styles.profilePic} source={image} />
+          <Text style={styles.user}>{convoTitle}</Text>
+        </View>
+      </TouchableOpacity>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : "height"}
         keyboardVerticalOffset={height}
@@ -60,6 +74,7 @@ function ConversationView({ navigation }) {
             renderItem={({ item }) => (
               <MessageBox
                 navigation={navigation}
+                sender={item.sender}
                 message={item.content}
                 incoming={
                   route.params.User.userUserName === item.sender ? false : true

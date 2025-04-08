@@ -17,9 +17,9 @@ Pass a function to UserListing that does navigation instead of passing navigatio
 
 
 */
-function UserListing({ user, onClick }) {
+function UserListing({ user, onClick, selected }) {
   return (
-    <View style={App_StyleSheet.user_listings_post}>
+    <View style={[App_StyleSheet.user_listings_post, selected ? App_StyleSheet.user_listings_post_selected : null]}>
       <TouchableOpacity onPress={onClick}>
         <View style={App_StyleSheet.user_listings_header}>
           <View style={App_StyleSheet.user_listings_info}>

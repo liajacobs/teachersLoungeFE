@@ -15,12 +15,8 @@ function SearchUserView({ navigation }) {
     const fetchUsers = async () => {
       try {
         const array = await searchUser(searchQuery);
-        // remove the current user from the results of the search
-        const userIndex = array.findIndex((user) => user.email === route.params.User.userUserName);
-        if (userIndex > -1) {
-          array.splice(userIndex, 1);
-        }
-        setListOfUsers(array);
+
+        setListOfUsers(array.filter((user) => user.email !== route.params.User.userUserName));
       } catch (error) {
         // Handle any errors here
         console.error("Error fetching users: ", error);

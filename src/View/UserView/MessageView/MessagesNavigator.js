@@ -1,14 +1,16 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ConversationView from "./ConversationView";
 import CreateNewChatView from "./CreateNewChatView";
 import MessagesView from "./MessagesView";
 import ConversationInfoView from "./ConversationInfoView";
+import App_StyleSheet from "../../../Styles/App_StyleSheet";
 
 const HomeStack = createStackNavigator();
 MessagesNavigator.lastClick = null;
+let newChatIcon = require("../../../../assets/newMessage.png");
 
 function MessagesNavigator({ navigation }) {
   const route = useRoute();
@@ -39,13 +41,22 @@ function MessagesNavigator({ navigation }) {
         initialParams={route.params}
         options={{
           headerLeft: () => null,
+          headerRight: () => (
+            <TouchableOpacity
+              style={App_StyleSheet.header_button}
+              onPress={() => navigation.navigate('New Chat')}
+            >
+              <Image source={newChatIcon} style={App_StyleSheet.header_icon} />
+            </TouchableOpacity>
+          ),
         }}
       />
       <HomeStack.Screen
         name="Conversation"
         component={ConversationView}
         initialParams={route.params}
-        options={{ headerBackTitleVisible: false }}
+        options={{ headerBackTitleVisible: false,
+        }}
       />
       <HomeStack.Screen
         name="New Chat"

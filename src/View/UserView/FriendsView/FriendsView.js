@@ -11,7 +11,6 @@ import { useRoute, useIsFocused } from "@react-navigation/native";
 import App_StyleSheet from "../../../Styles/App_StyleSheet.js";
 import SafeArea from "../../SafeArea";
 import { getFriendsList } from "../../../Controller/FriendsManager";
-import UserListing from "./userListing";
 
 function FriendsView({ navigation }) {
   const route = useRoute();

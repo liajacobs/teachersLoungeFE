@@ -33,7 +33,8 @@ const App_StyleSheet = StyleSheet.create({
     height: 50,
     alignSelf: "center",
     borderRadius: 10,
-    marginBottom: 15
+    marginBottom: 15,
+    paddingHorizontal:15
   },
   header_button: {
     marginRight: 15,

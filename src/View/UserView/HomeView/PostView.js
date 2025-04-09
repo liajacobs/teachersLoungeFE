@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   newCommentText: {
-    padding: 15,
+    marginLeft: 15,
   },
   deletePostButton: {
     backgroundColor: "#FFFFFF",

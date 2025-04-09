@@ -1,92 +1,58 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 function MessageBox({ navigation, message, sender, incoming }) {
   const displayName = incoming ? sender : "You";
+
   return (
-    <View style={{ paddingRight: 10, marginTop: 10 }}>
-      <View style={incoming ? styles.incomingContainer : styles.outgoingContainer}>
-        <Text style={styles.senderText}>{displayName}</Text>
-        <View style={styles.divider} />
-        <View style={incoming ? styles.incomingMessages : styles.outgoingMessages}>
-          <Text style={{ fontSize: 15 }}>{message}</Text>
-        </View>
+    <View
+      style={[
+        styles.messageRow,
+        incoming ? styles.alignStart : styles.alignEnd,
+      ]}
+    >
+      <View style={incoming ? styles.incomingBubble : styles.outgoingBubble}>
+        <Text style={styles.sender}>{displayName}</Text>
+        <Text style={styles.messageText}>{message}</Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // outgoingMessages: {
-  //   width: 250,
-  //   height: 40,
-  //   alignItems: "center",
-  //   flexDirection: "row",
-  //   flex: 2,
-  //   alignContent: "flex-start",
-  //   alignSelf: "flex-end",
-  //   justifyContent: "flex-start",
-  //   paddingHorizontal: 20,
-  //   paddingEnd: 30,
-  //   borderWidth: 3,
-  //   borderRadius: 20,
-  //   borderColor: "black",
-  //   shadowRadius: "aquamarine",
-  //   backgroundColor: "deepskyblue",
-  //   overflow: "hidden"
-  // },
-  // incomingMessages: {
-  //   width: 250,
-  //   height: 40,
-  //   alignItems: "center",
-  //   flexDirection: "row",
-  //   flex: 2,
-  //   alignContent: "flex-start",
-  //   alignSelf: "flex-start",
-  //   justifyContent: "flex-start",
-  //   paddingHorizontal: 20,
-  //   paddingEnd: 30,
-  //   borderWidth: 3,
-  //   borderRadius: 20,
-  //   borderColor: "black",
-  //   shadowRadius: "aquamarine",
-  //   backgroundColor: "gold",
-  //   overflow: "hidden",
-  // },
-  incomingContainer: {
-    alignSelf: 'flex-start',
-    marginLeft: 10,
-    width: '60%',
+  messageRow: {
+    marginVertical: 4,
+    marginHorizontal: 8,
+    maxWidth: "75%",
   },
-  outgoingContainer: {
-    alignSelf: 'flex-end',
-    marginRight: 10,
-    width: '60%',
+  alignStart: {
+    alignSelf: "flex-start",
   },
-  incomingMessages: {
-    backgroundColor: "gold",
-    padding: 10,
-    borderRadius: 10,
-    borderColor: "black",
-    borderWidth: 3,
+  alignEnd: {
+    alignSelf: "flex-end",
   },
-  outgoingMessages: {
-    backgroundColor: "deepskyblue",
-    padding: 10,
-    borderRadius: 10,
-    borderColor: "black",
-    borderWidth: 3,
+  incomingBubble: {
+    backgroundColor: "#e7ecfe",
+    borderRadius: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
-  senderText: {
-    fontWeight: "bold",
-    fontSize: 12,
+  outgoingBubble: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  sender: {
+    fontSize: 11,
+    fontWeight: "600",
+    color: "#888",
     marginBottom: 2,
-    color: "white",
   },
-  divider: {
-    borderBottomColor: "white",
-    borderBottomWidth: 1,
-    marginBottom: 5,
-  }
+  messageText: {
+    fontSize: 15,
+    color: "#000",
+  },
 });
+
 export default MessageBox;

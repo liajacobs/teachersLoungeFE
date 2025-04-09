@@ -1,17 +1,7 @@
-import React, { createRef, useEffect, useRef } from "react";
-import { useState, setState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  KeyboardAvoidingView,
-} from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import { useRoute } from "@react-navigation/native";
-import ConversationView from "./ConversationView";
 import { sendMessage } from "../../../Controller/DirectMessagesManager";
 
 function TextBox({ navigation, details }) {
@@ -34,64 +24,60 @@ function TextBox({ navigation, details }) {
   };
 
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={styles.container}>
       <TextInput
-        style={styles.bottom}
-        placeholder="Type Message"
-        multiline={true}
-        defaultValue=""
+        style={styles.input}
+        mode="outlined"
+        outlineColor="#ddd"
+        activeOutlineColor="#007aff"
+        placeholder="Type a message..."
+        multiline
         value={message}
-        onChangeText={(value) => {
-          setMessage(value);
-        }}
+        onChangeText={setMessage}
       />
       <TouchableOpacity
-        style={{
-          flex: 1,
-          borderColor: "black",
-          backgroundColor: "aqua",
-          borderWidth: 2,
-          borderRadius: 20,
-          justifyContent: "center",
-        }}
+        style={styles.sendButton}
         onPress={async () => {
+          if (message.trim().length === 0) return;
           setMessage("");
           await sendMessageHandler();
         }}
       >
-        <Text style={styles.text}>{"Send"}</Text>
+        <Text style={styles.sendText}>Send</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  bottom: {
-    flex: 3,
-  },
-  friendNameHeader: {
-    justifyContent: "center",
+  container: {
+    flexDirection: "row",
+    paddingHorizontal: 8,
+    backgroundColor: "#fff",
     alignItems: "center",
-    textAlignVertical: "center",
-    backgroundColor: "aquamarine",
   },
-  user: {
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlignVertical: "center",
-
-    color: "black",
-    fontSize: 30,
+  input: {
+    flex: 1,
+    marginRight: 8,
+    fontSize: 16,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
   },
-  profilePic: {
-    height: 40,
-    width: 40,
+  sendButton: {
+    backgroundColor: "#6382E8",
+    paddingVertical: 5,
+    paddingHorizontal: 16,
     borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center", 
+    height: 40, 
   },
-  text: {
-    textAlign: "center",
+  sendText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 16,
   },
 });
+
 
 export default TextBox;

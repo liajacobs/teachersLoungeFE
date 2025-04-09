@@ -81,35 +81,31 @@ function FriendView({ navigation }) {
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={App_StyleSheet.small_button}
+            style={styles.button}
             onPress={() => {
               friended
                 ? unfriendUser({ navigation }, route.params.User.userUserName, friend?.email)
                 : friendUser({ navigation }, route.params.User.userUserName, friend?.email);
             }}
           >
-            <Text style={App_StyleSheet.text}>
+            <Text style={App_StyleSheet.buttonText}>
               {friended ? "Unfriend User" : "Friend User"}
             </Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={App_StyleSheet.small_button}
+            style={styles.button}
             onPress={() => {
               muted
                 ? unmuteUser(route.params.User.userUserName, friend?.email)
                 : muteUser(route.params.User.userUserName, friend?.email);
             }}
           >
-            <Text style={App_StyleSheet.text}>
+            <Text style={App_StyleSheet.buttonText}>
               {muted ? "Unmute User" : "Mute User"}
             </Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={App_StyleSheet.small_button}
+            style={styles.button}
             onPress={() => {
               if (blocked) {
                 unblockUser(route.params.User.userUserName, friend?.email);
@@ -122,7 +118,7 @@ function FriendView({ navigation }) {
 
             }}
           >
-            <Text style={App_StyleSheet.text}>
+            <Text style={App_StyleSheet.buttonText}>
               {blocked ? "Unblock User" : "Block User"}
             </Text>
           </TouchableOpacity>
@@ -174,9 +170,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    alignItems: "center",
+    flexDirection: "row",      
+    justifyContent: "space-evenly",  
+    alignItems: "center",      
     marginBottom: 20,
   },
+  button: {
+    backgroundColor: "white",
+    padding: 10,                
+    marginHorizontal: 10,   
+    borderRadius: 5,          
+  },
+  buttonText: {
+    color: "black",
+    fontWeight: "bold"         
+  }
 });
 
 export default FriendView;

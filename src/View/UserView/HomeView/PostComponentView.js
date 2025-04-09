@@ -75,7 +75,7 @@ function PostComponentView({ navigation, post }) {
       }}
     >
       <View style={styles.text}>
-        <Text style={styles.title}>{"Post Title"}</Text>
+      <Text style={styles.title}>{post.title || "no title"}</Text>
         <Text style={styles.content}>{post.postContent}</Text>
 
         {post.fileUrl && (

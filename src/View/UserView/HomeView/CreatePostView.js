@@ -118,13 +118,14 @@ function CreatePostView({ navigation }) {
                 if (selectedCommunityId !== "None") {
                   createCommunityPost(
                     { navigation },
+                    postTitle,
                     postContent,
                     file,
                     route.params.User,
                     selectedCommunityId
                   );
                 } else {
-                  CreatePost({ navigation }, postContent, file, route.params.User);
+                  CreatePost({ navigation }, postTitle, postContent, file, route.params.User);
                 }
               }}
             >

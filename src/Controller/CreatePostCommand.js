@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import { Alert } from "react-native";
 
 // Creates a new post and adds to the database
-async function CreatePost({ navigation }, content, file, user) {
+async function CreatePost({ navigation }, title, content, file, user) {
   if (content != "") {
     let postUrl = apiUrl + createPostRoute;
     console.log(postUrl)

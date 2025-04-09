@@ -1,74 +1,82 @@
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
-  Image,
   FlatList,
-  ScrollView,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
+  Image
 } from "react-native";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
-import { TextInput } from "react-native-paper";
-import SafeArea from "../../SafeArea";
-import MessagesNavigator from "./MessagesNavigator";
+import { useHeaderHeight } from "@react-navigation/elements";
+import { SafeAreaView } from "react-native-safe-area-context";
+import App_StyleSheet from "../../../Styles/App_StyleSheet";
+
 import TextBox from "./TextBox";
 import MessageBox from "./MessageBox";
 import { getConversationDetails, getMessages } from "../../../Controller/DirectMessagesManager";
-import { useHeaderHeight } from "@react-navigation/elements";
 
 function ConversationView({ navigation }) {
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const [convoTitle, setConvoTitle] = useState(route.params.username);
-  const image = require("../../../../assets/Account.png");
+  let settingIcon = require("../../../../assets/settings.png");
+
+  const height = useHeaderHeight();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: convoTitle, // Dynamic title from convoTitle state
+      headerRight: () => (
+        <TouchableOpacity
+          style={App_StyleSheet.header_button}
+          onPress={() =>
+            navigation.navigate("Conversation Info", {
+              conversationId: route.params.conversationId,
+              currentUser: route.params.User.userUserName,
+              username: route.params.username,
+              title: route.params.title,
+            })
+          }
+        >
+          <Image source={settingIcon} style={App_StyleSheet.header_icon} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [convoTitle, navigation, route.params]);
 
   useFocusEffect(() => {
     loadData(route.params.conversationId);
   });
 
-  // Populates messages array
+  useEffect(() => {
+    // Dynamically set the title when the convoTitle changes
+    navigation.setOptions({
+      title: convoTitle,
+    });
+  }, [convoTitle, navigation]);
+  
   const loadData = async (conversationId) => {
     try {
       const data = await getMessages(conversationId);
       const convoData = await getConversationDetails(conversationId);
       data.reverse();
       setMessages(data);
-      setConvoTitle(convoData.title)
+      setConvoTitle(convoData.title);
     } catch (error) {
       console.log(error);
     }
   };
-  const height = useHeaderHeight();
+
   return (
-    <SafeArea
-      style={{
-        backgroundColor: "#fff",
-      }}
-    >
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("Conversation Info", {
-            conversationId: route.params.conversationId,
-            currentUser: route.params.User.userUserName,
-            username: route.params.username,
-            title: route.params.title,
-          })
-        }
-      >
-        <View style={styles.friendNameHeader}>
-          <Image style={styles.profilePic} source={image} />
-          <Text style={styles.user}>{convoTitle}</Text>
-        </View>
-      </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : "height"}
+        style={styles.flex}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={height}
-        enabled
       >
-        <View style={{ height: 460 }}>
+        <View style={styles.messagesContainer}>
           <FlatList
             data={messages}
             renderItem={({ item }) => (
@@ -77,44 +85,45 @@ function ConversationView({ navigation }) {
                 sender={item.sender}
                 message={item.content}
                 incoming={
-                  route.params.User.userUserName === item.sender ? false : true
+                  route.params.User.userUserName !== item.sender
                 }
               />
             )}
-            inverted={true}
+            inverted
+            keyExtractor={(_, index) => index.toString()}
           />
         </View>
-        <TextBox navigation={navigation} details={route.params}></TextBox>
+        <View style={styles.textBoxWrapper}>
+          <TextBox navigation={navigation} details={route.params} />
+        </View>
       </KeyboardAvoidingView>
-    </SafeArea>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  bottom: {
-    flex: 3,
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
   },
-  friendNameHeader: {
-    justifyContent: "center",
-    alignItems: "center",
-    textAlignVertical: "center",
-    backgroundColor: "aquamarine",
-    flexDirection: "row",
+  flex: {
+    flex: 1,
   },
-  user: {
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlignVertical: "center",
-
-    color: "black",
-    fontSize: 30,
+  messagesContainer: {
+    flex: 1,
+    paddingHorizontal: 10,
   },
-  profilePic: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    marginRight: 10,
+  textBoxWrapper: {
+    padding: 8,
+    backgroundColor: "#ffffff",
+    borderTopWidth: 1,
+    borderColor: "#e0e0e0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 4,
+    marginTop: 10
   },
 });
 

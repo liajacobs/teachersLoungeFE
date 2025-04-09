@@ -20,7 +20,6 @@ const checkLikePost = async (post, user) => {
     // Makes th request
     const response = await fetch(checkLikedPostUrl, reqOptions);
     const data = await response.json();
-    console.log("Check Like Post Response: ", response.status, data);
 
     return response.status === 409; // Return true if already liked (409 Conflict)
   } catch (error) {

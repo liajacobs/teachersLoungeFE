@@ -107,7 +107,7 @@ function PostView({ route, navigation }) {
         )}
         <View style={styles.post}>
           <View style={styles.text}>
-            <Text style={styles.title}>{"Post Title"}</Text>
+            <Text style={styles.title}>{post.title}</Text>
             <Text style={styles.content}>{post.postContent}</Text>
             {post.fileUrl && (
               <Text style={styles.linkText} onPress={() => Linking.openURL(post.fileUrl)}>

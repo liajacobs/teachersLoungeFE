@@ -30,6 +30,7 @@ const App_StyleSheet = StyleSheet.create({
   search: {
     backgroundColor: UI_Colors.white,
     width: "90%",
+    height: 50,
     alignSelf: "center",
     borderRadius: 10,
     marginBottom: 15

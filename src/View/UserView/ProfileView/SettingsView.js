@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
   button: {
     padding: 15,
     marginBottom: 15,
-    width: "100%",
+    width: "60%",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 10,
+    backgroundColor: "#e7ecfe"
   },
   buttonText: {
-    color: "white",
     fontSize: 18,
   },
 });

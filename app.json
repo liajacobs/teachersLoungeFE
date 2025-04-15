@@ -4,12 +4,11 @@
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#411C00"
+      "image": "./assets/logo.png",
+      "resizeMode": "contain"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -17,9 +16,9 @@
     "ios": {
       "supportsTablet": true,
       "splash": {
-        "image": "./assets/splash.png",
+        "image": "./assets/logo.png",
         "resizeMode": "contain",
-        "backgroundColor": "#411C00"
+        "backgroundColor": "#ffffff"
       }
     },
     "android": {

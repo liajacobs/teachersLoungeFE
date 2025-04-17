@@ -7,69 +7,13 @@ import App_StyleSheet from "../Styles/App_StyleSheet";
 
 let email = "";
 let password = "";
-let logo = require("../../assets/Logo_rev2.png");
+let logo = require("../../assets/logo.png");
 
 function SignInView({ navigation }) {
-  // This provides animation for any element within an Animated.View
-  const translation = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    // Animate the translation in the y axis(upwards) over 4 secs in a loop
-    Animated.loop(
-      Animated.timing(translation, {
-        toValue: -100,
-        duration: 4000,
-        useNativeDriver: false, // Set to true if possible
-      })
-    ).start();
-  }, []);
-
   return (
 
     <View style={App_StyleSheet.register_signIn_background}>
       <View style={App_StyleSheet.block}>
-        <View style={App_StyleSheet.steam_container}>
-          <Animated.View
-            style={{
-              width: 5,
-              height: 75,
-              backgroundColor: "#411c00",
-              marginLeft: 100,
-              opacity: translation.interpolate({
-                inputRange: [0, 100],
-                outputRange: [0.2, 1],
-              }),
-              transform: [{ translateY: translation }],
-            }}
-          ></Animated.View>
-          <Animated.View
-            style={{
-              width: 5,
-              height: 30,
-              backgroundColor: "#411c00",
-              marginLeft: 20,
-              marginTop: 45,
-              opacity: translation.interpolate({
-                inputRange: [0, 100],
-                outputRange: [0.11, 1],
-              }),
-              transform: [{ translateY: translation }],
-            }}
-          ></Animated.View>
-          <Animated.View
-            style={{
-              width: 5,
-              height: 50,
-              backgroundColor: "#411c00",
-              marginTop: 10,
-              marginLeft: 20,
-              opacity: translation.interpolate({
-                inputRange: [0, 100],
-                outputRange: [0.16, 1],
-              }),
-              transform: [{ translateY: translation }],
-            }}
-          ></Animated.View>
-        </View>
         <Image style={App_StyleSheet.logoStyle} source={logo} />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -104,7 +48,6 @@ function SignInView({ navigation }) {
             async () => {
               let user = await login({ navigation }, email, password);
             }
-            //LogCommand.LogIn({ navigation }, email,password,userPasswordMap)
           }
         >
           <Text style={App_StyleSheet.text}>{"Sign In"}</Text>

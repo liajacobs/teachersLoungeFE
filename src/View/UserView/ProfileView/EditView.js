@@ -37,9 +37,9 @@ function EditView({ navigation }) {
             a.ChangeInfo({ navigation }, textContent);
           }}
         >
-        <Text style={styles.text}>
+          <Text style={styles.text}>
             Change {ProfileNavigator.lastClick.substring(5)}
-        </Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeArea>

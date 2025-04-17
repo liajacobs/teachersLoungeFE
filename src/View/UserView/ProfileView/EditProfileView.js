@@ -19,7 +19,7 @@ import { selectPic } from "../../../Controller/DocumentPicker";
 function EditProfileView({ navigation }) {
   var route = useRoute();
 
-  const [image, setImage] = useState({uri : route.params.User.image } || require('../../../../assets/default-profile.png'));
+  const [image, setImage] = useState({ uri: route.params.User.image } || require('../../../../assets/default-profile.png'));
 
   const openEdit = new OpenEditableInfoCommand(route.params.User);
 
@@ -63,115 +63,107 @@ function EditProfileView({ navigation }) {
   };*/
 
   return (
-    <View style={App_StyleSheet.listings}>
-      <SafeArea>
-        <View style={[styles.section, { height: 120 }]}>
-          <Avatar.Image
-            source={image}
-            size={90}
-            style={[
-              App_StyleSheet.profile_avatarImage,
-              { overflow: "hidden" } // Ensures the image is clipped properly
-            ]}
-          />
-          <TouchableOpacity
-            style={{
-              bottom: 20,
-              position: "absolute",
-            }}
-            onPress={ async () => { // Why the edit button does nothing
-              // Output message to console that the edit profile pic button was clicked
-              console.log("Edit Profile Picture button clicked");
+    <SafeArea>
+      <View style={[styles.section, { height: 120 }]}>
+        <Avatar.Image
+          source={image}
+          size={90}
+          style={[
+            App_StyleSheet.profile_avatarImage,
+            { overflow: "hidden" } // Ensures the image is clipped properly
+          ]}
+        />
+        <TouchableOpacity
+          style={{
+            bottom: 20,
+            position: "absolute",
+          }}
+          onPress={async () => { // Why the edit button does nothing
+            // Output message to console that the edit profile pic button was clicked
+            console.log("Edit Profile Picture button clicked");
 
-              // Open the photos app picker
-              let file = await selectPic(true);
-              
-              // Update the image state and route params
-              if (file.url) {
-                setImage({ uri: file.url });
-                route.params.User.image = { uri: file.url };
-                console.log('New route params user image:', route.params.User.image);
-                navigation.navigate("Profile", { updatedImage: { uri: file.url } }); // Pass updated image URL back to ProfileView
-              }
-              
-              // Output the file
-              console.log("EditProfileView - file name is: " + file.name);
+            // Open the photos app picker
+            let file = await selectPic(true);
+
+            // Update the image state and route params
+            if (file.url) {
+              setImage({ uri: file.url });
+              route.params.User.image = { uri: file.url };
+              console.log('New route params user image:', route.params.User.image);
+              navigation.navigate("Profile", { updatedImage: { uri: file.url } }); // Pass updated image URL back to ProfileView
+            }
+
+            // Output the file
+            console.log("EditProfileView - file name is: " + file.name);
+          }}
+        >
+          <Text>Edit</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.section}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={styles.userInfoStyle}>{"\tName"}</Text>
+        </View>
+        <View
+          style={{
+            flex: 1.6,
+            justifyContent: "center",
+            height: 50,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              (ProfileNavigator.lastClick = "Edit Name"),
+                openEdit.OpenEditableInfo({ navigation });
             }}
           >
-            <Text>Edit</Text>
+            <Text style={styles.editableInfoStyle}>
+              {route.params.User.userName}
+            </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.section}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={styles.userInfoStyle}>{"\tName"}</Text>
-          </View>
-          <View
-            style={{
-              flex: 1.6,
-              justifyContent: "center",
-              height: 50,
+      </View>
+      <View style={styles.section}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={styles.userInfoStyle}>{"\tUsername"}</Text>
+        </View>
+        <View
+          style={{
+            flex: 1.6,
+            justifyContent: "center",
+            height: 50,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              (ProfileNavigator.lastClick = "Edit Username"),
+                openEdit.OpenEditableInfo({ navigation });
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                (ProfileNavigator.lastClick = "Edit Name"),
-                  openEdit.OpenEditableInfo({ navigation });
-              }}
-            >
-              <Text style={styles.editableInfoStyle}>
-                {route.params.User.userName}
-              </Text>
-            </TouchableOpacity>
-          </View>
+            <Text style={styles.editableInfoStyle}>
+              {route.params.User.userUserName}
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.section}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={styles.userInfoStyle}>{"\tUsername"}</Text>
-          </View>
-          <View
-            style={{
-              flex: 1.6,
-              justifyContent: "center",
-              height: 50,
+      </View>
+      <View style={styles.section}>
+        <View
+          style={{
+            flex: 1.6,
+            justifyContent: "center",
+            height: 50,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              (ProfileNavigator.lastClick = "Edit School"),
+                openEdit.OpenEditableInfo({ navigation });
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                (ProfileNavigator.lastClick = "Edit Username"),
-                  openEdit.OpenEditableInfo({ navigation });
-              }}
-            >
-              <Text style={styles.editableInfoStyle}>
-                {route.params.User.userUserName}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
-        <View style={styles.section}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={styles.userInfoStyle}>{"\tSchool"}</Text>
-          </View>
-          <View
-            style={{
-              flex: 1.6,
-              justifyContent: "center",
-              height: 50,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                (ProfileNavigator.lastClick = "Edit School"),
-                  openEdit.OpenEditableInfo({ navigation });
-              }}
-            >
-              <Text style={styles.editableInfoStyle}>
-                {route.params.User.school}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </SafeArea>
-    </View>
+      </View>
+    </SafeArea>
   );
 }
 
@@ -184,7 +176,6 @@ const styles = StyleSheet.create({
   editableInfoStyle: {
     fontSize: 15,
     textAlign: "left",
-    color: "#411c00",
   },
   section: {
     height: 50,
@@ -196,8 +187,6 @@ const styles = StyleSheet.create({
   avatarImage: {
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 5,
-    borderColor: "black",
     backgroundColor: "transparent",
   },
 });

@@ -34,7 +34,7 @@ const App_StyleSheet = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 10,
     marginBottom: 15,
-    paddingHorizontal:15
+    paddingHorizontal: 15
   },
   header_button: {
     marginRight: 15,
@@ -61,15 +61,12 @@ const App_StyleSheet = StyleSheet.create({
     alignItems: "center",
     backgroundColor: UI_Colors.white,
   },
-  steam_container: {
-    backgroundColor: "transparent",
-    flexDirection: "row",
-  },
   logoStyle: {
-    marginLeft: 20,
     resizeMode: "contain",
     height: "40%",
-    width: "100%",
+    alignSelf: "center",
+    paddingLeft: 40,
+    marginBottom: 20
   },
   text: {
     color: UI_Colors.white,

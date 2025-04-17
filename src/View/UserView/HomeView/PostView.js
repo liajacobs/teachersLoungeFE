@@ -100,11 +100,12 @@ function PostView({ route, navigation }) {
   return (
     <SafeArea>
       <ScrollView style={styles.container}>
-        {post.user === route.params.User.userUserName && (
-          <TouchableOpacity onPress={handleDeletePost} style={styles.deletePostButton}>
-            <Text>{"Delete Post"}</Text>
-          </TouchableOpacity>
-        )}
+      {(post.user === route.params.User.userUserName || route.params.User.userRole === "Admin") && (
+  <TouchableOpacity onPress={handleDeletePost} style={styles.deletePostButton}>
+    <Text>{"Delete Post"}</Text>
+  </TouchableOpacity>
+)}
+
         <View style={styles.post}>
           <View style={styles.text}>
             <Text style={styles.title}>{post.title}</Text>

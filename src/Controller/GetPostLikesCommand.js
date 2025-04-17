@@ -2,7 +2,10 @@ import { apiUrl, getPostLikesRoute } from "@env";
 
 // Fetches the total number of likes for a post
 const getPostLikes = async (postId) => {
+  console.warn("getPostLikes function called with postId:", postId); 
+  console.log("getPostLikes function called with postId:", postId); 
   try {
+    console.log("Fetching likes for post ID:", postId); 
     const response = await fetch(apiUrl + getPostLikesRoute, {
       method: "POST",
       headers: {
@@ -16,7 +19,8 @@ const getPostLikes = async (postId) => {
     }
 
     const data = await response.json();
-    return data.likeCount;
+    console.log("Backend response:", data); 
+    return data.likes;
   } catch (error) {
     console.error("Error fetching post likes:", error);
     return 0;

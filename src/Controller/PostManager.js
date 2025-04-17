@@ -113,26 +113,37 @@ async function approvePost(postID) {
   }
 }
 
-//Delete a post from DB, called when a user deletes their own post or when a mod doesn't approve a post
-async function deletePost(postID, fileID) {
-  let urlDelete = apiUrl + deletePostRoute;
-  console.log(urlDelete)
+// Delete a post from DB, called when a user deletes their own post or when a mod doesn't approve a post
+async function deletePost(postID) {
+  const urlDelete = `${apiUrl}${deletePostRoute}/${postID}`;
+  console.log("Delete URL:", urlDelete);
+
   const reqOptions = {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json",
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
-    body: JSON.stringify({ id: postID, fileID: fileID }),
   };
-  const response = await fetch(urlDelete, reqOptions);
-  const results = await response.json();
-  if (response.status == 200) {
-    Alert.alert("Success", results.message);
-  } else {
-    Alert.alert("Error", "Server error, try again");
+
+  try {
+    const response = await fetch(urlDelete, reqOptions);
+    const text = await response.text();
+
+    console.log("Raw response from backend:", text);
+
+    const results = JSON.parse(text);
+
+    if (response.status === 200) {
+      Alert.alert("Success", results.message);
+    } else {
+      Alert.alert("Error", results.message || "Server error, try again");
+    }
+  } catch (err) {
+    console.error("Error deleting post:", err);
+    Alert.alert("Error", "Something went wrong");
   }
 }
+
 
 async function addComment(content, email, time, postId) {
   let urlAddComment = apiUrl + addCommentRoute;

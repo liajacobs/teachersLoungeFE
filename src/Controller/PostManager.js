@@ -121,6 +121,7 @@ async function deletePost(postID) {
   const reqOptions = {
     method: "DELETE",
     headers: {
+      "Content-Type": "application/json",
       Authorization: "Bearer " + (await SecureStore.getItemAsync("token")),
     },
   };

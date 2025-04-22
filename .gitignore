@@ -4,3 +4,5 @@ server/node_modules
 client/%ProgramData%
 .expo
 .env
+/ios
+/android

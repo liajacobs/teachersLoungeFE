@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "teachersLounge",
+    "slug": "teachersLounge",
     "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/logo.png",

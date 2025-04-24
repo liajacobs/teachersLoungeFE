@@ -98,10 +98,10 @@ async function approveUser(email) {
 
 //Deletes a user from the system
 async function deleteUser(email) {
-  let urlDelete = apiUrl + deleteUserRoute;
+  let urlDelete = apiUrl + deleteUserRoute + "/" + email;
   console.log(urlDelete)
   const reqOptions = {
-    method: "POST",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer " + (await SecureStore.getItemAsync("token")),

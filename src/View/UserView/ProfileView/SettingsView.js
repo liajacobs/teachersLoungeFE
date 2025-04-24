@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import OpenEditProfileCommand from "../../../Controller/OpenEditProfileCommand";
 import LogOutCommand from "../../../Controller/LogOutCommand";
 import SafeArea from "../../SafeArea";
+import DeleteAccountCommand from "../../../Controller/DeleteAccountCommand";
 
 function SettingsView({ route }) {
   const navigation = useNavigation();
@@ -11,6 +12,7 @@ function SettingsView({ route }) {
 
   const a = new OpenEditProfileCommand(user);
   const LogCommand = new LogOutCommand();
+  const DelCommand = new DeleteAccountCommand();
 
   return (
     <SafeArea>
@@ -26,6 +28,12 @@ function SettingsView({ route }) {
           onPress={() => LogCommand.LogOut({ navigation })}
         >
           <Text style={styles.buttonText}>Log Out</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => DelCommand.DeleteAccount({ navigation, user })}
+        >
+          <Text style={styles.buttonTextRed}>Delete Account</Text>
         </TouchableOpacity>
       </View>
     </SafeArea>
@@ -50,6 +58,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
   },
+  buttonTextRed: {
+    fontSize: 18,
+    color: "red"
+  }
 });
 
 export default SettingsView;
